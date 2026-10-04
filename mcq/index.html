@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online Exam App</title>
+<meta name="theme-color" content="#4338ca">
+<link rel="icon" href="../icon-192.png">
+<style>
+  :root { --main:#4338ca; --dark:#312e81; --soft:#eef2ff; --ok:#16a34a; --warn:#f59e0b; }
+  * { box-sizing:border-box; }
+  body { font-family:'SolaimanLipi','Noto Sans Bengali',sans-serif; background:linear-gradient(180deg,var(--dark) 0,var(--dark) 220px,#f1f5f9 220px); margin:0; padding:16px; min-height:100vh; }
+  .container { max-width:640px; margin:20px auto; background:#fff; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,.18); overflow:hidden; }
+  .head { background:linear-gradient(135deg,var(--main),#7c3aed); color:#fff; padding:28px 22px; text-align:center; }
+  .head h1 { margin:0 0 6px; font-size:26px; }
+  .head p { margin:0; opacity:.9; }
+  .body { padding:22px; }
+  .stats { display:flex; gap:12px; margin-bottom:20px; }
+  .stat { flex:1; background:var(--soft); border-radius:12px; padding:14px; text-align:center; }
+  .stat b { display:block; font-size:24px; color:var(--main); }
+  .stat span { font-size:14px; color:#475569; }
+  h3 { margin:0 0 10px; color:var(--dark); }
+  ul.rules { margin:0 0 22px; padding-left:20px; line-height:1.9; color:#334155; }
+  button { background:var(--ok); color:#fff; border:none; padding:13px 26px; border-radius:10px; cursor:pointer; font-size:17px; font-family:inherit; width:100%; }
+  button:hover { filter:brightness(.92); }
+  .bar { position:sticky; top:0; z-index:5; background:var(--dark); color:#fff; padding:12px 22px; display:flex; justify-content:space-between; align-items:center; }
+  #timer { background:var(--warn); color:#1f2937; font-weight:bold; padding:5px 12px; border-radius:20px; }
+  .qbox { border:1px solid #e2e8f0; border-radius:12px; padding:16px; margin-bottom:16px; }
+  .question { font-weight:bold; margin-bottom:12px; color:#1e293b; }
+  .options label { display:block; background:#f8fafc; border:2px solid transparent; padding:10px 12px; margin-bottom:8px; border-radius:8px; cursor:pointer; }
+  .options label:hover { background:var(--soft); }
+  .options label:has(input:checked) { background:var(--soft); border-color:var(--main); }
+  .center { text-align:center; padding:30px 10px; }
+  .thanks { background:linear-gradient(135deg,#dcfce7,#e0e7ff); border-radius:12px; padding:18px; text-align:center; margin-bottom:20px; line-height:1.8; }
+  .thanks b { color:var(--dark); font-size:18px; }
+  .overlay { position:fixed; inset:0; background:rgba(15,23,42,.65); display:flex; align-items:center; justify-content:center; padding:20px; z-index:50; }
+  .modal { background:#fff; border-radius:16px; padding:28px 22px; max-width:380px; width:100%; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,.35); line-height:1.8; }
+  .modal .emoji { font-size:46px; }
+  .modal button { margin-top:14px; }
+  .modal button:disabled { background:#94a3b8; cursor:wait; }
+  .namebox { margin-bottom:18px; }
+  .namebox input { width:100%; padding:12px; font-size:16px; font-family:inherit; border:2px solid #c7d2fe; border-radius:10px; }
+  .namebox input:focus { outline:none; border-color:var(--main); }
+  .error { color:#d32f2f; }
+</style>
+</head>
+<body>
+<div class="container" id="app">
+  <div class="body center"><h2>অনলাইন পরীক্ষা লোড হচ্ছে...</h2></div>
+</div>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbyFPtGUnCXxs1Jy8a2r8L-HqGAS-toxW8vvvSRh6BhAaPNadAd2vdI-RPmi-VLKhw/exec?sheet=Bangla";
+
+// ===== এখানে নিজের মতো বদলান =====
+const EXAM_NAME = "বাংলা ও ইংরেজি মডেল টেস্ট";
+const SUBTITLE  = "নিজেকে যাচাই করুন";
+const RULES = [
+  "প্রতিটি প্রশ্নের চারটি উত্তরের মধ্যে একটি সঠিক।",
+  "সময় শেষ হলে পরীক্ষা নিজে থেকেই জমা হয়ে যাবে।",
+  "পরীক্ষা শুরুর পর পেজ রিফ্রেশ করবেন না।",
+  "জমা দেওয়ার আগে সব উত্তর আবার দেখে নিন।"
+];
+// ===================================
+
+const app = document.getElementById("app");
+let questions = [], timerId = null, totalSec = 0, studentName = "";
+
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+function showError(msg) {
+  app.innerHTML = `<div class="body center error"><h3>ডেটা লোড করতে সমস্যা হচ্ছে।</h3><p>${esc(msg)}</p>
+  <button type="button" onclick="location.reload()">আবার চেষ্টা করুন</button></div>`;
+}
+
+function showIntro(data) {
+  const min = Math.ceil(totalSec / 60);
+  app.innerHTML = `
+    <div class="head"><a href="../" style="display:inline-block;margin-bottom:10px;background:#ffcc00;color:#001a38;text-decoration:none;font-weight:bold;padding:6px 12px;border-radius:8px;font-size:14px">← হোমে ফিরুন</a><br><h1>${esc(EXAM_NAME)}</h1><p>${esc(SUBTITLE)}</p></div>
+    <div class="body">
+      <div class="stats">
+        <div class="stat"><b>${questions.length}</b><span>মোট প্রশ্ন</span></div>
+        <div class="stat"><b>${min}</b><span>মিনিট</span></div>
+      </div>
+      <h3>নির্দেশনা</h3>
+      <ul class="rules">${RULES.map(r => `<li>${esc(r)}</li>`).join("")}</ul>
+      <div class="namebox">
+        <h3>আপনার নাম</h3>
+        <input type="text" id="nameInput" placeholder="এখানে পূর্ণ নাম লিখুন" autocomplete="name">
+      </div>
+      <button type="button" id="startBtn">পরীক্ষা শুরু করুন</button>
+    </div>`;
+  document.getElementById("startBtn").onclick = () => {
+    const name = document.getElementById("nameInput").value.trim();
+    if (name.length < 2) { alert("পরীক্ষা শুরুর আগে আপনার নাম লিখুন।"); return; }
+    studentName = name;
+    startExam();
+  };
+}
+
+function startExam() {
+  const labels = ["A","B","C","D"];
+  let html = `<div class="bar"><span id="progress"></span><span id="timer"></span></div><div class="body">`;
+  questions.forEach((q, i) => {
+    html += `<div class="qbox"><div class="question">${i + 1}. ${esc(q.question)}</div><div class="options">`;
+    (q.options || []).forEach((o, j) => {
+      html += `<label><input type="radio" name="q${i}" value="${labels[j]}"> ${esc(o)}</label>`;
+    });
+    html += `</div></div>`;
+  });
+  html += `<button type="button" id="submitBtn">সাবমিট করুন</button></div>`;
+  app.innerHTML = html;
+  window.scrollTo(0, 0);
+  app.addEventListener("change", updateProgress);
+  updateProgress();
+  document.getElementById("submitBtn").onclick = () => {
+    if (confirm("আপনি কি পরীক্ষা জমা দিতে চান?")) submitExam(false);
+  };
+  let left = totalSec;
+  const tick = () => {
+    const m = String(Math.floor(left / 60)).padStart(2, "0");
+    const s = String(left % 60).padStart(2, "0");
+    document.getElementById("timer").textContent = `⏱ ${m}:${s}`;
+    if (left <= 0) return submitExam(true);
+    left--;
+  };
+  tick();
+  timerId = setInterval(tick, 1000);
+}
+
+function updateProgress() {
+  const n = document.querySelectorAll("input[type=radio]:checked").length;
+  const p = document.getElementById("progress");
+  if (p) p.textContent = `উত্তর দেওয়া: ${n}/${questions.length}`;
+}
+
+function submitExam(timeUp) {
+  clearInterval(timerId);
+  const answers = {};
+  questions.forEach((q, i) => {
+    const c = document.querySelector(`input[name="q${i}"]:checked`);
+    answers[q.id] = c ? c.value : "";
+  });
+
+  let outcome = null;      // ফলাফল এলে এখানে জমা হবে
+  let modalClosed = false;
+
+  const showOutcome = () => {
+    if (!modalClosed || !outcome) return;
+    overlay.remove();
+    if (outcome.ok) { showResult(outcome.res); return; }
+    app.innerHTML = `
+      <div class="head"><h1>পরীক্ষা জমা হয়েছে</h1></div>
+      <div class="body center"><p>${esc(studentName)}, আপনার উত্তর পাঠানো হয়েছে।</p>
+      <p class="error">ফলাফল দেখাতে সমস্যা হয়েছে: ${esc(outcome.msg)}</p></div>`;
+    window.scrollTo(0, 0);
+  };
+
+  // পপ-আপ
+  const overlay = document.createElement("div");
+  overlay.className = "overlay";
+  overlay.innerHTML = `
+    <div class="modal">
+      <div class="emoji">🎉</div>
+      <b style="font-size:20px;color:#312e81">অংশগ্রহণের জন্য ধন্যবাদ!</b><br>
+      Stay with <b>Arif Hasan</b> এর সাথে থাকুন।
+      ${timeUp ? "<br><small>(সময় শেষ হওয়ায় পরীক্ষা জমা হয়েছে)</small>" : ""}
+      <button type="button" id="okBtn">ফলাফল দেখুন</button>
+    </div>`;
+  document.body.appendChild(overlay);
+  const okBtn = overlay.querySelector("#okBtn");
+  okBtn.onclick = () => {
+    modalClosed = true;
+    if (!outcome) { okBtn.disabled = true; okBtn.textContent = "ফলাফল তৈরি হচ্ছে..."; }
+    showOutcome();
+  };
+
+  // ব্যাকগ্রাউন্ডে উত্তর পাঠানো
+  fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({ name: studentName, answers: answers, status: timeUp ? "Time up" : "Submitted" })
+  })
+  .then(r => r.json())
+  .then(res => {
+    if (!res.success) throw new Error(res.error || "সংরক্ষণ হয়নি");
+    outcome = { ok: true, res: res };
+  })
+  .catch(err => {
+    console.error(err);
+    outcome = { ok: false, msg: err.message };
+  })
+  .finally(showOutcome);
+}
+
+function showResult(res) {
+  const letters = ["A","B","C","D"];
+  let html = `
+    <div class="head"><h1>${esc(studentName)}</h1><p>আপনার ফলাফল</p></div>
+    <div class="body">
+      <div class="stats">
+        <div class="stat"><b>${res.score}/${res.total}</b><span>স্কোর</span></div>
+        <div class="stat"><b>${res.percentage}%</b><span>শতকরা</span></div>
+      </div>
+      <h3>উত্তর পর্যালোচনা</h3>`;
+  res.review.forEach((r, i) => {
+    const mark = r.isCorrect ? "✅" : (r.userAns ? "❌" : "⚪");
+    const txt = k => { const j = letters.indexOf(k); return j > -1 ? `${k}. ${esc(r.options[j])}` : "উত্তর দেননি"; };
+    html += `<div class="qbox">
+      <div class="question">${mark} ${i + 1}. ${esc(r.question)}</div>
+      <div>আপনার উত্তর: ${txt(r.userAns)}</div>
+      <div>সঠিক উত্তর: ${txt(r.correctAns)}</div>
+      ${r.explanation ? `<div style="margin-top:6px;color:#475569">ব্যাখ্যা: ${esc(r.explanation)}</div>` : ""}
+    </div>`;
+  });
+  html += `</div>`;
+  app.innerHTML = html;
+  window.scrollTo(0, 0);
+}
+
+fetch(API_URL, { redirect: "follow" })
+  .then(r => { if (!r.ok) throw new Error("API request failed (" + r.status + ")"); return r.json(); })
+  .then(data => {
+    if (data.error) throw new Error(data.error);
+    questions = Array.isArray(data) ? data : data.questions;
+    if (!Array.isArray(questions) || !questions.length) throw new Error("কোনো প্রশ্ন পাওয়া যায়নি");
+    totalSec = Number(data.timeLimit) || (Number(data.minutes) || 10) * 60;
+    showIntro(data);
+  })
+  .catch(err => { console.error(err); showError(err.message); });
+</script>
+</body>
+</html>

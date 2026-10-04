@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ঘরে বসে পড়াশোনা | Learn with Arif Sir</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#001a38">
+<link rel="icon" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700;800&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+:root{--primary:#001a38;--secondary:#003366;--accent:#ffcc00;--white:#fff;--bg-body:#d1d8e0;--job:#006266;--board:#4834d4;--whatsapp:#25d366;--telegram:#0088cc;--red:#ff4757}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;padding:0 0 70px;font-family:'Hind Siliguri',sans-serif;background:var(--bg-body);overflow-x:hidden}
+.hero{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;padding:15px 10px;border-bottom:4px solid var(--accent);position:sticky;top:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;min-height:120px;width:100%;gap:5px}
+.clock-box{display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;text-align:center;width:85px}
+.analog-clock{width:60px;height:60px;border:2px solid var(--accent);border-radius:50%;position:relative;background:radial-gradient(#fff,#e6e6e6);box-shadow:0 0 10px rgba(0,0,0,.4);margin-bottom:5px}
+.clock-num{position:absolute;width:100%;height:100%;text-align:center;font-size:9px;font-weight:800;color:#001a38;padding:1px}
+.clock-num span{display:block}
+.n1{transform:rotate(30deg)}.n1 span{transform:rotate(-30deg)}
+.n2{transform:rotate(60deg)}.n2 span{transform:rotate(-60deg)}
+.n3{transform:rotate(90deg)}.n3 span{transform:rotate(-90deg)}
+.n4{transform:rotate(120deg)}.n4 span{transform:rotate(-120deg)}
+.n5{transform:rotate(150deg)}.n5 span{transform:rotate(-150deg)}
+.n6{transform:rotate(180deg)}.n6 span{transform:rotate(-180deg)}
+.n7{transform:rotate(210deg)}.n7 span{transform:rotate(-210deg)}
+.n8{transform:rotate(240deg)}.n8 span{transform:rotate(-240deg)}
+.n9{transform:rotate(270deg)}.n9 span{transform:rotate(-270deg)}
+.n10{transform:rotate(300deg)}.n10 span{transform:rotate(-300deg)}
+.n11{transform:rotate(330deg)}.n11 span{transform:rotate(-330deg)}
+.n12{transform:rotate(0deg)}
+.hand{position:absolute;bottom:50%;left:50%;transform-origin:bottom;border-radius:10px;transform:translateX(-50%)}
+.hour{width:2.5px;height:14px;background:#222;z-index:3}
+.min{width:2px;height:20px;background:#444;z-index:2}
+.sec{width:1px;height:24px;background:#ff4757!important;z-index:1}
+.center-dot{position:absolute;top:50%;left:50%;width:4px;height:4px;background:#d35400;border-radius:50%;transform:translate(-50%,-50%);z-index:10}
+#digital-clock{font-family:'Orbitron',sans-serif;font-size:10px;color:var(--accent);font-weight:bold}
+#date-bn{font-size:8px;color:#fff;font-weight:bold}
+.header-main{flex:1;text-align:center;min-width:0}
+.hero-title{margin:0;display:flex;flex-direction:column;align-items:center}
+.title-top{font-size:20px;font-weight:900;color:var(--white);text-shadow:2px 2px 4px rgba(0,0,0,.5);white-space:nowrap}
+.title-bottom{font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;color:var(--accent);letter-spacing:1px}
+.ticker-container{background:rgba(0,0,0,.3);margin-top:8px;border-radius:20px;padding:2px 10px;overflow:hidden;border:1px solid rgba(255,255,255,.15);width:100%}
+.ticker-text{display:inline-block;font-size:11px;white-space:nowrap;animation:moveText 15s linear infinite;color:#fff}
+@keyframes moveText{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+.profile-img{width:60px;height:60px;border-radius:50%;border:2px solid var(--accent);object-fit:cover;flex-shrink:0}
+.container{max-width:1200px;margin:15px auto;padding:0 10px;display:grid;grid-template-columns:1fr 310px;gap:20px}
+.section-card{background:#fff;border-radius:12px;padding:15px;margin-bottom:20px;box-shadow:0 4px 6px rgba(0,0,0,.05)}
+.section-header{font-size:16px;font-weight:bold;color:var(--primary);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.job-card{background:linear-gradient(45deg,var(--job),#014d4e);color:#fff;border-left:6px solid var(--accent)}
+.tg-link-icon{color:#0088cc;background:#fff;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:18px;text-decoration:none;box-shadow:0 2px 5px rgba(0,0,0,.2);flex-shrink:0}
+.grid-main{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px}
+.card-item{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:10px 5px;text-align:center;font-weight:700;font-size:12px;color:var(--primary);transition:.3s;text-decoration:none;display:flex;align-items:center;justify-content:center;min-height:45px}
+.card-item:hover{background:var(--primary);color:#fff;transform:translateY(-2px)}
+.exam-section{border-top:4px solid var(--red)}
+.exam-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.exam-btn{background:#fff5f5;border:1px solid #ffccd2;border-radius:8px;padding:10px;display:flex;justify-content:space-between;align-items:center;text-decoration:none;color:#333;font-size:12px;font-weight:bold}
+.live-blink{background:var(--red);color:#fff;padding:2px 6px;border-radius:4px;font-size:9px;animation:blink 1s infinite}
+.live-static{background:#636e72;color:#fff;padding:2px 6px;border-radius:4px;font-size:9px}
+@keyframes blink{0%{opacity:1}50%{opacity:.4}100%{opacity:1}}
+.solution-section{border-top:4px solid var(--board)}
+.sol-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.sol-btn{background:#f0f3ff;color:var(--board);border:1px solid #c2ccff;padding:12px;text-decoration:none;border-radius:8px;text-align:center;font-weight:bold;font-size:13px}
+.job-sol-btn{grid-column:span 2;background:var(--job);color:#fff;border:none;padding:15px;font-size:14px}
+.notice-board{border-top:4px solid var(--accent);padding:15px}
+.notice-scroll-container{width:100%;height:150px;overflow:hidden;position:relative;border:1px solid #eee;border-radius:8px;background:#fff}
+.notice-iframe{width:100%;height:600px;border:none;position:absolute;top:0;animation:scrollNotice 25s linear infinite}
+@keyframes scrollNotice{0%{top:150px}100%{top:-500px}}
+.sidebar-card{background:#fff;padding:15px;border-radius:12px;border:1px solid #cbd5e1;margin-bottom:15px}
+.calendar-card{background:#fff;padding:10px;border-radius:12px;border:1px solid #cbd5e1;margin-bottom:20px}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}
+.cal-head{font-size:9px;font-weight:bold;color:var(--secondary);padding:5px 0}
+.cal-day{font-size:10px;padding:5px 0;background:#f8fafc;border-radius:4px;display:flex;flex-direction:column}
+.cal-today{background:var(--accent)!important;font-weight:bold;border:1px solid var(--primary)}
+.cal-bn,.cal-ar{font-size:7px}
+.special-info-box{margin-top:10px;background:#fffbeb;border:1px dashed #f59e0b;border-radius:8px;padding:8px;text-align:center}
+.special-title{font-size:11px;font-weight:800;color:#b45309;display:block}
+.special-content{font-size:12px;font-weight:600;color:#1e293b}
+.btn-sidebar{display:block;text-align:center;padding:12px;border-radius:10px;text-decoration:none;font-weight:bold;font-size:13px;margin-bottom:10px;transition:.3s}
+.btn-wa{background:var(--whatsapp);color:#fff}
+.btn-tg{background:var(--telegram);color:#fff}
+.social-dock{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);background:#fff;padding:8px 20px;border-radius:50px;display:flex;gap:15px;box-shadow:0 5px 15px rgba(0,0,0,.3);z-index:2000}
+@media (max-width:850px){.container{grid-template-columns:1fr}.sidebar{order:2}}
+@media (max-width:600px){.title-top{font-size:18px}.hero{padding:10px 5px;min-height:100px}.analog-clock{width:50px;height:50px}.clock-box{width:70px}.profile-img{width:50px;height:50px}.section-header{font-size:14px}.sol-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="clock-box">
+    <div class="analog-clock">
+      <div class="center-dot"></div>
+      <div class="clock-num n12"><span>১২</span></div>
+      <div class="clock-num n1"><span>১</span></div>
+      <div class="clock-num n2"><span>২</span></div>
+      <div class="clock-num n3"><span>৩</span></div>
+      <div class="clock-num n4"><span>৪</span></div>
+      <div class="clock-num n5"><span>৫</span></div>
+      <div class="clock-num n6"><span>৬</span></div>
+      <div class="clock-num n7"><span>৭</span></div>
+      <div class="clock-num n8"><span>৮</span></div>
+      <div class="clock-num n9"><span>৯</span></div>
+      <div class="clock-num n10"><span>১০</span></div>
+      <div class="clock-num n11"><span>১১</span></div>
+      <div class="hand hour" id="hour"></div>
+      <div class="hand min" id="min"></div>
+      <div class="hand sec" id="sec"></div>
+    </div>
+    <div id="digital-clock">00:00:00</div>
+    <span id="date-bn">লোড হচ্ছে...</span>
+  </div>
+
+  <div class="header-main">
+    <div class="hero-title">
+      <span class="title-top">ঘরে বসে পড়াশোনা</span>
+      <span class="title-bottom">LEARN WITH ARIF SIR</span>
+    </div>
+    <div class="ticker-container">
+      <div class="ticker-text">স্বাগতম! নতুন স্পোকেন ও জব ম্যাথ ব্যাচে ভর্তি চলছে... নিয়মিত ক্লাস ও ফ্রি নোট পেতে আমাদের সাথেই থাকুন।</div>
+    </div>
+  </div>
+
+  <img src="logo.png" class="profile-img" alt="ঘরে বসে পড়াশোনা" style="background:#fff;object-fit:contain;">
+</header>
+
+<div class="container">
+  <div class="main-content">
+
+    <!-- Job Card: ক্লিক করলে MCQ Guru খুলবে -->
+    <div class="section-card job-card" onclick="location.href='mcq/'" style="cursor:pointer;">
+      <div style="display:flex;justify-content:space-between;align-items:center;width:100%;">
+        <h2 style="margin:0;font-size:17px;"><i class="fas fa-graduation-cap"></i> Job Preparation Special</h2>
+        <a href="https://t.me/smartjobprep" target="_blank" class="tg-link-icon" onclick="event.stopPropagation()"><i class="fab fa-telegram-plane"></i></a>
+      </div>
+      <p style="font-size:12px;margin:5px 0 0 0;">বিসিএস, প্রাইমারি ও শিক্ষক নিয়োগের বিশেষ ম্যাথ কোর্স।</p>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header"><i class="fas fa-book-open"></i> তোমার ক্লাস বেছে নাও:</div>
+      <div class="grid-main">
+        <a href="https://drive.google.com/drive/folders/1yge4NACSHuJEYzUAs7Hi6UBshMPNtcD2" target="_blank" class="card-item">১ম শ্রেণি</a>
+        <a href="https://drive.google.com/drive/folders/1h0QwZh0HdMrLedsgEc9TAsylXOlxR0Ow" target="_blank" class="card-item">২য় শ্রেণি</a>
+        <a href="https://drive.google.com/drive/folders/1np3ldAIyq_aUxDLbdktTRRl6mpJU0zKr" target="_blank" class="card-item">৩য় শ্রেণি</a>
+        <a href="https://drive.google.com/drive/folders/1TsDSjod-RrOymV_zX2lYmsaotryvxKty" target="_blank" class="card-item">৪র্থ শ্রেণি</a>
+        <a href="https://drive.google.com/drive/folders/1ti602aw4em2fuEBkjh7AU76ub-NZDOxK" target="_blank" class="card-item">৫ম শ্রেণি</a>
+        <a href="https://drive.google.com/drive/folders/1mmvU6HwyCfvwyOgr06t7XttpFFqagnau" target="_blank" class="card-item">৬ষ্ঠ শ্রেণি</a>
+        <a href="https://drive.google.com/drive/folders/1Fc8O9Rmi3LU7Y01rk-82VvDR-KXdWId-" target="_blank" class="card-item">৭ম শ্রেণি</a>
+        <a href="https://drive.google.com/drive/folders/12zs0WOwYmfM6ICM5WD8Uac4ML4N6HXO4" target="_blank" class="card-item">৮ম শ্রেণি</a>
+        <a href="https://drive.google.com/drive/folders/10PhdOMPEy99SCUfsgz1_ciQABMswVzmz" target="_blank" class="card-item">৯ম-১০ম বিজ্ঞান</a>
+        <a href="https://drive.google.com/drive/folders/10PhdOMPEy99SCUfsgz1_ciQABMswVzmz" target="_blank" class="card-item">৯ম-১০ম মানবিক</a>
+        <a href="https://drive.google.com/drive/folders/10PhdOMPEy99SCUfsgz1_ciQABMswVzmz" target="_blank" class="card-item">৯ম-১০ম ব্যবসায়</a>
+      </div>
+    </div>
+
+    <div class="section-card exam-section">
+      <div class="section-header" style="color:var(--red)"><i class="fas fa-bolt"></i> চলমান লাইভ এক্সামসমূহ</div>
+      <div class="exam-grid">
+        <a href="#" class="exam-btn">৪র্থ শ্রেণি <span class="live-static">OFF</span></a>
+        <a href="#" class="exam-btn">৫ম শ্রেণি <span class="live-static">OFF</span></a>
+        <a href="#" class="exam-btn">৬ষ্ঠ শ্রেণি <span class="live-static">OFF</span></a>
+        <a href="#" class="exam-btn">৭ম শ্রেণি <span class="live-static">OFF</span></a>
+        <a href="#" class="exam-btn">৮ম শ্রেণি <span class="live-static">OFF</span></a>
+        <a href="#" class="exam-btn">৯ম শ্রেণি <span class="live-static">OFF</span></a>
+        <a href="#" class="exam-btn">১০ম শ্রেণি <span class="live-static">OFF</span></a>
+        <a href="mcq/" class="exam-btn" style="border-color:var(--job);background:#e6fffa;">জব স্পেশাল <span class="live-blink">LIVE</span></a>
+      </div>
+    </div>
+
+    <div class="section-card notice-board">
+      <div class="section-header"><i class="fas fa-bullhorn" style="color:red"></i> নোটিশ বোর্ড</div>
+      <div class="notice-scroll-container">
+        <iframe class="notice-iframe" src="https://docs.google.com/document/d/e/2PACX-1vTXWB-ws-nm9RAPgPQCQLwyCc-yPsg03Hs2V0bPkKD7AIT9WRwHEHSNjy8pCiz3eolBUyVQOuxUoSJG/pub?embedded=true"></iframe>
+      </div>
+    </div>
+
+    <div class="section-card solution-section">
+      <div class="section-header" style="color:var(--board)"><i class="fas fa-file-alt"></i> বোর্ড প্রশ্ন সমাধান</div>
+      <div class="sol-grid">
+        <a href="#" class="sol-btn">৫ম শ্রেণি (PSC)</a>
+        <a href="#" class="sol-btn">জেএসসি (JSC)</a>
+        <a href="#" class="sol-btn">এসএসসি (SSC)</a>
+        <a href="#" class="sol-btn">এইচএসসি (HSC)</a>
+        <a href="#" class="sol-btn job-sol-btn"><i class="fas fa-briefcase"></i> জব সল্যুশন (বিগত বছর)</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <div class="sidebar-card">
+      <div style="font-weight:bold;font-size:13px;color:var(--primary);margin-bottom:8px;"><i class="fas fa-language"></i> স্পোকেন ইংলিশ কোর্স</div>
+      <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;">
+        <iframe src="https://www.youtube.com/embed/mF_x2QmNwUg" title="Spoken English" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="sidebar-card" style="padding:10px;background:transparent;border:none;">
+      <a href="https://wa.me/8801XXXXXXXXX" class="btn-sidebar btn-wa"><i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপ ভর্তি</a>
+      <a href="https://t.me/YourChannelLink" class="btn-sidebar btn-tg"><i class="fab fa-telegram"></i> টেলিগ্রাম নোট</a>
+    </div>
+
+    <div class="calendar-card">
+      <span id="monthName" style="font-weight:800;color:var(--primary);font-size:13px;margin-bottom:8px;display:block;text-align:center;border-bottom:2px solid var(--accent);padding-bottom:5px;">মাস ২০২৪</span>
+      <div class="calendar-grid">
+        <div class="cal-head">শনি</div><div class="cal-head">রবি</div><div class="cal-head">সোম</div><div class="cal-head">মঙ্গ</div><div class="cal-head">বুধ</div><div class="cal-head">বৃহ</div><div class="cal-head">শুক্র</div>
+      </div>
+      <div class="calendar-grid" id="calendarDates"></div>
+      <div class="special-info-box">
+        <span class="special-title" id="special-title">আজকের বাণী</span>
+        <div class="special-content" id="special-content">লোড হচ্ছে...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="social-dock">
+  <a href="#" style="color:#f00"><i class="fab fa-youtube"></i></a>
+  <a href="#" style="color:#1877f2"><i class="fab fa-facebook"></i></a>
+  <a href="#" style="color:#0088cc"><i class="fab fa-telegram"></i></a>
+  <a href="https://wa.me/8801XXXXXXXXX" style="color:#25d366"><i class="fab fa-whatsapp"></i></a>
+</div>
+
+<script>
+function updateClock(){
+  const now=new Date();
+  document.getElementById('digital-clock').innerText=now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true});
+  document.getElementById('date-bn').innerText=now.toLocaleDateString('bn-BD',{day:'numeric',month:'long',year:'numeric'});
+  const sec=now.getSeconds(),min=now.getMinutes(),hr=now.getHours();
+  document.getElementById('sec').style.transform=`translateX(-50%) rotate(${(sec/60)*360}deg)`;
+  document.getElementById('min').style.transform=`translateX(-50%) rotate(${(min/60)*360}deg)`;
+  document.getElementById('hour').style.transform=`translateX(-50%) rotate(${(hr/12)*360+(min/60)*30}deg)`;
+}
+const specialDays={"02-21":"আন্তর্জাতিক মাতৃভাষা দিবস","03-17":"বঙ্গবন্ধুর জন্মদিন","03-26":"মহান স্বাধীনতা দিবস","12-16":"মহান বিজয় দিবস"};
+const inspirationalQuotes=["সাফল্যের সিঁড়ি নিজের প্রচেষ্টাতেই তৈরি করতে হয়।","আজকের পরিশ্রমই তোমার আগামীকালের সুন্দর ভবিষ্যৎ।","শিক্ষা হচ্ছে সবচেয়ে শক্তিশালী অস্ত্র।","স্বপ্ন সেটা নয় যা তুমি ঘুমিয়ে দেখো।"];
+function setSpecialContent(){
+  const now=new Date();
+  const dateKey=`${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  const titleEl=document.getElementById('special-title'),contentEl=document.getElementById('special-content');
+  if(specialDays[dateKey]){titleEl.innerText="আজ বিশেষ দিন";contentEl.innerHTML=`<span style="color:red">${specialDays[dateKey]}</span>`;}
+  else{titleEl.innerText="আজকের বাণী";contentEl.innerText=inspirationalQuotes[Math.floor(Math.random()*inspirationalQuotes.length)];}
+}
+function renderCalendar(){
+  const now=new Date(),year=now.getFullYear(),month=now.getMonth(),today=now.getDate();
+  const monthNamesBN=["জানুয়ারি","ফেব্রুয়ারি","মার্চ","এপ্রিল","মে","জুন","জুলাই","আগস্ট","সেপ্টেম্বর","অক্টোবর","নভেম্বর","ডিসেম্বর"];
+  document.getElementById('monthName').innerText=monthNamesBN[month]+" "+year;
+  const firstDay=new Date(year,month,1).getDay(),daysInMonth=new Date(year,month+1,0).getDate();
+  const calendarDates=document.getElementById('calendarDates');
+  calendarDates.innerHTML="";
+  let offset=(firstDay+1)%7;
+  for(let i=0;i<offset;i++)calendarDates.innerHTML+=`<div class="cal-day" style="background:transparent"></div>`;
+  for(let d=1;d<=daysInMonth;d++){
+    let isToday=(d===today)?"cal-today":"";
+    let dateObj=new Date(year,month,d);
+    let bnD=new Intl.DateTimeFormat('bn-BD-u-ca-bengali',{day:'numeric'}).format(dateObj);
+    let arD=new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-latn',{day:'numeric'}).format(dateObj);
+    calendarDates.innerHTML+=`<div class="cal-day ${isToday}">${d}<span class="cal-bn">${bnD}</span><span class="cal-ar">${arD}</span></div>`;
+  }
+}
+setInterval(updateClock,1000);
+updateClock();renderCalendar();setSpecialContent();
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script>
+</body>
+</html>
