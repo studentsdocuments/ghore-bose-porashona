@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="bn"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>পেইড কোর্স | ঘরে বসে পড়াশোনা</title>
+<link rel="icon" href="../icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--p:#001a38;--a:#ffcc00;--b:#4834d4;--g:#16a34a}
+*{box-sizing:border-box}body{margin:0;font-family:'Hind Siliguri',sans-serif;background:#d1d8e0;padding-bottom:30px}
+header{background:linear-gradient(135deg,var(--p),#003366);color:#fff;padding:14px;border-bottom:4px solid var(--a);display:flex;align-items:center;gap:12px}
+header a{background:var(--a);color:var(--p);text-decoration:none;font-weight:700;padding:6px 12px;border-radius:8px;font-size:14px}
+header h1{margin:0;font-size:18px}
+main{max-width:640px;margin:14px auto;padding:0 12px}
+.card{background:#fff;border-radius:12px;padding:15px;margin-bottom:14px;box-shadow:0 4px 6px rgba(0,0,0,.06)}
+.card h2{margin:0 0 10px;font-size:16px;color:var(--p)}
+input,select{width:100%;padding:11px;margin-bottom:10px;border:2px solid #c7d2fe;border-radius:10px;font:inherit;font-size:15px}
+button,.btn{background:var(--g);color:#fff;border:0;border-radius:10px;padding:11px 18px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}
+button:disabled{background:#94a3b8}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.price{color:var(--b);font-weight:700;font-size:18px}.muted{color:#475569;font-size:13px}
+.ok{color:var(--g)}.err{color:#d32f2f}
+#modal{position:fixed;inset:0;background:rgba(15,23,42,.65);display:none;align-items:center;justify-content:center;padding:16px;z-index:9}
+#modal .box{background:#fff;border-radius:14px;padding:18px;width:100%;max-width:420px;max-height:92vh;overflow:auto}
+.pay{background:#fffbeb;border:1px dashed #f59e0b;border-radius:8px;padding:10px;font-size:14px;margin-bottom:10px;line-height:1.7}
+</style></head><body>
+<header><a href="../">← হোম</a><h1>পেইড কোর্স</h1></header>
+<main>
+<div class="card"><h2>🔓 আমার কোর্স</h2>
+<input id="myEmail" type="email" placeholder="যে Gmail দিয়ে কিনেছেন">
+<button onclick="loadMine()">আমার কোর্স দেখুন</button><div id="mine" style="margin-top:12px"></div></div>
+<div id="list"><div class="card">লোড হচ্ছে...</div></div>
+</main>
+<div id="modal"><div class="box">
+<h2 id="mTitle" style="margin-top:0"></h2>
+<div class="pay" id="payInfo"></div>
+<div class="row" style="gap:8px;margin-bottom:6px"><input id="coupon" placeholder="কুপন কোড (থাকলে)" style="margin:0"><button type="button" style="background:var(--b);white-space:nowrap" onclick="applyCoupon()">প্রয়োগ</button></div><div id="cpMsg" style="margin-bottom:10px;font-size:14px"></div>
+<select id="method"><option value="bKash">বিকাশ</option></select>
+<input id="name" placeholder="আপনার নাম"><input id="email" type="email" placeholder="আপনার Gmail (এই Gmail-এ কোর্স খুলবে)">
+<input id="phone" type="tel" placeholder="মোবাইল নম্বর"><input id="trx" placeholder="TrxID (পেমেন্টের পর পাওয়া)">
+<div id="msg" style="margin-bottom:8px"></div>
+<div class="row"><button id="send" onclick="sendOrder()">অর্ডার জমা দিন</button><button style="background:#64748b" onclick="closeM()">বাতিল</button></div>
+</div></div>
+<script>
+// ===== এখানে নিজের তথ্য বসান =====
+const API = "https://script.google.com/macros/s/AKfycbw8V4IHPwaMqKFp-HZOkQHSJ6v9DB1Bizuc628q14Rq1gVfB9i3YT6M-BApIgO-ACC6/exec";
+const PAY = { bKash: "01757803397" }; // পেমেন্ট নম্বর (নগদ যোগ করতে: Nagad: "নম্বর")
+// ==================================
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let courses = [], cur = null, cp = null;
+
+fetch(API + "?action=courses").then(r => r.json()).then(d => {
+  courses = d;
+  $("list").innerHTML = d.length ? d.map(c => `<div class="card"><h2>${esc(c.title)}</h2>
+    <p class="muted">${esc(c.desc)}</p><div class="row"><span class="price">৳${esc(c.price)}</span>
+    <button onclick="openM('${esc(c.id)}')">কিনুন</button></div></div>`).join("") : '<div class="card">কোনো কোর্স নেই।</div>';
+}).catch(() => $("list").innerHTML = '<div class="card err">কোর্স লোড করা যায়নি। ইন্টারনেট দেখুন।</div>');
+
+function price() { return cp ? Math.round(cur.price * (100 - cp.percent) / 100) : cur.price; }
+function payInfo() {
+  const m = $("method").value;
+  $("payInfo").innerHTML = `১) বিকাশ/নগদ থেকে <b>৳${esc(price())}</b>${cp ? " (কুপনে ছাড়)" : ""} পাঠান: <b>${esc(PAY[m])}</b> (${m === "bKash" ? "বিকাশ" : "নগদ"})<br>২) নিচে তথ্য ও TrxID দিয়ে জমা দিন।<br>৩) পেমেন্ট যাচাইয়ের পর আপনার Gmail-এ কোর্স আনলক হবে।`;
+}
+function openM(id) {
+  cur = courses.find(c => String(c.id) === String(id));
+  cp = null; $("coupon").value = ""; $("cpMsg").textContent = ""; setFree(false);
+  $("mTitle").textContent = cur.title; $("msg").textContent = ""; payInfo();
+  $("modal").style.display = "flex";
+}
+$("method").onchange = () => payInfo();
+function closeM() { $("modal").style.display = "none"; }
+
+function setFree(f) {
+  ["method", "trx", "payInfo"].forEach(i => $(i).style.display = f ? "none" : "");
+  $("send").textContent = f ? "ফ্রি অ্যাক্সেস নিন" : "অর্ডার জমা দিন";
+}
+function applyCoupon() {
+  const code = $("coupon").value.trim(); if (!code) return;
+  $("cpMsg").textContent = "যাচাই হচ্ছে...";
+  fetch(API + "?action=coupon&code=" + encodeURIComponent(code) + "&courseId=" + encodeURIComponent(cur.id)).then(r => r.json()).then(r => {
+    if (!r.valid) { cp = null; setFree(false); payInfo(); $("cpMsg").innerHTML = '<span class="err">কুপন সঠিক নয় বা মেয়াদ শেষ।</span>'; return; }
+    cp = { percent: r.percent }; setFree(cp.percent >= 100); payInfo();
+    $("cpMsg").innerHTML = '<span class="ok">✅ কুপন প্রয়োগ হয়েছে' + (cp.percent >= 100 ? ' — কোর্সটি ফ্রি!' : ' — ' + cp.percent + '% ছাড়') + '</span>';
+  }).catch(() => $("cpMsg").innerHTML = '<span class="err">সমস্যা হয়েছে, আবার চেষ্টা করুন।</span>');
+}
+
+function sendOrder() {
+  const b = $("send"); $("msg").innerHTML = ""; b.disabled = true; b.textContent = "জমা হচ্ছে...";
+  fetch(API, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({ action: "order", courseId: cur.id, method: $("method").value, name: $("name").value,
+      email: $("email").value, phone: $("phone").value, trxId: $("trx").value, coupon: cp ? $("coupon").value : "" }) })
+  .then(r => r.json()).then(r => {
+    if (!r.success) throw new Error(r.error);
+    $("msg").innerHTML = r.free ? '<span class="ok">🎉 কোর্স আনলক হয়েছে!</span> <a class="btn" href="' + esc(r.url) + '" target="_blank">কোর্স খুলুন</a>' : '<span class="ok">✅ অর্ডার জমা হয়েছে। যাচাইয়ের পর কোর্স আনলক হবে।</span>';
+    try { localStorage.setItem("em", $("email").value.trim()); } catch (e) {}
+  }).catch(e => $("msg").innerHTML = '<span class="err">' + esc(e.message) + '</span>')
+  .finally(() => { b.disabled = false; b.textContent = cp && cp.percent >= 100 ? "ফ্রি অ্যাক্সেস নিন" : "অর্ডার জমা দিন"; });
+}
+
+function loadMine() {
+  const em = $("myEmail").value.trim(); if (!em) return;
+  $("mine").textContent = "খুঁজছি...";
+  fetch(API + "?action=my&email=" + encodeURIComponent(em)).then(r => r.json()).then(d => {
+    $("mine").innerHTML = d.length ? d.map(c => `<div class="row card" style="margin:0 0 8px;padding:10px"><b>${esc(c.title)}</b>
+      <a class="btn" href="${esc(c.url)}" target="_blank">খুলুন</a></div>`).join("")
+      + '<p class="muted">ফাইল খুলতে একই Gmail দিয়ে Google-এ লগইন থাকতে হবে।</p>'
+      : '<span class="muted">এই Gmail-এ এখনো কোনো কোর্স আনলক হয়নি।</span>';
+  }).catch(() => $("mine").innerHTML = '<span class="err">সমস্যা হয়েছে, আবার চেষ্টা করুন।</span>');
+}
+try { const e = localStorage.getItem("em"); if (e) $("myEmail").value = e; } catch (x) {}
+</script></body></html>
