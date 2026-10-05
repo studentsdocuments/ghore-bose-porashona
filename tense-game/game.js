@@ -18,7 +18,7 @@ function setup(m){ S.mode = m; S.lang = m==='solo' ? 'bn-en' : 'bn-en';
     : `<h2>👤 Player 1</h2><input id="n1" placeholder="নাম" maxlength="20"><h2>👤 Player 2</h2><input id="n2" placeholder="নাম" maxlength="20">`;
   const langs = [['bn-en','🇧🇩 বাংলা → English'],['en-bn','🇬🇧 English → বাংলা']]; if (m==='two') langs.push(['random','🔀 Random Mode']);
   card(`<h1>${m==='solo'?'👤 একা খেলুন':'👥 ২ জন'}</h1>${p}<h2>কোন ধরনের Tense game খেলবেন</h2><div class="row" id="lg">${langs.map(l=>`<button class="chip ${l[0]===S.lang?'on':''}" data-v="${l[0]}">${l[1]}</button>`).join('')}</div>
-<h2>কত প্রশ্নের game খেলবেন</h2><div class="row" id="cn">${[10,20,50,100,200,500].map(x=>`<button class="chip ${x===S.n?'on':''}" data-v="${x}">${x}</button>`).join('')}</div>
+<h2>কত প্রশ্নের game খেলবেন</h2><div class="row" id="cn">${[2,10,20,50,100,200,500].map(x=>`<button class="chip ${x===S.n?'on':''}" data-v="${x}">${x}</button>`).join('')}</div>
 <input id="cu" type="number" min="2" max="500" placeholder="অথবা নিজে লিখুন (২–৫০০)"><button class="btn g" id="go">🎮 খেলা শুরু করুন</button><button class="btn gr" onclick="home()">← পেছনে</button>`);
   document.querySelectorAll('#lg .chip').forEach(b => b.onclick = () => { S.lang = b.dataset.v; document.querySelectorAll('#lg .chip').forEach(x=>x.classList.toggle('on',x===b)); });
   document.querySelectorAll('#cn .chip').forEach(b => b.onclick = () => { S.n = +b.dataset.v; document.getElementById('cu').value=''; document.querySelectorAll('#cn .chip').forEach(x=>x.classList.toggle('on',x===b)); });
