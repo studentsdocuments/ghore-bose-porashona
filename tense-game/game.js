@@ -1,6 +1,6 @@
 'use strict';
 // ===== কনফিগ: Apps Script Web App URL এখানে বসান =====
-const API_URL = 'https://script.google.com/macros/s/AKfycbw8V4IHPwaMqKFp-HZOkQHSJ6v9DB1Bizuc628q14Rq1gVfB9i3YT6M-BApIgO-ACC6/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbxwnYkXm1R7bMHvFEAXWXQ-79o2SCiFinjhrCKMxECzX1lzeXhMwdkWH3vzy9GHBnyG/exec';
 const SECS = 20, LB_KEY = 'tenseLB';
 const $ = document.getElementById('app');
 let S = {mode:'solo', lang:'bn-en', n:10, names:['',''], reset(){}};
