@@ -73,13 +73,14 @@ function save(){
   const rec = {name:nm[0], mode:two?'2 Player':'Solo', lang:S.lang, total:n, score:a, pct:pct(a,n), p2:two?nm[1]:'', p2s:two?b:'', winner:!two?'':a>b?nm[0]:b>a?nm[1]:'Draw', date:new Date().toISOString()};
   if (!valid(rec) || (two && !(nm[1] && b >= 0 && b <= n))) return;
   const L = JSON.parse(localStorage.getItem(LB_KEY) || '[]'); L.push(rec); localStorage.setItem(LB_KEY, JSON.stringify(L.slice(-300)));
-  if (API_URL) fetch(API_URL, {method:'POST', body:JSON.stringify(rec)}).catch(()=>{}); }
+  if (API_URL) fetch(API_URL, {method:'POST', body:JSON.stringify(rec)}).then(r=>r.json()).then(j=>{if(!j.ok)console.warn('Sheet save failed',j)}).catch(e=>console.warn('Sheet save error',e)); }
 
 // ===== Leaderboard =====
 async function board(tab){
   tab = tab || 'pct'; card('<h1>🏆 Leaderboard</h1><p class="sub">লোড হচ্ছে...</p>');
   let rows = JSON.parse(localStorage.getItem(LB_KEY) || '[]');
-  if (API_URL) { try { rows = await (await fetch(API_URL + '?action=leaderboard')).json(); } catch (e) {} }
+  let apiErr = '';
+  if (API_URL) { try { const c = new AbortController(); setTimeout(() => c.abort(), 10000); const r = await (await fetch(API_URL + '?action=leaderboard', {signal:c.signal})).json(); if (Array.isArray(r)) rows = r; else apiErr = 'Server থেকে ভুল উত্তর এসেছে'; } catch (e) { apiErr = 'Online leaderboard লোড হয়নি'; } }
   const E = []; rows.forEach(r => { const m = r.mode || r.Mode;
     const g = (a,b) => r[a] !== undefined ? r[a] : r[b];
     const base = {mode:g('mode','Mode'), total:+g('total','TotalQuestions'), date:g('date','DateTime')};
@@ -88,5 +89,5 @@ async function board(tab){
   const L = E.filter(e => e.total > 0).map(e => ({...e, pct:pct(e.score,e.total)}));
   L.sort(tab==='pct' ? (x,y)=>y.pct-x.pct||y.total-x.total : (x,y)=>y.score-x.score||y.pct-x.pct);
   card(`<h1>🏆 Leaderboard</h1><div class="row" style="margin:10px 0"><button class="chip ${tab==='pct'?'on':''}" onclick="board('pct')">🥇 Best Percentage</button><button class="chip ${tab!=='pct'?'on':''}" onclick="board('cor')">🔥 Highest Correct</button></div>
-<div class="scroll"><table><tr><th>Rank</th><th>Player</th><th>Mode</th><th>Qs</th><th>Score</th><th>%</th><th>Date</th></tr>${L.slice(0,50).map((e,i)=>`<tr><td>${i+1}</td><td>${esc(e.name)}</td><td>${esc(e.mode)}</td><td>${e.total}</td><td>${e.score}</td><td>${e.pct}%</td><td>${new Date(e.date).toLocaleDateString('bn-BD')}</td></tr>`).join('') || '<tr><td colspan=7>এখনো কোনো result নেই</td></tr>'}</table></div><button class="btn gr" onclick="home()">← Home</button>`); }
+${apiErr?`<p class="sub" style="color:#d63031">⚠️ ${apiErr} (শুধু এই ফোনের result দেখাচ্ছে)</p>`:''}<div class="scroll"><table><tr><th>Rank</th><th>Player</th><th>Mode</th><th>Qs</th><th>Score</th><th>%</th><th>Date</th></tr>${L.slice(0,50).map((e,i)=>`<tr><td>${i+1}</td><td>${esc(e.name)}</td><td>${esc(e.mode)}</td><td>${e.total}</td><td>${e.score}</td><td>${e.pct}%</td><td>${new Date(e.date).toLocaleDateString('bn-BD')}</td></tr>`).join('') || '<tr><td colspan=7>এখনো কোনো result নেই</td></tr>'}</table></div><button class="btn gr" onclick="home()">← Home</button>`); }
 home();
