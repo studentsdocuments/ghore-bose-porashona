@@ -83,6 +83,8 @@ body{margin:0;padding:0 0 70px;font-family:'Hind Siliguri',sans-serif;background
 .social-dock{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);background:#fff;padding:8px 20px;border-radius:50px;display:flex;gap:15px;box-shadow:0 5px 15px rgba(0,0,0,.3);z-index:2000}
 @media (max-width:850px){.container{grid-template-columns:1fr}.sidebar{order:2}}
 @media (max-width:600px){.title-top{font-size:18px}.hero{padding:10px 5px;min-height:100px}.analog-clock{width:50px;height:50px}.clock-box{width:70px}.profile-img{width:50px;height:50px}.section-header{font-size:14px}.sol-grid{grid-template-columns:1fr}}
+.sbtn{display:block;text-align:center;padding:14px;border-radius:12px;color:#fff;font-weight:700;text-decoration:none;font-size:15px}
+.sbtn.off{background:#94a3b8!important}
 </style>
 </head>
 <body>
@@ -127,10 +129,10 @@ body{margin:0;padding:0 0 70px;font-family:'Hind Siliguri',sans-serif;background
 <div class="container">
   <div class="main-content">
 
-    <a href="courses/" style="text-decoration:none"><div class="section-card" style="background:linear-gradient(45deg,#4834d4,#001a38);color:#fff;border-left:6px solid var(--accent);cursor:pointer"><h2 style="margin:0;font-size:17px"><i class="fas fa-lock-open"></i> পেইড কোর্স (PDF, ক্লাস, নোটস)</h2><p style="font-size:12px;margin:5px 0 0">কোর্স কিনুন ও "আমার কোর্স" দেখুন</p></div></a>
+    
 
     <!-- Job Card: ক্লিক করলে MCQ Guru খুলবে -->
-    <div class="section-card job-card" onclick="location.href='mcq/'" style="cursor:pointer;">
+    <div class="section-card job-card" onclick="openJob()" style="cursor:pointer;">
       <div style="display:flex;justify-content:space-between;align-items:center;width:100%;">
         <h2 style="margin:0;font-size:17px;"><i class="fas fa-graduation-cap"></i> Job Preparation Special</h2>
         <a href="https://t.me/smartjobprep" target="_blank" class="tg-link-icon" onclick="event.stopPropagation()"><i class="fab fa-telegram-plane"></i></a>
@@ -141,17 +143,18 @@ body{margin:0;padding:0 0 70px;font-family:'Hind Siliguri',sans-serif;background
     <div class="section-card">
       <div class="section-header"><i class="fas fa-book-open"></i> তোমার ক্লাস বেছে নাও:</div>
       <div class="grid-main">
-        <a href="https://drive.google.com/drive/folders/1yge4NACSHuJEYzUAs7Hi6UBshMPNtcD2" target="_blank" class="card-item">১ম শ্রেণি</a>
-        <a href="https://drive.google.com/drive/folders/1h0QwZh0HdMrLedsgEc9TAsylXOlxR0Ow" target="_blank" class="card-item">২য় শ্রেণি</a>
-        <a href="https://drive.google.com/drive/folders/1np3ldAIyq_aUxDLbdktTRRl6mpJU0zKr" target="_blank" class="card-item">৩য় শ্রেণি</a>
-        <a href="https://drive.google.com/drive/folders/1TsDSjod-RrOymV_zX2lYmsaotryvxKty" target="_blank" class="card-item">৪র্থ শ্রেণি</a>
-        <a href="https://drive.google.com/drive/folders/1ti602aw4em2fuEBkjh7AU76ub-NZDOxK" target="_blank" class="card-item">৫ম শ্রেণি</a>
-        <a href="https://drive.google.com/drive/folders/1mmvU6HwyCfvwyOgr06t7XttpFFqagnau" target="_blank" class="card-item">৬ষ্ঠ শ্রেণি</a>
-        <a href="https://drive.google.com/drive/folders/1Fc8O9Rmi3LU7Y01rk-82VvDR-KXdWId-" target="_blank" class="card-item">৭ম শ্রেণি</a>
-        <a href="https://drive.google.com/drive/folders/12zs0WOwYmfM6ICM5WD8Uac4ML4N6HXO4" target="_blank" class="card-item">৮ম শ্রেণি</a>
-        <a href="https://drive.google.com/drive/folders/10PhdOMPEy99SCUfsgz1_ciQABMswVzmz" target="_blank" class="card-item">৯ম-১০ম বিজ্ঞান</a>
-        <a href="https://drive.google.com/drive/folders/10PhdOMPEy99SCUfsgz1_ciQABMswVzmz" target="_blank" class="card-item">৯ম-১০ম মানবিক</a>
-        <a href="https://drive.google.com/drive/folders/10PhdOMPEy99SCUfsgz1_ciQABMswVzmz" target="_blank" class="card-item">৯ম-১০ম ব্যবসায়</a>
+        <a href="#" class="card-item" onclick="openClass('class1','১ম শ্রেণি','https://drive.google.com/drive/folders/1F856hYtpoUCfozoeYbZk1dN08qzn4n-W');return false;">১ম শ্রেণি</a>
+        <a href="#" class="card-item" onclick="openClass('class2','২য় শ্রেণি','https://drive.google.com/drive/folders/1NpXuMkkn1tgmN7azU4qYWjJKwgaqe16f');return false;">২য় শ্রেণি</a>
+        <a href="#" class="card-item" onclick="openClass('class3','৩য় শ্রেণি','https://drive.google.com/drive/folders/1dp768KBX9QAKs_wGbD6Qnof1t3RNylWL');return false;">৩য় শ্রেণি</a>
+        <a href="#" class="card-item" onclick="openClass('class4','৪র্থ শ্রেণি','https://drive.google.com/drive/folders/14A5Jga2-VIdoqQNezdK36GzqZtyyPKyK');return false;">৪র্থ শ্রেণি</a>
+        <a href="#" class="card-item" onclick="openClass('class5','৫ম শ্রেণি','https://drive.google.com/drive/folders/1zTFP70frLplq2vvhmGCHAwr0vj74Hylw');return false;">৫ম শ্রেণি</a>
+        <a href="#" class="card-item" onclick="openClass('class6','৬ষ্ঠ শ্রেণি','https://drive.google.com/drive/folders/1zN5-VecOVUXTU_s4EQLyPOtrBCu1BkVy');return false;">৬ষ্ঠ শ্রেণি</a>
+        <a href="#" class="card-item" onclick="openClass('class7','৭ম শ্রেণি','https://drive.google.com/drive/folders/1h2Egpog5WqwQV7VZrmVlUG6Ty5ajZWho');return false;">৭ম শ্রেণি</a>
+        <a href="#" class="card-item" onclick="openClass('class8','৮ম শ্রেণি','https://drive.google.com/drive/folders/1YrGuq94n2fHmfphJA4HmV6FDL2qvg4uI');return false;">৮ম শ্রেণি</a>
+        <a href="#" class="card-item" onclick="openClass('class9-10','৯ম-১০ম বিজ্ঞান','https://drive.google.com/drive/folders/1IdPV-9u09wgLkAYjXznpRACxSgaHRbSf');return false;">৯ম-১০ম বিজ্ঞান</a>
+        <a href="#" class="card-item" onclick="openClass('class9-10','৯ম-১০ম মানবিক','https://drive.google.com/drive/folders/1IdPV-9u09wgLkAYjXznpRACxSgaHRbSf');return false;">৯ম-১০ম মানবিক</a>
+        <a href="#" class="card-item" onclick="openClass('class9-10','৯ম-১০ম ব্যবসায়','https://drive.google.com/drive/folders/1IdPV-9u09wgLkAYjXznpRACxSgaHRbSf');return false;">৯ম-১০ম ব্যবসায়</a>
+        <a href="#" class="card-item" onclick="openClass('class11-12','১১শ-১২শ শ্রেণি','https://drive.google.com/drive/folders/1486xy3RDXp5lqKgMSMu077x1ugUgnPOZ');return false;">১১শ-১২শ শ্রেণি</a>
       </div>
     </div>
 
@@ -215,6 +218,14 @@ body{margin:0;padding:0 0 70px;font-family:'Hind Siliguri',sans-serif;background
   </div>
 </div>
 
+<div id="sheet" onclick="if(event.target===this)closeSheet()" style="display:none;position:fixed;inset:0;background:rgba(0,26,56,.6);z-index:3000;align-items:flex-end;justify-content:center">
+  <div style="background:#fff;width:100%;max-width:480px;border-radius:18px 18px 0 0;padding:18px;border-top:4px solid var(--accent)">
+    <div id="sheetTitle" style="font-weight:800;font-size:17px;color:var(--primary);margin-bottom:12px"></div>
+    <div id="sheetBtns" style="display:flex;flex-direction:column;gap:10px"></div>
+    <button onclick="closeSheet()" style="margin-top:12px;width:100%;padding:10px;border:0;border-radius:10px;background:#e2e8f0;font:inherit;font-weight:700;cursor:pointer">বন্ধ করুন</button>
+  </div>
+</div>
+
 <div class="social-dock">
   <a href="#" style="color:#f00"><i class="fab fa-youtube"></i></a>
   <a href="#" style="color:#1877f2"><i class="fab fa-facebook"></i></a>
@@ -257,6 +268,22 @@ function renderCalendar(){
     let arD=new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-latn',{day:'numeric'}).format(dateObj);
     calendarDates.innerHTML+=`<div class="cal-day ${isToday}">${d}<span class="cal-bn">${bnD}</span><span class="cal-ar">${arD}</span></div>`;
   }
+}
+const JOB_FREE_URL = "https://drive.google.com/drive/folders/12FfpC4lN3jmrPal-NcBUko8Xsehs_S37"; // জব ফ্রি PDF
+function sbtn(t, href, bg, blank){
+  return href ? `<a class="sbtn" href="${href}" ${blank?'target="_blank"':''} style="background:${bg}">${t}</a>` : `<span class="sbtn off">${t} (শীঘ্রই আসছে)</span>`;
+}
+function showSheet(title, btns){
+  document.getElementById('sheetTitle').textContent = title;
+  document.getElementById('sheetBtns').innerHTML = btns.join('');
+  document.getElementById('sheet').style.display = 'flex';
+}
+function closeSheet(){ document.getElementById('sheet').style.display = 'none'; }
+function openClass(id, name, free){
+  showSheet(name, [sbtn('📂 ফ্রি PDF', free, '#16a34a', true), sbtn('🔒 পেইড PDF (ফুল কোর্স)', 'courses/?cat=' + id + '&n=' + encodeURIComponent(name), '#4834d4', false)]);
+}
+function openJob(){
+  showSheet('Job Preparation Special', [sbtn('📂 ফ্রি PDF', JOB_FREE_URL, '#16a34a', true), sbtn('🔒 পেইড PDF (ফুল কোর্স)', 'courses/?cat=job&n=' + encodeURIComponent('জব প্রস্তুতি'), '#4834d4', false), sbtn('🔴 লাইভ এক্সাম', 'mcq/', '#ff4757', false)]);
 }
 setInterval(updateClock,1000);
 updateClock();renderCalendar();setSpecialContent();
