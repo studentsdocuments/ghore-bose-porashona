@@ -19,13 +19,13 @@ function setup(m){ S.mode = m; S.lang = m==='solo' ? 'bn-en' : 'bn-en';
   const langs = [['bn-en','🇧🇩 বাংলা → English'],['en-bn','🇬🇧 English → বাংলা']]; if (m==='two') langs.push(['random','🔀 Random Mode']);
   card(`<h1>${m==='solo'?'👤 একা খেলুন':'👥 ২ জন'}</h1>${p}<h2>কোন ধরনের Tense game খেলবেন</h2><div class="row" id="lg">${langs.map(l=>`<button class="chip ${l[0]===S.lang?'on':''}" data-v="${l[0]}">${l[1]}</button>`).join('')}</div>
 <h2>কত প্রশ্নের game খেলবেন</h2><div class="row" id="cn">${[10,20,50,100,200,500].map(x=>`<button class="chip ${x===S.n?'on':''}" data-v="${x}">${x}</button>`).join('')}</div>
-<input id="cu" type="number" min="10" max="500" placeholder="অথবা নিজে লিখুন (১০–৫০০)"><button class="btn g" id="go">🎮 খেলা শুরু করুন</button><button class="btn gr" onclick="home()">← পেছনে</button>`);
+<input id="cu" type="number" min="2" max="500" placeholder="অথবা নিজে লিখুন (২–৫০০)"><button class="btn g" id="go">🎮 খেলা শুরু করুন</button><button class="btn gr" onclick="home()">← পেছনে</button>`);
   document.querySelectorAll('#lg .chip').forEach(b => b.onclick = () => { S.lang = b.dataset.v; document.querySelectorAll('#lg .chip').forEach(x=>x.classList.toggle('on',x===b)); });
   document.querySelectorAll('#cn .chip').forEach(b => b.onclick = () => { S.n = +b.dataset.v; document.getElementById('cu').value=''; document.querySelectorAll('#cn .chip').forEach(x=>x.classList.toggle('on',x===b)); });
   document.getElementById('go').onclick = () => {
     const n1 = document.getElementById('n1').value.trim(), n2 = m==='two' ? document.getElementById('n2').value.trim() : '-';
     const cu = document.getElementById('cu').value; let n = S.n;
-    if (cu !== '') { n = parseInt(cu); if (!(n >= 10 && n <= 500)) return alert('প্রশ্ন সংখ্যা ১০ থেকে ৫০০-এর মধ্যে দিন'); }
+    if (cu !== '') { n = parseInt(cu); if (!(n >= 2 && n <= 500)) return alert('প্রশ্ন সংখ্যা ২ থেকে ৫০০-এর মধ্যে দিন'); }
     if (!n1 || !n2) return alert('নাম লিখুন'); S.names = [n1, n2]; S.n = n; start(); }; }
 
 function start(){
