@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>১১শ-১২শ শ্রেণি MCQ প্র্যাকটিস</title>
+<meta name="theme-color" content="#001a38">
+<link rel="icon" href="../icon-192.png">
+<style>
+:root{--p:#001a38;--acc:#ffcc00;--ok:#16a34a;--bad:#dc2626;--bg:#f1f5f9;--card:#fff;--tx:#1e293b;--soft:#e0e7ff;--line:#e2e8f0}
+@media(prefers-color-scheme:dark){:root{--bg:#0f172a;--card:#1e293b;--tx:#e2e8f0;--soft:#334155;--line:#475569}}
+*{box-sizing:border-box}
+body{margin:0;font-family:'SolaimanLipi','Noto Sans Bengali',sans-serif;background:var(--bg);color:var(--tx);padding:12px;min-height:100vh}
+.wrap{max-width:640px;margin:0 auto;background:var(--card);border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.head{background:var(--p);color:#fff;padding:20px;text-align:center}
+.head h1{margin:0;font-size:21px}.head p{margin:6px 0 0;opacity:.85;font-size:14px}
+.body{padding:18px}
+.btn{display:block;width:100%;text-align:center;border:0;border-radius:12px;padding:14px;margin-bottom:10px;font:inherit;font-weight:700;font-size:16px;color:#fff;background:#4834d4;cursor:pointer;text-decoration:none}
+.btn.g{background:var(--ok)}.btn.y{background:var(--acc);color:var(--p)}.btn.gr{background:#64748b}
+.btn[disabled]{background:#94a3b8;cursor:not-allowed}
+.btn small{font-weight:400;opacity:.9}
+.stats{display:flex;gap:10px;margin-bottom:14px}.stat{flex:1;background:var(--soft);border-radius:12px;padding:12px;text-align:center}.stat b{display:block;font-size:22px}.stat span{font-size:13px}
+input{width:100%;padding:12px;font:inherit;font-size:16px;border:2px solid var(--line);border-radius:10px;margin-bottom:14px;background:var(--card);color:var(--tx)}
+.bar{background:var(--p);color:#fff;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;font-size:14px;gap:8px}
+.tq{background:var(--acc);color:var(--p);font-weight:800;padding:4px 12px;border-radius:20px;min-width:70px;text-align:center}
+.tq.low{background:var(--bad);color:#fff}
+.prog{height:5px;background:var(--line)}.prog i{display:block;height:100%;background:var(--ok)}
+.qt{font-weight:700;font-size:18px;line-height:1.6;margin-bottom:14px;white-space:pre-line}
+.pbox{background:var(--soft);border-left:4px solid var(--acc);border-radius:8px;padding:12px;margin-bottom:12px;line-height:1.8;font-size:15px;white-space:pre-line}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.chip{padding:9px 14px;border:2px solid var(--line);border-radius:20px;background:var(--bg);color:var(--tx);font:inherit;font-weight:700;cursor:pointer}
+.chip.on{background:var(--p);color:#fff;border-color:var(--p)}
+h4{margin:14px 0 8px}
+.opt{display:block;width:100%;text-align:left;font:inherit;background:var(--bg);color:var(--tx);border:2px solid var(--line);border-radius:10px;padding:12px;margin-bottom:8px;cursor:pointer}
+.opt.right{background:#dcfce7;border-color:var(--ok);color:#14532d}
+.opt.wrong{background:#fee2e2;border-color:var(--bad);color:#7f1d1d}
+.fb{border-radius:10px;padding:12px;margin:10px 0;line-height:1.7;font-size:15px}
+.fb.ok{background:#dcfce7;color:#14532d}.fb.no{background:#fee2e2;color:#7f1d1d}.fb.to{background:#fef3c7;color:#78350f}
+.rv{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px;line-height:1.7;font-size:15px}
+.note{font-size:13px;opacity:.75;text-align:center;margin-top:6px}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script src="data/counts.js"></script>
+<script>
+/* ===== Google Form সেটআপ (README দেখুন) =====
+   url: ফর্মের লিংকের শেষে /viewform এর জায়গায় /formResponse বসান
+   fields: প্রতিটি প্রশ্নের entry.xxxxxxx আইডি */
+const FORM = {
+  url: "",   // যেমন: "https://docs.google.com/forms/d/e/XXXX/formResponse"
+  fields: { name:"", section:"", score:"", total:"", percent:"", time:"", date:"" }
+};
+const SECS = 40;   // প্রতি প্রশ্নের সময় (সেকেন্ড)
+
+const mk = (pre,names) => names.map((t,i)=>({id:pre+(i+1),t}));
+const MENU = {
+  ict:{title:"ICT MCQ Practice",sub:"১১শ-১২শ শ্রেণি", groups:[{id:"ict",title:"অধ্যায়ভিত্তিক",items:mk("ict",[
+    "অধ্যায় ১: তথ্য ও যোগাযোগ প্রযুক্তি — বিশ্ব ও বাংলাদেশ প্রেক্ষিত",
+    "অধ্যায় ২: কমিউনিকেশন সিস্টেম ও নেটওয়ার্কিং",
+    "অধ্যায় ৩: সংখ্যা পদ্ধতি ও ডিজিটাল ডিভাইস",
+    "অধ্যায় ৪: ওয়েব ডিজাইন পরিচিতি ও HTML",
+    "অধ্যায় ৫: প্রোগ্রামিং ভাষা",
+    "অধ্যায় ৬: ডেটাবেজ ম্যানেজমেন্ট সিস্টেম"])}]},
+  bn1:{title:"বাংলা প্রথম পত্র",sub:"১১শ-১২শ শ্রেণি", groups:[
+    {id:"gadyo",title:"📖 গদ্য অংশ (১২টি)",items:mk("g",["বাঙ্গালার নব্য লেখকদিগের প্রতি নিবেদন","অপরিচিতা","বিলাসী","অর্ধাঙ্গী","সাহিত্যের খেলা","গন্তব্য কাবুল","যৌবনের গান","মাসি-পিসি","জীবন-বৃক্ষ","রেইনকোর্ট","কপিল দাস মূর্মুর শেষ কাজ","নেকলেস"])},
+    {id:"poddo",title:"✍️ কবিতা অংশ (১২টি)",items:mk("p",["বিভীষণের প্রতি মেঘনাদ","সোনার তরী","বিদ্রোহী","প্রতিদান","সুচেতনা","তাহারেই পড়ে মনে","পদ্মা","ফেব্রুয়ারি ১৯৬৯","আঠারো বছর বয়স","আমি কিংবদন্তির কথা বলছি","ঋতু-বর্ণন","প্রত্যাবর্তনের লজ্জা"])},
+    {id:"sohopath",title:"📚 সহপাঠ",items:mk("s",["উপন্যাস: লালসালু","নাটক: নবাব সিরাজ-উদ্দৌলা"])}]}
+};
+const savedName=()=>{try{return localStorage.getItem('hscName')||''}catch(e){return ''}};
+const $ = document.getElementById("app");
+const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const L = ["ক","খ","গ","ঘ"];
+const bn = n => String(n).replace(/\d/g,d=>"০১২৩৪৫৬৭৮৯"[d]);
+const mmss = s => String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+const qs = new URLSearchParams(location.search);
+const subj = MENU[qs.get("s")] ? qs.get("s") : "ict";
+const M = MENU[subj];
+let T = null, Q, i, st, tick, left;
+
+function itemTitle(id){ for(const gr of M.groups) for(const it of gr.items) if(it.id===id) return it.t; return id; }
+const head = (t,s,back) => `<div class="head">${back?`<a href="${back}" onclick="${back==='#'?'event.preventDefault();':''}" class="btn y" style="display:inline-block;width:auto;padding:6px 14px;font-size:13px;margin-bottom:10px">← ফিরে যান</a><br>`:""}<h1>${t}</h1><p>${s||""}</p></div>`;
+
+function home(){
+  clearInterval(tick);
+  $.innerHTML = head(M.title,M.sub,"../") + `<div class="body">` +
+   (M.groups.length===1 ? list(M.groups[0]) :
+    M.groups.map(gr=>`<button class="btn" data-g="${gr.id}">${gr.title}</button>`).join("")) + `</div>`;
+  $.querySelectorAll("[data-g]").forEach(b=>b.onclick=()=>group(b.dataset.g));
+  bindItems();
+}
+function group(id){
+  const gr = M.groups.find(x=>x.id===id);
+  $.innerHTML = head(gr.title,M.title,"#") + `<div class="body">${list(gr)}</div>`;
+  $.querySelector(".head a").onclick = e=>{e.preventDefault();home();};
+  bindItems();
+}
+function list(gr){
+  return gr.items.map(it=>{const n=COUNTS[it.id]||0;
+    return `<button class="btn ${n?'':'gr'}" data-i="${it.id}" ${n?'':'disabled'}>${esc(it.t)}<br><small>${n?bn(n)+'টি প্রশ্ন':'শীঘ্রই আসছে'}</small></button>`}).join("");
+}
+function bindItems(){ $.querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>intro(b.dataset.i)); }
+
+function loadSet(id){
+  return new Promise((ok,no)=>{
+    if(QDATA[id]) return ok(QDATA[id]);
+    const sc=document.createElement("script"); sc.src="data/"+id+".js";
+    sc.onload=()=>ok(QDATA[id]); sc.onerror=()=>no(new Error("প্রশ্ন লোড হয়নি")); document.head.appendChild(sc);
+  });
+}
+function intro(id){
+  $.innerHTML = head(esc(itemTitle(id)),M.title,"#")+`<div class="body"><p class="note">প্রশ্ন লোড হচ্ছে...</p></div>`;
+  $.querySelector(".head a").onclick = e=>{e.preventDefault();home();};
+  loadSet(id).then(setup.bind(null,id)).catch(e=>{$.querySelector(".body").innerHTML=`<p class="note">⚠️ ${esc(e.message)} — ইন্টারনেট চেক করে আবার চেষ্টা করুন।</p>`});
+}
+function setup(id,D){
+  const n=D.Q.length, presets=[5,10,20,30,40,50,100].filter(x=>x<n).concat([n]);
+  let pick=presets.includes(20)?20:n;
+  $.innerHTML = head(esc(itemTitle(id)),M.title,"#") + `<div class="body">
+   <div class="stats"><div class="stat"><b>${bn(n)}</b><span>প্রশ্নভান্ডারে আছে</span></div><div class="stat"><b>${bn(SECS)}s</b><span>প্রতি প্রশ্নে</span></div><div class="stat"><b id="tt">${mmss(pick*SECS)}</b><span>মোট সময়</span></div></div>
+   <a class="btn y" href="pdf/${id}.pdf" download="${esc(itemTitle(id))} - সব MCQ.pdf">📥 এই অধ্যায়ের সব MCQ ডাউনলোড (PDF)</a>
+   <p class="note" style="margin:-4px 0 6px">পরীক্ষা দেওয়ার আগে পড়ে প্রস্তুতি নিন — সঠিক উত্তরসহ ${bn(n)}টি প্রশ্ন, মোবাইল/পিসি সব ডিভাইসে খুলবে।</p>
+   <h4>কত নম্বরের পরীক্ষা দিতে চান?</h4>
+   <div class="chips" id="chips">${presets.map(x=>`<button type="button" class="chip ${x===pick?'on':''}" data-n="${x}">${x===n?'সব ('+bn(n)+')':bn(x)}</button>`).join("")}</div>
+   <input id="cu" type="number" min="1" max="${n}" placeholder="অথবা নিজে লিখুন (১ – ${bn(n)})" inputmode="numeric">
+   <p class="note" style="text-align:left;margin:-6px 0 12px">প্রতিটি প্রশ্ন ১ নম্বর। প্রশ্ন প্রতিবার এলোমেলোভাবে বাছাই হবে।</p>
+   <ul style="line-height:1.9;padding-left:20px;margin-top:0"><li>প্রতিটি প্রশ্নের জন্য ${bn(SECS)} সেকেন্ড সময় পাবেন।</li><li>উত্তর দিলেই সঠিক/ভুল ও সঠিক উত্তর দেখতে পাবেন।</li><li>সময় শেষ হলে প্রশ্নটি ভুল ধরা হবে।</li></ul>
+   <input id="nm" placeholder="আপনার পূর্ণ নাম লিখুন" maxlength="40" value="${esc(savedName())}">
+   <button class="btn g" id="go">পরীক্ষা শুরু করুন</button></div>`;
+  $.querySelector(".head a").onclick = e=>{e.preventDefault();home();};
+  const tt=()=>document.getElementById("tt").textContent=mmss(pick*SECS);
+  $.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{pick=+b.dataset.n;document.getElementById("cu").value="";$.querySelectorAll(".chip").forEach(x=>x.classList.toggle("on",x===b));tt();});
+  document.getElementById("cu").oninput=e=>{const v=parseInt(e.target.value);if(v>=1){pick=Math.min(v,n);$.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));tt();}};
+  document.getElementById("go").onclick = ()=>{
+    const nm = document.getElementById("nm").value.trim(), cu=document.getElementById("cu").value;
+    if(cu!==""){const v=parseInt(cu); if(!(v>=1&&v<=n)) return alert("১ থেকে "+bn(n)+" এর মধ্যে সংখ্যা দিন।"); pick=v;}
+    if(nm.length<2) return alert("শুরুর আগে আপনার নাম লিখুন।");
+    try{localStorage.setItem("hscName",nm)}catch(e){}
+    start(id,nm,D,pick);
+  };
+}
+
+function start(id,name,D,count){
+  const idx=D.Q.map((_,k)=>k);
+  for(let k=idx.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[idx[k],idx[j]]=[idx[j],idx[k]];}
+  Q = idx.slice(0,count).map(k=>{const r=D.Q[k];return {q:r[0],p:r[1]>=0?D.P[r[1]]:"",o:r[2],a:r[3],e:""};});
+  T = {id,name,ans:[],used:0,D}; i = 0; show();
+}
+function show(){
+  clearInterval(tick); st = {done:false, t0:Date.now()}; left = SECS;
+  const q = Q[i];
+  $.innerHTML = `<div class="bar"><span>প্রশ্ন ${bn(i+1)}/${bn(Q.length)}</span><span>মোট: <b id="tot">${mmss(T.used)}</b> / ${mmss(Q.length*SECS)}</span><span class="tq" id="tq">⏱ ${bn(left)}</span></div>
+   <div class="prog"><i style="width:${i/Q.length*100}%"></i></div>
+   <div class="body">${q.p?`<div class="pbox">${esc(q.p)}</div>`:""}<div class="qt">${esc(q.q)}</div><div id="opts">${q.o.map((o,j)=>`<button class="opt" data-j="${j}">${L[j]}. ${esc(o)}</button>`).join("")}</div><div id="fb"></div></div>`;
+  $.querySelectorAll(".opt").forEach(b=>b.onclick=()=>answer(+b.dataset.j));
+  tick = setInterval(()=>{
+    left--; const el=document.getElementById("tq");
+    if(el){el.textContent="⏱ "+bn(Math.max(left,0)); el.classList.toggle("low",left<=10);}
+    const tt=document.getElementById("tot"); if(tt) tt.textContent=mmss(T.used+Math.min(SECS,Math.round((Date.now()-st.t0)/1000)));
+    if(left<=0) answer(-1);
+  },1000);
+}
+function answer(j){
+  if(st.done) return; st.done = true; clearInterval(tick);
+  const q = Q[i], spent = Math.min(SECS,Math.round((Date.now()-st.t0)/1000));
+  T.used += spent; T.ans.push(j);
+  const ok = j===q.a;
+  $.querySelectorAll(".opt").forEach((b,k)=>{b.disabled=true; if(k===q.a)b.classList.add("right"); else if(k===j)b.classList.add("wrong");});
+  const msg = j<0 ? `<div class="fb to">⏰ সময় শেষ! সঠিক উত্তর: <b>${L[q.a]}. ${esc(q.o[q.a])}</b></div>`
+    : ok ? `<div class="fb ok">✅ সঠিক উত্তর!</div>`
+    : `<div class="fb no">❌ ভুল হয়েছে। সঠিক উত্তর: <b>${L[q.a]}. ${esc(q.o[q.a])}</b></div>`;
+  document.getElementById("fb").innerHTML = msg + (q.e?`<div class="fb" style="background:var(--soft)">💡 ${esc(q.e)}</div>`:"") +
+    `<button class="btn" id="nx">${i+1<Q.length?"পরের প্রশ্ন →":"ফলাফল দেখুন"}</button>`;
+  document.getElementById("tot").textContent = mmss(T.used);
+  document.getElementById("nx").onclick = ()=>{ i++; i<Q.length ? show() : result(); };
+}
+
+function result(){
+  const score = Q.reduce((s,q,k)=>s+(T.ans[k]===q.a?1:0),0), pct = Math.round(score/Q.length*100);
+  const title = itemTitle(T.id);
+  $.innerHTML = head(esc(T.name),"আপনার ফলাফল") + `<div class="body">
+   <div class="stats"><div class="stat"><b>${bn(score)}/${bn(Q.length)}</b><span>নম্বর</span></div><div class="stat"><b>${bn(pct)}%</b><span>শতকরা</span></div><div class="stat"><b>${mmss(T.used)}</b><span>সময় লেগেছে</span></div></div>
+   <div id="sv" class="note">📤 ফলাফল জমা হচ্ছে...</div><br>
+   <button class="btn g" id="again">আবার চেষ্টা করুন</button><button class="btn" id="hm">অন্য অধ্যায়</button>
+   <h3>উত্তর পর্যালোচনা</h3>` +
+   Q.map((q,k)=>{const a=T.ans[k], m=a===q.a?"✅":a<0?"⏰":"❌";
+    return `<div class="rv">${q.p?`<div class="pbox" style="font-size:13px">${esc(q.p)}</div>`:""}<b style="white-space:pre-line">${m} ${bn(k+1)}. ${esc(q.q)}</b><br>আপনার উত্তর: ${a<0?"উত্তর দেননি":L[a]+". "+esc(q.o[a])}<br>সঠিক উত্তর: ${L[q.a]}. ${esc(q.o[q.a])}${q.e?`<br><span style="opacity:.8">💡 ${esc(q.e)}</span>`:""}</div>`}).join("") + `</div>`;
+  window.scrollTo(0,0);
+  document.getElementById("again").onclick = ()=>setup(T.id,T.D);
+  document.getElementById("hm").onclick = home;
+  submit({name:T.name,section:M.title+" — "+title+" ("+Q.length+" নম্বরের পরীক্ষা)",score,total:Q.length,percent:pct+"%",time:mmss(T.used),date:new Date().toLocaleString("en-GB")});
+}
+function submit(d){
+  const el = document.getElementById("sv");
+  if(!FORM.url){ el.textContent="(Google Form এখনো সেট করা হয়নি)"; return; }
+  const body = new URLSearchParams();
+  for(const k in FORM.fields) if(FORM.fields[k]) body.append(FORM.fields[k], d[k]);
+  fetch(FORM.url,{method:"POST",mode:"no-cors",body})
+   .then(()=>{el.textContent="✅ ফলাফল জমা হয়েছে।"})
+   .catch(()=>{el.textContent="⚠️ ফলাফল জমা হয়নি (ইন্টারনেট চেক করুন)।"});
+}
+home();
+</script>
+</body>
+</html>
