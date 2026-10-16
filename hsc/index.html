@@ -83,7 +83,7 @@ const head = (t,s,back) => `<div class="head">${back?`<a href="${back}" onclick=
 
 function home(){
   clearInterval(tick);
-  $.innerHTML = head(M.title,M.sub,"../") + `<div class="body">` +
+  $.innerHTML = head(M.title,M.sub,"../") + `<div class="body"><a class="btn" href="real/?s=${subj}" style="display:block;text-align:center;text-decoration:none;background:#ff4757;color:#fff;margin-bottom:10px">🔒 রিয়েল এক্সাম (পেইড) — ৩০ MCQ • প্রিন্ট + OMR</a>` +
    (M.groups.length===1 ? list(M.groups[0]) :
     M.groups.map(gr=>`<button class="btn" data-g="${gr.id}">${gr.title}</button>`).join("")) + `</div>`;
   $.querySelectorAll("[data-g]").forEach(b=>b.onclick=()=>group(b.dataset.g));
