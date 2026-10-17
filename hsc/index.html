@@ -83,9 +83,10 @@ const head = (t,s,back) => `<div class="head">${back?`<a href="${back}" onclick=
 
 function home(){
   clearInterval(tick);
-  $.innerHTML = head(M.title,M.sub,"../") + `<div class="body"><a class="btn" href="real/?s=${subj}" style="display:block;text-align:center;text-decoration:none;background:#ff4757;color:#fff;margin-bottom:10px">🔒 রিয়েল এক্সাম (পেইড) — ৩০ MCQ • প্রিন্ট + OMR</a>` +
+  $.innerHTML = head(M.title,M.sub,"../") + `<div class="body">` +
    (M.groups.length===1 ? list(M.groups[0]) :
-    M.groups.map(gr=>`<button class="btn" data-g="${gr.id}">${gr.title}</button>`).join("")) + `</div>`;
+    M.groups.map(gr=>`<button class="btn" data-g="${gr.id}">${gr.title}</button>`).join("")) +
+   `<div style="margin-top:16px;display:grid;gap:8px"><a class="btn" href="real/?s=${subj}" style="display:block;text-align:center;text-decoration:none;background:#ff4757;color:#fff">🔒 রিয়েল এক্সাম (পেইড) — ৩০ MCQ • প্রিন্ট/PDF/Word + OMR</a><a class="btn" href="real/?s=${subj}&omr=1" style="display:block;text-align:center;text-decoration:none;background:#1B6B3A;color:#fff">✅ OMR (ফ্রি) — পরীক্ষার কোড দিয়ে উত্তর মেলাও</a></div></div>`;
   $.querySelectorAll("[data-g]").forEach(b=>b.onclick=()=>group(b.dataset.g));
   bindItems();
 }
