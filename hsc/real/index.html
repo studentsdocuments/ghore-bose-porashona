@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>রিয়েল এক্সাম</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1F3864;--ok:#1B6B3A;--okb:#e6f3ea;--bad:#b3261e;--badb:#fbeae8;--line:#c9d3e6;--red:#c0392b}
+*{box-sizing:border-box}body{margin:0;background:#e9eef7;font:16px/1.5 "Hind Siliguri","Nirmala UI","Noto Sans Bengali",sans-serif;color:#1b2433}
+.w{max-width:900px;margin:0 auto;padding:14px}.card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:18px}
+.hd{background:var(--ink);color:#fff;text-align:center;padding:12px;border-radius:5px;margin-bottom:12px}.hd h1{margin:0;font-size:1.3rem}.hd p{margin:2px 0 0;opacity:.85}
+button,.btn{font:inherit;background:var(--ink);color:#fff;border:0;border-radius:5px;padding:10px 20px;cursor:pointer;text-decoration:none;display:inline-block;font-weight:600}
+.btn.g{background:#fff;color:var(--ink);border:1.5px solid var(--ink)}input{font:inherit;padding:10px;border:1.5px solid var(--line);border-radius:5px;width:100%}
+.act{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:14px 0}.msg{padding:10px 14px;border-radius:5px;background:#fff4cc;border-left:4px solid #e0a800;margin:10px 0}
+.paper{background:#fff;padding:14px;border:1px solid var(--line)}.ph{text-align:center;border-bottom:2px solid #000;padding-bottom:6px;margin-bottom:8px}.ph h2{margin:0;font-size:1.15rem}
+.meta{display:flex;justify-content:space-between;gap:10px;font-size:.9rem;flex-wrap:wrap}
+.qs{column-count:2;column-gap:22px;column-rule:1px solid #bbb;font-size:.92rem}.q{break-inside:avoid;margin:0 0 9px}.q b{margin-right:3px}
+.st{background:#f2f2f2;border-left:3px solid #888;padding:3px 7px;margin:2px 0;font-size:.85rem}.o{display:flex;flex-wrap:wrap;gap:2px 14px}
+.omr{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 20px}.row{display:flex;align-items:center;gap:8px;padding:3px 5px;border-radius:5px}.row .n{width:26px;text-align:right;color:var(--red);font-weight:600}
+.b{width:30px;height:30px;border-radius:50%;border:2px solid var(--red);background:#fff;color:var(--red);padding:0;font-weight:600}.b[aria-pressed=true]{background:#111;border-color:#111;color:#fff}
+.b.ok{background:var(--ok);border-color:var(--ok);color:#fff}.b.ring{border-color:var(--ok);color:var(--ok);box-shadow:0 0 0 3px #bfe2ca}.b.no{background:var(--bad);border-color:var(--bad);color:#fff}
+.row.r{background:var(--okb)}.row.x{background:var(--badb)}.big{font-size:3rem;font-weight:700;color:var(--ink)}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid var(--line);padding:5px 8px;text-align:left}th{background:#f3f6fc}
+.fb{margin:6px 0;padding:6px 10px;background:#f9f9f9;border-left:3px solid var(--bad);font-size:.92rem}
+@media(max-width:640px){.qs{column-count:1}}
+@media print{@page{size:A4;margin:10mm}body{background:#fff;font-size:10.5pt}.no-p{display:none!important}.w{padding:0;max-width:none}.paper{border:0;padding:0}}
+</style></head><body><div class="w" id="app"></div>
+<script src="../data/counts.js"></script>
+<script>
+/* ===== সেটিংস ===== */
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycbwmlMMbFpyvxdC5dsvwENxrM5hkLR5lL3xg_s6MpXaLPQ4rWkC7P_Rf9o00f3Zzk04/exec";
+const PAY={bKash:"01757803397"},FEE="";   // FEE: যেমন "৫০ টাকা" লিখলে দেখাবে; ফাঁকা থাকলে দেখাবে না
+const N=30;                                   // কয়টি MCQ
+const rg=(a,b)=>Array.from({length:b-a+1},(_,i)=>a+i);
+const SUBJ={
+ ict:{t:"ICT",ids:rg(1,6).map(i=>"ict"+i),names:["অধ্যায় ১","অধ্যায় ২","অধ্যায় ৩","অধ্যায় ৪","অধ্যায় ৫","অধ্যায় ৬"]},
+ bn1:{t:"বাংলা প্রথম পত্র",g:[["📖 গদ্য",0,11],["✍️ কবিতা",12,23],["📚 সহপাঠ",24,25]],ids:[...rg(1,12).map(i=>"g"+i),...rg(1,12).map(i=>"p"+i),"s1","s2"],
+  names:["বাঙ্গালার নব্য লেখকদিগের প্রতি নিবেদন","অপরিচিতা","বিলাসী","অর্ধাঙ্গী","সাহিত্যের খেলা","গন্তব্য কাবুল","যৌবনের গান","মাসি-পিসি","জীবন-বৃক্ষ","রেইনকোর্ট","কপিল দাস মূর্মুর শেষ কাজ","নেকলেস","বিভীষণের প্রতি মেঘনাদ","সোনার তরী","বিদ্রোহী","প্রতিদান","সুচেতনা","তাহারেই পড়ে মনে","পদ্মা","ফেব্রুয়ারি ১৯৬৯","আঠারো বছর বয়স","আমি কিংবদন্তির কথা বলছি","ঋতু-বর্ণন","প্রত্যাবর্তনের লজ্জা","লালসালু","নবাব সিরাজ-উদ্দৌলা"]}
+};
+/* ================== */
+const L=["ক","খ","গ","ঘ"],bn=n=>String(n).replace(/\d/g,d=>"০১২৩৪৫৬৭৮৯"[d]);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const qs=new URLSearchParams(location.search),app=document.getElementById("app");
+let sk=SUBJ[qs.get("s")]?qs.get("s"):"ict",S=SUBJ[sk],ex=null,ans=[],t0=0;
+const rng=a=>()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const shuf=(arr,r)=>{for(let i=arr.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr};
+const load=id=>new Promise((ok,no)=>{if(QDATA[id])return ok();const s=document.createElement("script");s.src="../data/"+id+".js";s.onload=ok;s.onerror=()=>no(new Error("প্রশ্ন লোড হয়নি: "+id));document.head.appendChild(s)});
+function build(seed,sel){            // প্রশ্ন বাছাই (বাছা সেট Sheet-এ সেভ হয়)
+ const r=rng(seed),pools=sel.map(c=>({c,id:S.ids[c],l:shuf(QDATA[S.ids[c]].Q.map((_,i)=>i).filter(i=>{const q=QDATA[S.ids[c]].Q[i];return q[2]&&q[2].length===4}),r)}));
+ const order=shuf(pools.slice(),r),pick=[];
+ while(pick.length<N&&order.some(p=>p.l.length)) for(const p of order){if(pick.length>=N)break;if(p.l.length)pick.push([p,p.l.shift()])}
+ shuf(pick,r);
+ return pick.map(([p,i])=>{const q=QDATA[p.id].Q[i];return{c:p.c,t:q[0],o:q[2],a:q[3],p:q[1]>=0?QDATA[p.id].P[q[1]]:""}});
+}
+let auth=null;try{auth=JSON.parse(localStorage.getItem("rx:auth"))}catch(e){}
+const authQ=()=>auth?{email:auth.email,key:auth.key}:{};
+const api=async(params,body)=>{const r=await fetch(SCRIPT_URL+(body?"":"?"+new URLSearchParams({...params,...authQ()})),body?{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify({...body,...authQ()})}:{});return r.json()};
+const logout=()=>{auth=null;try{localStorage.removeItem("rx:auth")}catch(e){}gate()};
+function gate(m){
+ app.innerHTML=hd("🔒 রিয়েল এক্সাম (পেইড)",S.t)+`<div class="card">${m?`<div class="msg">${esc(m)}</div>`:""}
+ <h3 style="margin-top:0">অ্যাক্সেস আছে?</h3><p>অ্যাপ্রুভ হওয়ার পর Gmail-এ পাঠানো অ্যাক্সেস কী দিয়ে ঢোকো (একবার দিলেই এই ফোনে মনে থাকবে)।</p>
+ <input id="gm" type="email" placeholder="তোমার Gmail"><input id="ky" placeholder="অ্যাক্সেস কী" style="margin-top:8px" autocapitalize="characters">
+ <div class="act"><button id="vf">ঢোকো</button></div><hr>
+ <h3>অ্যাক্সেস চাই</h3><p>বিকাশ (Send Money): <b>${esc(PAY.bKash)}</b>${FEE?" • ফি: <b>"+esc(FEE)+"</b>":""}<br>পেমেন্টের পর নিচের ফর্ম পূরণ করো। যাচাই হলে তোমার Gmail-এ অ্যাক্সেস কী যাবে।</p>
+ <input id="rn" placeholder="নাম"><input id="re" type="email" placeholder="Gmail (এই Gmail-এ কী যাবে)" style="margin-top:8px"><input id="rp" type="tel" placeholder="মোবাইল নম্বর" style="margin-top:8px"><input id="rt" placeholder="বিকাশ TrxID" style="margin-top:8px">
+ <div class="act"><button id="rq" class="g btn">অ্যাক্সেসের অনুরোধ পাঠাও</button></div><p style="text-align:center"><a href="../?s=${sk}">← ফিরে যান</a></p></div>`;
+ vf.onclick=async()=>{const e=gm.value.trim().toLowerCase(),k=ky.value.trim().toUpperCase();if(!e||!k)return alert("Gmail ও কী দাও।");
+  vf.disabled=true;try{auth={email:e,key:k};const d=await api({action:"rxcheck"});if(!d.ok)throw new Error(d.error);
+   auth={email:e,key:k,name:d.name};try{localStorage.setItem("rx:auth",JSON.stringify(auth))}catch(x){}home()}
+  catch(x){auth=null;vf.disabled=false;gate(x.message||"যাচাই হয়নি")}};
+ rq.onclick=async()=>{rq.disabled=true;try{const d=await api(null,{action:"rxrequest",name:rn.value,email:re.value,phone:rp.value,trx:rt.value});
+   if(!d.ok)throw new Error(d.error);gate("✔ অনুরোধ পাঠানো হয়েছে। অ্যাপ্রুভ হলে Gmail-এ অ্যাক্সেস কী পাবে (স্প্যাম ফোল্ডারও দেখো)।")}
+  catch(x){rq.disabled=false;alert(x.message||"পাঠানো যায়নি")}};
+}
+async function start(code,sel){
+ app.innerHTML='<div class="card">প্রশ্ন সাজানো হচ্ছে…</div>';ex=null;
+ try{
+  if(code){                                   // সেভ করা সেট Sheet থেকে আনা
+   const d=await api({action:"realset",code});if(!d.ok)throw new Error(d.error);
+   const pre=d.code.split("-")[0];if(SUBJ[pre]){sk=pre;S=SUBJ[sk]}
+   ex={code:d.code,qs:JSON.parse(d.qs)};
+  }else{                                      // নতুন সেট বানিয়ে আগে Sheet-এ সেভ
+   await Promise.all(sel.map(c=>load(S.ids[c])));
+   for(let t=0;t<4&&!ex;t++){const c=sk+"-"+Math.floor(100000+Math.random()*900000),q=build(Math.floor(Math.random()*4e9),sel);
+    const r=await api(null,{action:"saveset",code:c,subject:sk,qs:JSON.stringify(q)});
+    if(r.ok)ex={code:c,qs:q};else if(!r.dup)throw new Error(r.error||"সেভ হয়নি");}
+   if(!ex)throw new Error("কোড বানানো যায়নি, আবার চেষ্টা করো।");
+  }
+ }catch(e){if(/অ্যাক্সেস/.test(e.message))return logout(),gate(e.message);return home("সমস্যা: "+e.message+" (ইন্টারনেট দেখে আবার চেষ্টা করো)")}
+ ans=Array(ex.qs.length).fill(null);paper();
+}
+const hd=(t,p)=>`<div class="hd no-p"><h1>${t}</h1><p>${p||""}</p></div>`;
+function home(m){
+ const gs=S.g||[["অধ্যায়",0,S.ids.length-1]];
+ const list=gs.map(([t,a,b])=>`<h3 style="margin:12px 0 4px">${t}</h3><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:4px 14px">`+
+  S.ids.slice(a,b+1).map((id,k)=>{const c=a+k,n=COUNTS[id]||0;return`<label style="display:flex;gap:8px;align-items:flex-start;opacity:${n?1:.45}"><input type="checkbox" class="ch" value="${c}" ${n?"checked":"disabled"} style="width:auto;margin-top:6px"><span>${esc(S.names[c])} <small>(${bn(n)}টি)</small></span></label>`}).join("")+`</div>`).join("");
+ app.innerHTML=hd("🔴 রিয়েল এক্সাম",S.t+" • "+bn(N)+"টি MCQ")+`<div class="card">${m?`<div class="msg">${esc(m)}</div>`:""}
+ <b>কোন কোন অধ্যায় থেকে প্রশ্ন চাও?</b>
+ <div style="margin:6px 0"><button class="g btn" id="al" style="padding:5px 12px">সব বাছো</button> <button class="g btn" id="nn" style="padding:5px 12px">সব বাদ</button> <span id="tot" style="margin-left:8px"></span></div>${list}
+ <div class="act"><button id="go">নতুন রিয়েল এক্সাম তৈরি করো</button></div>
+ <hr><p style="text-align:center">আগে তৈরি করা পরীক্ষার কোড আছে?</p>
+ <div style="display:flex;gap:8px;max-width:420px;margin:auto"><input id="cd" placeholder="যেমন ${sk}-483921"><button id="rs" class="g btn">চালু করো</button></div>
+ <p style="text-align:center;margin-top:16px"><a href="../?s=${sk}">← ফিরে যান</a> • <a href="#" id="lo">এই ফোন থেকে লগআউট</a></p></div>`;
+ lo.onclick=e=>{e.preventDefault();logout()};
+ const bx=[...app.querySelectorAll(".ch")],sel=()=>bx.filter(x=>x.checked).map(x=>+x.value);
+ const tt=()=>{const n=sel().reduce((a,c)=>a+(COUNTS[S.ids[c]]||0),0);tot.textContent="বাছাই: "+bn(sel().length)+"টি অধ্যায় • মোট "+bn(n)+"টি প্রশ্ন"+(n&&n<N?" (৩০-এর কম, যতগুলো আছে ততগুলোই আসবে)":"")};
+ bx.forEach(x=>x.onchange=tt);tt();
+ al.onclick=()=>{bx.forEach(x=>{if(!x.disabled)x.checked=true});tt()};nn.onclick=()=>{bx.forEach(x=>x.checked=false);tt()};
+ go.onclick=()=>{const c=sel();if(!c.length)return alert("কমপক্ষে একটি অধ্যায় বাছো।");start(null,c)};
+ rs.onclick=()=>start(cd.value.trim().toLowerCase());
+}
+function paper(){
+ const q=ex.qs.map((x,i)=>`<div class="q">${x.p?`<div class="st">${esc(x.p)}</div>`:""}<b>${bn(i+1)}।</b>${esc(x.t)}<div class="o">${x.o.map((o,k)=>`<span>${L[k]}) ${esc(o)}</span>`).join("")}</div></div>`).join("");
+ app.innerHTML=`<div class="no-p">${hd("প্রশ্নপত্র তৈরি হয়েছে","এক্সাম কোড: "+ex.code)}<div class="msg">কোডটি লিখে রাখো। প্রিন্ট করে খাতায় পরীক্ষা দাও, তারপর নিচের বাটনে OMR ভরাট করো।</div>
+ <div class="act"><button onclick="print()">🖨️ প্রিন্ট / PDF ডাউনলোড</button><button class="g btn" id="om">✅ পরীক্ষা শেষ — OMR ভরাট করো</button></div></div>
+ <div class="paper"><div class="ph"><h2>${esc(S.t)} — রিয়েল এক্সাম</h2><div class="meta"><span>পূর্ণমান: ${bn(N)}</span><span>সময়: ${bn(Math.round(N*40/60))} মিনিট</span><span>কোড: ${ex.code}</span></div><div class="meta" style="font-size:.8rem"><span>অধ্যায়: ${esc([...new Set(ex.qs.map(x=>x.c))].sort((a,b)=>a-b).map(c=>S.names[c]).join(", "))}</span></div><div class="meta"><span>নাম: ______________________</span><span>রোল: ________</span></div></div><div class="qs">${q}</div></div>`;
+ om.onclick=()=>{t0=Date.now();omr()};scrollTo(0,0);
+}
+function omr(){
+ const rows=ex.qs.map((_,i)=>`<div class="row"><span class="n">${bn(i+1)}</span>${L.map((l,k)=>`<button class="b" data-i="${i}" data-k="${k}" aria-pressed="${ans[i]===k}">${l}</button>`).join("")}</div>`).join("");
+ app.innerHTML=hd("অনলাইন OMR শিট","কোড: "+ex.code)+`<div class="card"><label>নাম (বাধ্যতামূলক)</label><input id="nm" maxlength="60" value="${esc(localStorage.getItem("hscName")||"")}"><label style="display:block;margin-top:8px">রোল (ঐচ্ছিক)</label><input id="rl" maxlength="12" inputmode="numeric">
+ <p id="cnt" style="font-weight:600"></p><div class="omr">${rows}</div><div class="act"><button id="sb">জমা দাও ও ফলাফল দেখো</button><button class="g btn" id="bk">← প্রশ্নপত্র</button></div></div>`;
+ const upd=()=>cnt.textContent="উত্তর দেওয়া হয়েছে: "+bn(ans.filter(a=>a!==null).length)+"/"+bn(N);upd();
+ app.querySelectorAll(".b").forEach(b=>b.onclick=()=>{const i=+b.dataset.i,k=+b.dataset.k;ans[i]=ans[i]===k?null:k;
+  app.querySelectorAll(`[data-i="${i}"]`).forEach(x=>x.setAttribute("aria-pressed",ans[i]===+x.dataset.k));upd()});
+ bk.onclick=paper;sb.onclick=()=>{const n=nm.value.trim();if(!n){alert("নাম লিখতে হবে।");return}
+  const bl=ans.filter(a=>a===null).length;if(bl&&!confirm(bn(bl)+"টি প্রশ্নের উত্তর দাওনি। তবুও জমা দেবে?"))return;
+  try{localStorage.setItem("hscName",n)}catch(e){}result(n,rl.value.replace(/\D/g,""))};
+}
+function result(name,roll){
+ const secs=Math.round((Date.now()-t0)/1000);let right=0,blank=0;const ch={};
+ ex.qs.forEach((q,i)=>{const c=ch[q.c]=ch[q.c]||{n:0,r:0};c.n++;if(ans[i]===null)blank++;else if(ans[i]===q.a){right++;c.r++}});
+ const wrong=N-right-blank;
+ const rev=ex.qs.map((q,i)=>{const a=ans[i],ok=a===q.a;
+  return`<div class="row ${a===null?"":ok?"r":"x"}"><span class="n">${bn(i+1)}</span>${L.map((l,k)=>`<span class="b ${k===q.a?(a===k?"ok":"ring"):a===k?"no":""}" style="display:inline-grid;place-items:center">${l}</span>`).join("")}<small>${a===null?"ফাঁকা":ok?"ঠিক":"ভুল — সঠিক: "+L[q.a]}</small></div>`}).join("");
+ const fb=ex.qs.map((q,i)=>ans[i]!==q.a?`<div class="fb"><b>${bn(i+1)}।</b> ${esc(q.t)}<br>সঠিক উত্তর: <b>${L[q.a]}) ${esc(q.o[q.a])}</b>${ans[i]===null?"":" • তোমার উত্তর: "+L[ans[i]]+") "+esc(q.o[ans[i]])}</div>`:"").join("");
+ const tb=Object.keys(ch).map(c=>({n:S.names[c],...ch[c]})).sort((a,b)=>a.r/a.n-b.r/b.n).map(x=>`<tr><td>${esc(x.n)}</td><td>${bn(x.r)}/${bn(x.n)}</td><td>${x.r/x.n<.6?"⚠️ আবার পড়ো":"✔ ঠিক আছে"}</td></tr>`).join("");
+ app.innerHTML=hd("ফলাফল",esc(name)+" • "+ex.code)+`<div class="card"><div class="big">${bn(right)}<small>/${bn(N)}</small></div>
+ <p>✅ সঠিক ${bn(right)} • ❌ ভুল ${bn(wrong)} • ⬜ ফাঁকা ${bn(blank)} • ⏱ ${bn(Math.round(secs/6)/10)} মিনিট</p><p id="sv" class="msg">ফলাফল সেভ হচ্ছে…</p>
+ <h3>অধ্যায়ভিত্তিক ফিডব্যাক</h3><table><tr><th>অধ্যায়</th><th>সঠিক</th><th></th></tr>${tb}</table>
+ <h3>OMR রিভিউ</h3><div class="omr">${rev}</div><h3>ভুল/ফাঁকা প্রশ্নের সঠিক উত্তর</h3>${fb||"<p>সবগুলোই ঠিক! 🎉</p>"}
+ <div class="act"><button onclick="home()">নতুন পরীক্ষা</button></div></div>`;
+ scrollTo(0,0);
+ fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},body:JSON.stringify({action:"real",...authQ(),subject:sk,code:ex.code,name,roll,score:right,total:N,blank,seconds:secs,
+  answers:ans.map(a=>a===null?"-":L[a]).join(""),marks:ex.qs.map((q,i)=>ans[i]===q.a?1:0),chapters:Object.keys(ch).map(c=>S.names[c]+":"+ch[c].r+"/"+ch[c].n).join(" | ")})})
+ .then(()=>{sv.textContent="✔ ফলাফল জমা হয়েছে।"}).catch(()=>{sv.textContent="ফলাফল সেভ করা যায়নি (নেট দেখো), তবে স্কোর উপরে দেখানো হলো।"});
+}
+const c0=qs.get("code");
+if(!auth)gate();else api({action:"rxcheck"}).then(d=>{if(!d.ok)throw new Error(d.error);c0?start(c0.toLowerCase()):home()}).catch(e=>{try{localStorage.removeItem("rx:auth")}catch(x){}auth=null;gate(e.message)});
+</script></body></html>
