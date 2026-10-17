@@ -27,6 +27,11 @@ table{border-collapse:collapse;width:100%}td,th{border:1px solid var(--line);pad
 .sheet .cols{display:flex;gap:2.2mm;flex:none;overflow:hidden}.sheet .col{flex:1;overflow:hidden;min-width:0}.sheet .col+.col{border-left:1px solid #999;padding-left:2.2mm}
 .sheet .q{margin:0 0 .45em}.sheet .st{background:#f2f2f2;border-left:2px solid #777;padding:1px 4px;margin:1px 0;font-size:.92em}.sheet .o{display:flex;flex-wrap:wrap;gap:0 .9em}
 .sheet .ft{font-size:.8em;text-align:center;border-top:1px solid #999;margin-top:auto;padding-top:1px}
+.sheet .top{display:flex;justify-content:flex-end;font-weight:700;font-size:1.1em;line-height:1.1}
+.sheet .ttl{text-align:center;line-height:1.2}.sheet .ttl h2{margin:0;font-size:1.35em}.sheet .ttl h3{margin:0;font-size:1.15em}.sheet .ttl .sy{font-size:.9em}
+.sheet .info{display:flex;justify-content:space-between;align-items:flex-start;margin:2px 0}.sheet .info .r{text-align:right;line-height:1.35}
+.sheet .bx{display:inline-block;border:1px solid #000;padding:0 4px;font-weight:700;margin-left:3px}.sheet .bx i{font-style:normal;display:inline-block;border:1px solid #000;padding:0 3px;margin:0 1px}
+.sheet .ins{border-top:1px solid #000;border-bottom:1px solid #000;padding:1px 3px;font-size:.82em;text-align:justify;line-height:1.25;margin-bottom:3px}
 #swo{margin:0 auto;overflow:hidden}#sw{transform-origin:top left;width:198mm}
 @media print{@page{size:A4;margin:6mm}body{background:#fff}.no-p{display:none!important}.w{padding:0;max-width:none}#swo{width:auto!important;height:auto!important;overflow:visible!important}#sw{transform:none!important}.sheet{border:0}}
 </style></head><body><div class="w" id="app"></div>
@@ -35,11 +40,12 @@ table{border-collapse:collapse;width:100%}td,th{border:1px solid var(--line);pad
 /* ===== সেটিংস ===== */
 const SCRIPT_URL="https://script.google.com/macros/s/AKfycbwmlMMbFpyvxdC5dsvwENxrM5hkLR5lL3xg_s6MpXaLPQ4rWkC7P_Rf9o00f3Zzk04/exec";
 const PAY={bKash:"01757803397"},FEE="";   // FEE: যেমন "৫০ টাকা" লিখলে দেখাবে; ফাঁকা থাকলে দেখাবে না
+const YEAR=2027,SETS=["পদ্মা","মেঘনা","সুরমা","কর্ণফুলী","তিস্তা","পশুর","মধুমতী","কপোতাক্ষ","বুড়িগঙ্গা","শীতলক্ষ্যা","বিজয়","কেওক্রাডং","তাজিংডং","সাজেক","চিম্বুক"];
 const N=30;                                   // কয়টি MCQ
 const rg=(a,b)=>Array.from({length:b-a+1},(_,i)=>a+i);
 const SUBJ={
- ict:{t:"ICT",ids:rg(1,6).map(i=>"ict"+i),names:["অধ্যায় ১","অধ্যায় ২","অধ্যায় ৩","অধ্যায় ৪","অধ্যায় ৫","অধ্যায় ৬"]},
- bn1:{t:"বাংলা প্রথম পত্র",g:[["📖 গদ্য",0,11],["✍️ কবিতা",12,23],["📚 সহপাঠ",24,25]],ids:[...rg(1,12).map(i=>"g"+i),...rg(1,12).map(i=>"p"+i),"s1","s2"],
+ ict:{t:"ICT",full:"তথ্য ও যোগাযোগ প্রযুক্তি",sc:"275",ids:rg(1,6).map(i=>"ict"+i),names:["অধ্যায় ১","অধ্যায় ২","অধ্যায় ৩","অধ্যায় ৪","অধ্যায় ৫","অধ্যায় ৬"]},
+ bn1:{t:"বাংলা প্রথম পত্র",full:"বাংলা প্রথম পত্র",sc:"101",g:[["📖 গদ্য",0,11],["✍️ কবিতা",12,23],["📚 সহপাঠ",24,25]],ids:[...rg(1,12).map(i=>"g"+i),...rg(1,12).map(i=>"p"+i),"s1","s2"],
   names:["বাঙ্গালার নব্য লেখকদিগের প্রতি নিবেদন","অপরিচিতা","বিলাসী","অর্ধাঙ্গী","সাহিত্যের খেলা","গন্তব্য কাবুল","যৌবনের গান","মাসি-পিসি","জীবন-বৃক্ষ","রেইনকোর্ট","কপিল দাস মূর্মুর শেষ কাজ","নেকলেস","বিভীষণের প্রতি মেঘনাদ","সোনার তরী","বিদ্রোহী","প্রতিদান","সুচেতনা","তাহারেই পড়ে মনে","পদ্মা","ফেব্রুয়ারি ১৯৬৯","আঠারো বছর বয়স","আমি কিংবদন্তির কথা বলছি","ঋতু-বর্ণন","প্রত্যাবর্তনের লজ্জা","লালসালু","নবাব সিরাজ-উদ্দৌলা"]}
 };
 /* ================== */
@@ -82,11 +88,11 @@ async function start(code,sel){
  try{
   if(code){                                   // সেভ করা সেট Sheet থেকে আনা
    const d=await api({action:"realset",code});if(!d.ok)throw new Error(d.error);
-   const pre=d.code.split("-")[0];if(SUBJ[pre]){sk=pre;S=SUBJ[sk]}
+   const pre=d.subject||d.code.split("-")[0];if(SUBJ[pre]){sk=pre;S=SUBJ[sk]}
    ex={code:d.code,qs:JSON.parse(d.qs)};
   }else{                                      // নতুন সেট বানিয়ে আগে Sheet-এ সেভ
    await Promise.all(sel.map(c=>load(S.ids[c])));
-   for(let t=0;t<4&&!ex;t++){const c=sk+"-"+Math.floor(100000+Math.random()*900000),q=build(Math.floor(Math.random()*4e9),sel);
+   for(let t=0;t<4&&!ex;t++){const c=String(Math.floor(100000+Math.random()*900000)),q=build(Math.floor(Math.random()*4e9),sel);
     const r=await api(null,{action:"saveset",code:c,subject:sk,qs:JSON.stringify(q)});
     if(r.ok)ex={code:c,qs:q};else if(!r.dup)throw new Error(r.error||"সেভ হয়নি");}
    if(!ex)throw new Error("কোড বানানো যায়নি, আবার চেষ্টা করো।");
@@ -104,7 +110,7 @@ function home(m){
  <div style="margin:6px 0"><button class="g btn" id="al" style="padding:5px 12px">সব বাছো</button> <button class="g btn" id="nn" style="padding:5px 12px">সব বাদ</button> <span id="tot" style="margin-left:8px"></span></div>${list}
  <div class="act"><button id="go">নতুন রিয়েল এক্সাম তৈরি করো</button></div>
  <hr><p style="text-align:center">আগে তৈরি করা পরীক্ষার কোড আছে?</p>
- <div style="display:flex;gap:8px;max-width:420px;margin:auto"><input id="cd" placeholder="যেমন ${sk}-483921"><button id="rs" class="g btn">চালু করো</button></div>
+ <div style="display:flex;gap:8px;max-width:420px;margin:auto"><input id="cd" placeholder="যেমন 530594"><button id="rs" class="g btn">চালু করো</button></div>
  <p style="text-align:center;margin-top:16px"><a href="../?s=${sk}">← ফিরে যান</a> • <a href="#" id="lo">এই ফোন থেকে লগআউট</a></p></div>`;
  lo.onclick=e=>{e.preventDefault();logout()};
  const bx=[...app.querySelectorAll(".ch")],sel=()=>bx.filter(x=>x.checked).map(x=>+x.value);
@@ -114,6 +120,7 @@ function home(m){
  go.onclick=()=>{const c=sel();if(!c.length)return alert("কমপক্ষে একটি অধ্যায় বাছো।");start(null,c)};
  rs.onclick=()=>start(cd.value.trim().toLowerCase());
 }
+const mt=()=>{const num=ex.code.split("-").pop();return{num,setName:SETS[(parseInt(num)||0)%SETS.length]}};
 const $$=id=>document.getElementById(id),NQ=()=>ex.qs?ex.qs.length:ex.n;
 const H2C="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",JSPDF="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
 const chapLine=()=>{const u=[...new Set(ex.qs.map(x=>x.c))].sort((a,b)=>a-b);return u.length<=6?u.map(c=>S.names[c]).join(", "):bn(u.length)+"টি অধ্যায় থেকে"};
@@ -122,11 +129,14 @@ function paper(){
   return`<div class="q">${st}<b>${bn(i+1)}।</b> ${esc(x.t)}<div class="o">${x.o.map((o,k)=>`<span>${L[k]}) ${esc(o)}</span>`).join("")}</div></div>`});
  const w=h.map(x=>x.replace(/<[^>]*>/g,"").length+25),tot=w.reduce((a,b)=>a+b,0);let k=1,best=1e9,acc=0;
  for(let i=1;i<h.length;i++){acc+=w[i-1];const m=Math.max(acc,tot-acc);if(m<best){best=m;k=i}}
- ex._l=h.slice(0,k).join("");ex._r=h.slice(k).join("");
+ const num=ex.code.split("-").pop(),setName=SETS[(parseInt(num)||0)%SETS.length];ex._l=h.slice(0,k).join("");ex._r=h.slice(k).join("");
  app.innerHTML=`<div class="no-p">${hd("প্রশ্নপত্র তৈরি হয়েছে","এক্সাম কোড: "+ex.code)}<div class="msg">কোডটি লিখে রাখো। প্রিন্ট করে পরীক্ষা দাও, তারপর OMR ভরাট করো। <b>OMR ফ্রি</b> — কোড দিলে যে কেউ উত্তর মেলাতে পারবে।</div>
  <div class="act"><button id="pr">🖨️ প্রিন্ট</button><button id="dp" class="g btn">⬇️ PDF ডাউনলোড</button><button id="dw" class="g btn">⬇️ Word ডাউনলোড</button><button id="om">✅ OMR ভরাট করো</button></div></div>
- <div id="swo"><div id="sw"><div class="sheet" id="sheet"><div class="ph"><h2>${esc(S.t)} — রিয়েল এক্সাম</h2><div class="meta"><span>পূর্ণমান: ${bn(N)}</span><span>সময়: ${bn(Math.round(N*40/60))} মিনিট</span><span>কোড: ${ex.code}</span></div><div class="meta"><span>${esc(chapLine())}</span></div><div class="meta"><span>নাম: ______________________</span><span>রোল: ________</span></div></div>
- <div class="cols" id="cols"><div class="col" id="c1">${ex._l}</div><div class="col" id="c2">${ex._r}</div></div><div class="ft" id="ft">কোড: ${ex.code} • OMR ফ্রি: ওয়েবসাইটে কোড দিয়ে উত্তর মেলাও</div></div></div></div>`;
+ <div id="swo"><div id="sw"><div class="sheet" id="sheet"><div class="ph" style="text-align:left;border:0;padding:0;margin:0"><div class="top"><span>${num}/${YEAR}</span></div>
+ <div class="ttl"><h2>প্রি-টেস্টের পূর্ব প্রস্তুতি</h2><h3>${esc(S.full||S.t)}</h3><div class="sy">[${esc(chapLine())} • ${bn(YEAR)} সালের সিলেবাস অনুযায়ী]</div></div>
+ <div class="info"><div><b>সময়— ${bn(Math.round(N*40/60))} মিনিট</b><br><b>পূর্ণমান— ${bn(N)}</b></div><div class="r"><div><b>বিষয় কোড:</b> <span class="bx">${[...(S.sc||"")].map(d=>`<i>${d}</i>`).join("")}</span></div><div><b>সেট:</b> <span class="bx" style="padding:0 8px">${setName}</span></div></div></div>
+ <div class="ins"><b>[বিশেষ দ্রষ্টব্য:</b> সরবরাহকৃত বহুনির্বাচনি অভীক্ষার উত্তরপত্রে প্রশ্নের ক্রমিক নম্বরের বিপরীতে প্রদত্ত বর্ণসংবলিত বৃত্তসমূহ হতে সঠিক/সর্বোৎকৃষ্ট উত্তরের বৃত্তটি বল পয়েন্ট কলম দ্বারা সম্পূর্ণ ভরাট কর। প্রতিটি প্রশ্নের মান ১।<b>]</b><div style="text-align:center;font-weight:700">প্রশ্নপত্রে কোনো প্রকার দাগ/চিহ্ন দেয়া যাবে না।</div></div></div>
+ <div class="cols" id="cols"><div class="col" id="c1">${ex._l}</div><div class="col" id="c2">${ex._r}</div></div><div class="ft" id="ft">কোড: ${num} • OMR ফ্রি: ওয়েবসাইটে এই কোড দিয়ে উত্তর মেলাও</div></div></div></div>`;
  pr.onclick=()=>{fit();print()};dp.onclick=()=>dlPDF(dp);dw.onclick=dlDoc;om.onclick=()=>{t0=Date.now();omr()};
  (document.fonts?document.fonts.ready:Promise.resolve()).then(()=>{fit();zoom()});fit();zoom();scrollTo(0,0);
 }
@@ -146,16 +156,19 @@ async function dlPDF(btn){const old=btn.textContent;btn.disabled=true;btn.textCo
 function dlDoc(){const fs=parseFloat($$("sheet").dataset.fs)||8,pt=Math.max(4,fs*.75*.9).toFixed(1);
  const css=`@page Section1{size:210mm 297mm;margin:6mm;mso-page-orientation:portrait}div.Section1{page:Section1}body{font-family:"Nirmala UI",Vrinda,"Hind Siliguri",sans-serif;font-size:${pt}pt}p,div{margin:0;padding:0}.q{margin-bottom:2pt}.st{background:#eeeeee;font-size:${(pt*.92).toFixed(1)}pt}table{border-collapse:collapse;width:100%}td{vertical-align:top;width:50%}.o span{margin-right:7pt}`;
  const h=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>${ex.code}</title><!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View></w:WordDocument></xml><![endif]--><style>${css}</style></head><body><div class="Section1">
- <div style="text-align:center;border-bottom:1px solid #000"><b style="font-size:${(pt*1.25).toFixed(1)}pt">${esc(S.t)} — রিয়েল এক্সাম</b><br>পূর্ণমান: ${bn(N)} &nbsp;|&nbsp; সময়: ${bn(Math.round(N*40/60))} মিনিট &nbsp;|&nbsp; কোড: ${ex.code}<br>${esc(chapLine())}<br>নাম: ______________________ &nbsp;&nbsp; রোল: ________</div>
+ <div style="text-align:right"><b>${mt().num}/${YEAR}</b></div>
+ <div style="text-align:center"><b style="font-size:${(pt*1.35).toFixed(1)}pt">প্রি-টেস্টের পূর্ব প্রস্তুতি</b><br><b style="font-size:${(pt*1.15).toFixed(1)}pt">${esc(S.full||S.t)}</b><br>[${esc(chapLine())} • ${bn(YEAR)} সালের সিলেবাস অনুযায়ী]</div>
+ <table><tr><td style="width:50%"><b>সময়— ${bn(Math.round(N*40/60))} মিনিট</b><br><b>পূর্ণমান— ${bn(N)}</b></td><td style="width:50%;text-align:right"><b>বিষয় কোড:</b> <b>${S.sc||""}</b><br><b>সেট:</b> <b>${mt().setName}</b></td></tr></table>
+ <div style="border-top:1px solid #000;border-bottom:1px solid #000;font-size:${(pt*.82).toFixed(1)}pt;text-align:justify"><b>[বিশেষ দ্রষ্টব্য:</b> সরবরাহকৃত বহুনির্বাচনি অভীক্ষার উত্তরপত্রে প্রশ্নের ক্রমিক নম্বরের বিপরীতে প্রদত্ত বর্ণসংবলিত বৃত্তসমূহ হতে সঠিক/সর্বোৎকৃষ্ট উত্তরের বৃত্তটি বল পয়েন্ট কলম দ্বারা সম্পূর্ণ ভরাট কর। প্রতিটি প্রশ্নের মান ১।<b>]</b><br><b>প্রশ্নপত্রে কোনো প্রকার দাগ/চিহ্ন দেয়া যাবে না।</b></div>
  <table><tr><td style="border-right:1px solid #999;padding-right:4pt">${ex._l}</td><td style="padding-left:4pt">${ex._r}</td></tr></table>
- <div style="text-align:center;font-size:${(pt*.8).toFixed(1)}pt;border-top:1px solid #999">কোড: ${ex.code} • OMR ফ্রি: ওয়েবসাইটে কোড দিয়ে উত্তর মেলাও</div></div></body></html>`;
+ <div style="text-align:center;font-size:${(pt*.8).toFixed(1)}pt;border-top:1px solid #999">কোড: ${mt().num} • OMR ফ্রি: ওয়েবসাইটে এই কোড দিয়ে উত্তর মেলাও</div></div></body></html>`;
  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff",h],{type:"application/msword"}));a.download=ex.code+".doc";document.body.appendChild(a);a.click();a.remove()}
 function freeStart(m){
- app.innerHTML=hd("✅ OMR (ফ্রি)","প্রশ্নপত্রের কোড দিয়ে উত্তর মেলাও")+`<div class="card">${m?`<div class="msg">${esc(m)}</div>`:""}<p>প্রশ্নপত্রে লেখা এক্সাম কোড দাও (যেমন <b>${sk}-483921</b>)। কোড না মিললে OMR খুলবে না।</p>
+ app.innerHTML=hd("✅ OMR (ফ্রি)","প্রশ্নপত্রের কোড দিয়ে উত্তর মেলাও")+`<div class="card">${m?`<div class="msg">${esc(m)}</div>`:""}<p>প্রশ্নপত্রে লেখা এক্সাম কোড দাও (যেমন <b>530594</b>)। কোড না মিললে OMR খুলবে না।</p>
  <div style="display:flex;gap:8px;max-width:420px;margin:auto"><input id="fc" placeholder="এক্সাম কোড" autocapitalize="none"><button id="fg">চালু করো</button></div>
  <p style="text-align:center;margin-top:16px"><a href="../?s=${sk}">← ফিরে যান</a> • <a href="?s=${sk}">🔒 রিয়েল এক্সাম (পেইড)</a></p></div>`;
  fg.onclick=async()=>{const c=fc.value.trim().toLowerCase();if(!c)return;fg.disabled=true;
-  try{const d=await api({action:"omrinfo",code:c});if(!d.ok)throw new Error(d.error);const pre=c.split("-")[0];if(SUBJ[pre]){sk=pre;S=SUBJ[sk]}
+  try{const d=await api({action:"omrinfo",code:c});if(!d.ok)throw new Error(d.error);const pre=d.subject||c.split("-")[0];if(SUBJ[pre]){sk=pre;S=SUBJ[sk]}
    ex={code:c,n:d.n,qs:null};ans=Array(d.n).fill(null);t0=Date.now();omr()}catch(e){fg.disabled=false;freeStart("সমস্যা: "+e.message)}};
 }
 function omr(){
