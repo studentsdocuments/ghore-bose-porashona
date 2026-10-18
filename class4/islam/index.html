@@ -65,7 +65,7 @@ table.m{width:100%;border-collapse:collapse;margin:4px 0}table.m td,table.m th{b
 .bk.hs .bhd,.bk.hs .bft{font-size:10pt}
 .bk .bft{text-align:center;border-top:1px solid #999}
 .bsheet{width:297mm;height:210mm;padding:12.7mm;display:grid;grid-template-columns:130.8mm 130.8mm;column-gap:10mm;background:#fff;box-sizing:border-box;overflow:hidden;border:1px solid #aaa;margin-bottom:8mm}
-.bcol{height:184.6mm;overflow:hidden}
+.bcol{height:184.6mm;position:relative}.bc{height:calc(184.6mm - 24px);overflow:hidden}.pn{position:absolute;left:0;right:0;bottom:0;height:17px;line-height:17px;text-align:center;font-size:10pt}
 #bko{margin:0 auto;overflow:hidden}#bkw{transform-origin:top left;width:297mm}
 .cap{font-size:13px;color:#445;margin:0 0 4px}
 @media(max-width:640px){.paper{padding:14px 12px;font-size:14px}table.o td{padding-left:6px}.omrk{grid-template-columns:1fr}}
@@ -158,8 +158,8 @@ function secBlocks(P){
   blk(S(5),"— যেকোনো ১০টির উত্তর দাও।",items(P.short,q=>esc(q.q))),
   blk(S(6),"— যেকোনো ৬টির উত্তর দাও।",items(P.desc,q=>esc(q.q)))];
 }
-const headBlock=(code,num)=>`<div class="blk bhd"><div class="top">কোড: ${esc(code)} • সেট: ${esc(setName(num))}</div><div class="hc"><b>ঘরে বসে পড়াশোনা</b><br><b>বার্ষিক পরীক্ষা — ${bn(YEAR)}</b><br>শ্রেণি: ৪র্থ • বিষয়: ইসলাম শিক্ষা</div><div class="info"><span>সময়— ${EXAM_TIME}</span><span>পূর্ণমান— ${bn(TOTAL)}</span></div><div>নির্দেশনা: সবগুলো প্রশ্নের উত্তর খাতায় লেখো।</div></div>`;
-const footBlock=code=>`<div class="blk bft">কোড: ${esc(code)} • OMR (ফ্রি): ${esc(location.href.split("?")[0].split("#")[0])}?m=omr</div>`;
+const headBlock=(code,num)=>`<div class="blk bhd"><div class="top">কোড: ${esc(code)} • সেট: ${esc(setName(num))}</div><div class="hc"><b>বার্ষিক পরীক্ষার পূর্ব প্রস্তুতি-${bn(YEAR)}</b><br>শ্রেণি: ৪র্থ • বিষয়: ইসলাম শিক্ষা</div><div class="info"><span>সময়— ${EXAM_TIME}</span><span>পূর্ণমান— ${bn(TOTAL)}</span></div><div>নির্দেশনা: সবগুলো প্রশ্নের উত্তর খাতায় লেখো।</div></div>`;
+const footBlock=code=>`<div class="blk bft">কোড: ${esc(code)} • OMR ফ্রি: ওয়েবসাইটে এই কোড দিয়ে উত্তর মেলাও</div>`;
 const range=(a,b)=>Array.from({length:Math.max(0,b-a)},(_,i)=>a+i);
 /* all = [হেডার, ১নং…৬নং, ফুটার]; ৬টি প্রশ্ন ৪টি কলামে ক্রমানুসারে ভাগ (কোনো প্রশ্ন ভাঙে না) */
 function bkPart(h,cap){let fit=null,any=null;   // ধরে এমনগুলোর মধ্যে সবচেয়ে সুষম (কলামগুলো যথাসম্ভব সমান ভরা); না ধরলে সবচেয়ে কম উপচানো
@@ -170,7 +170,7 @@ function bkPart(h,cap){let fit=null,any=null;   // ধরে এমনগুল�
 function bkCands(code,num,P){
  const all=[headBlock(code,num),...secBlocks(P),footBlock(code)];
  const mm=document.createElement("div");mm.className="bk";mm.style.cssText=`position:absolute;left:-9999px;top:0;width:${BK.cw}mm;visibility:hidden`;document.body.appendChild(mm);
- const cap=BK.ch/25.4*96*0.95,ok=[];let last=null;
+ const cap=(BK.ch/25.4*96-24)*0.95,ok=[];let last=null;
  for(const cfg of BCFG){
   mm.style.setProperty("--fs",cfg.fs+"pt");mm.style.setProperty("--gap",cfg.gap*LH+"em");mm.classList.toggle("hs",!!cfg.hs);
   const h=all.map(b=>{mm.innerHTML=b;return mm.firstElementChild.getBoundingClientRect().height});
@@ -178,8 +178,8 @@ function bkCands(code,num,P){
   if(!p.over)ok.push({cfg,groups:p.g,loads:p.ld.map(x=>x/(BK.ch/25.4*96)),over:false})}
  mm.remove();return{all,ok,last}}
 const bkStyle=c=>`--fs:${c.cfg.fs}pt;--gap:${c.cfg.gap*LH}em`;
-function bkHTML(all,c){const col=g=>`<div class="bcol">${g.map(i=>all[i]).join("")}</div>`,G=c.groups;
- return`<div id="bkw" class="bk ${c.cfg.hs?"hs":""}" style="${bkStyle(c)}"><div class="cap no-p">📄 পাতা ১ (সামনে): [৪র্থ পৃষ্ঠা | ১ম পৃষ্ঠা]</div><div class="bsheet">${col(G[3])}${col(G[0])}</div><div class="cap no-p">📄 পাতা ২ (পেছনে): [২য় পৃষ্ঠা | ৩য় পৃষ্ঠা]</div><div class="bsheet">${col(G[1])}${col(G[2])}</div></div>`}
+function bkHTML(all,c){const col=(g,n)=>`<div class="bcol"><div class="bc">${g.map(i=>all[i]).join("")}</div><div class="pn">পৃষ্ঠা ${bn(n)}</div></div>`,G=c.groups;
+ return`<div id="bkw" class="bk ${c.cfg.hs?"hs":""}" style="${bkStyle(c)}"><div class="cap no-p">📄 পাতা ১ (সামনে): [৪র্থ পৃষ্ঠা | ১ম পৃষ্ঠা]</div><div class="bsheet">${col(G[3],4)}${col(G[0],1)}</div><div class="cap no-p">📄 পাতা ২ (পেছনে): [২য় পৃষ্ঠা | ৩য় পৃষ্ঠা]</div><div class="bsheet">${col(G[1],2)}${col(G[2],3)}</div></div>`}
 function bkZoom(){const o=$("bko"),w=$("bkw");if(!o||!w)return;const W=BK.pw/25.4*96,s=Math.min(1,(o.parentElement.clientWidth-4)/W);w.style.transform=`scale(${s})`;o.style.width=W*s+"px";o.style.height=w.offsetHeight*s+"px"}
 addEventListener("resize",bkZoom);
 const ansBlock=a=>`<div class="ab">${a.map(([k,t])=>`<p class="${k}">${k==="li"?"• ":""}${esc(t)}</p>`).join("")}</div>`;
@@ -267,7 +267,7 @@ async function paper(code,num,P){
  <div class="act"><button id="pr">🖨️ প্রিন্ট / PDF</button><button id="dw" class="btn g">⬇️ Word (.docx)</button><button id="om" class="btn grn">✅ উত্তর ও সমাধান</button><button id="nw" class="btn g">🔁 নতুন সেট</button></div></div><div id="bko"></div>`;
  if(document.fonts)await document.fonts.ready;
  const C=bkCands(code,num,P),host=$("bko");let used=null;
- for(const c of C.ok){host.innerHTML=bkHTML(C.all,c);if([...host.querySelectorAll(".bcol")].every(x=>x.scrollHeight<=x.clientHeight+1)){used=c;break}}
+ for(const c of C.ok){host.innerHTML=bkHTML(C.all,c);if([...host.querySelectorAll(".bc")].every(x=>x.scrollHeight<=x.clientHeight+1)){used=c;break}}
  if(!used){used=C.last||{cfg:BCFG[BCFG.length-1],groups:[[0,1],[2,3],[4,5],[6,7]],over:true};host.innerHTML=bkHTML(C.all,used);used.over=true;
   $("wn").innerHTML=`<div class="msg">⚠️ এই সেটের প্রশ্ন ফন্ট ১০-এও ২টি পাতায় ধরছে না। অনুগ্রহ করে <b>🔁 নতুন সেট</b> বানাও।</div>`}
  else if(used.cfg.fs<12||used.cfg.hs||used.cfg.gap<1){const t=[used.cfg.gap<1?"ফাঁকা লাইন কমানো":"",used.cfg.hs?"হেডার/ফুটার ছোট":"",used.cfg.fs<12?"লেখা "+bn(used.cfg.fs)+" পয়েন্ট":""].filter(Boolean).join(" • ");$("wn").innerHTML=`<div class="msg ok">ℹ️ ২ পাতায় ধরাতে সাজানো হয়েছে: ${t}।</div>`}
@@ -296,7 +296,7 @@ async function dlDocx(code,num,P,lay,all){
   const tbl=(rows,cols,borders)=>new d.Table({width:{size:W,type:d.WidthType.DXA},columnWidths:cols,borders:borders,rows});
   const blocks=[
    /*0*/()=>[Pa([R(`কোড: ${code} • সেট: ${setName(num)}`,{sz:small})],{al:d.AlignmentType.RIGHT}),
-     Pa([R("ঘরে বসে পড়াশোনা",{b:1,sz:small})],{al:d.AlignmentType.CENTER}),Pa([R(`বার্ষিক পরীক্ষা — ${bn(YEAR)}`,{b:1,sz:small})],{al:d.AlignmentType.CENTER}),
+     Pa([R(`বার্ষিক পরীক্ষার পূর্ব প্রস্তুতি-${bn(YEAR)}`,{b:1,sz:small})],{al:d.AlignmentType.CENTER}),
      Pa([R("শ্রেণি: ৪র্থ • বিষয়: ইসলাম শিক্ষা",{sz:small})],{al:d.AlignmentType.CENTER}),
      Pa([new d.TextRun({children:[`সময়— ${EXAM_TIME}`,new d.Tab(),`পূর্ণমান— ${bn(TOTAL)}`],font:fnt,size:small*2,sizeComplexScript:small*2,bold:true,boldComplexScript:true})],{tab:1,bb:1}),
      Pa([R("নির্দেশনা: সবগুলো প্রশ্নের উত্তর খাতায় লেখো।",{sz:small})])],
@@ -306,9 +306,10 @@ async function dlDocx(code,num,P,lay,all){
    /*4*/()=>[sec(S(4),"(ডানপাশের নম্বর বসিয়ে মিল করো)"),tbl([new d.TableRow({children:[cell([R("বাম",{b:1})],HW,bb,{top:0,bottom:0,left:60,right:60}),cell([R("ডান",{b:1})],HW,bb,{top:0,bottom:0,left:60,right:60})]}),...P.match.L.map((l,i)=>new d.TableRow({children:[cell([R(`${L[i]}. ${l}`)],HW,bb,{top:0,bottom:0,left:60,right:60}),cell([R(`${bn(i+1)}। ${P.match.R[i]}`)],HW,bb,{top:0,bottom:0,left:60,right:60})]}))],[HW,HW],bb),ml(S(4))],
    /*5*/()=>[sec(S(5),"— যেকোনো ১০টির উত্তর দাও।"),...P.short.map((q,i)=>item(i,[R(q.q)])),ml(S(5))],
    /*6*/()=>[sec(S(6),"— যেকোনো ৬টির উত্তর দাও।"),...P.desc.map((q,i)=>item(i,[R(q.q)])),ml(S(6))],
-   /*7*/()=>[Pa([R(`কোড: ${code} • OMR (ফ্রি): ${location.href.split("?")[0].split("#")[0]}?m=omr`,{sz:small})],{al:d.AlignmentType.CENTER,bt:1})]];
-  const G=lay.groups,order=[G[3],G[0],G[1],G[2]],outKids=[];
-  order.forEach((g,ci)=>{g.forEach((bi,j)=>{if(j)outKids.push(...gapP());outKids.push(...blocks[bi]())});
+   /*7*/()=>[Pa([R(`কোড: ${code} • OMR ফ্রি: ওয়েবসাইটে এই কোড দিয়ে উত্তর মেলাও`,{sz:small})],{al:d.AlignmentType.CENTER,bt:1})]];
+  const G=lay.groups,order=[G[3],G[0],G[1],G[2]],pnum=[4,1,2,3],outKids=[],CW=Math.round(BK.cw/25.4*1440),PX=[720,720+CW+567,720,720+CW+567],PY=11906-720-260;
+  const pageNo=ci=>new d.Paragraph({children:[R(`পৃষ্ঠা ${bn(pnum[ci])}`,{sz:10})],alignment:d.AlignmentType.CENTER,spacing:{before:0,after:0,line:260,lineRule:d.LineRuleType.EXACT},frame:{type:"absolute",position:{x:PX[ci],y:PY},width:CW,height:260,anchor:{horizontal:d.FrameAnchorType.PAGE,vertical:d.FrameAnchorType.PAGE},rule:d.HeightRule.EXACT,wrap:d.FrameWrap.AROUND}});   /* প্রতি কলামের নিচে পৃষ্ঠা নম্বর */
+  order.forEach((g,ci)=>{outKids.push(pageNo(ci));g.forEach((bi,j)=>{if(j)outKids.push(...gapP());outKids.push(...blocks[bi]())});
    if(ci<3)outKids.push(new d.Paragraph({children:[new d.ColumnBreak()],spacing:{before:0,after:0,line:20,lineRule:d.LineRuleType.EXACT}}))});   /* প্রতি কলামের শেষে Column Break */
   const doc=new d.Document({creator:"ঘরে বসে পড়াশোনা",title:code,styles:{default:{document:{run:{font:fnt,size:fs*2,sizeComplexScript:fs*2},paragraph:{spacing:{before:0,after:0,line:line,lineRule:d.LineRuleType.EXACT}}}}},
    sections:[{properties:{page:{size:{width:11906,height:16838,orientation:d.PageOrientation.LANDSCAPE},margin:{top:720,bottom:720,left:720,right:720,header:0,footer:0,gutter:0}},column:{count:2,space:567,equalWidth:true}},children:outKids}]});
