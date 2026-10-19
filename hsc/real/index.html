@@ -52,6 +52,8 @@ const SUBJ={
 const L=["ক","খ","গ","ঘ"],bn=n=>String(n).replace(/\d/g,d=>"০১২৩৪৫৬৭৮৯"[d]);
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const qs=new URLSearchParams(location.search),app=document.getElementById("app");
+/* অন্য শ্রেণির (যেমন ৪র্থ: i4-…) কোড এখানে খুলবে না: সাবজেক্ট বা কোডের প্রিফিক্স HSC-র তালিকায় না থাকলে বাদ */
+const foreign=(subj,code)=>{const pf=String(code||"").includes("-")?String(code).split("-")[0]:"";return !!((subj&&!SUBJ[subj])||(pf&&!SUBJ[pf]))};
 let sk=SUBJ[qs.get("s")]?qs.get("s"):"ict",S=SUBJ[sk],ex=null,ans=[],t0=0;
 const rng=a=>()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
 const shuf=(arr,r)=>{for(let i=arr.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr};
@@ -88,7 +90,7 @@ async function start(code,sel){
  try{
   if(code){                                   // সেভ করা সেট Sheet থেকে আনা
    const d=await api({action:"realset",code});if(!d.ok)throw new Error(d.error);
-   const pre=d.subject||d.code.split("-")[0];if(SUBJ[pre]){sk=pre;S=SUBJ[sk]}
+   const pre=d.subject||d.code.split("-")[0];if(foreign(d.subject,d.code))throw new Error("এই কোডটি ১১শ-১২শ শ্রেণির নয়।");if(SUBJ[pre]){sk=pre;S=SUBJ[sk]}
    ex={code:d.code,qs:JSON.parse(d.qs)};
   }else{                                      // নতুন সেট বানিয়ে আগে Sheet-এ সেভ
    await Promise.all(sel.map(c=>load(S.ids[c])));
@@ -168,7 +170,7 @@ function freeStart(m){
  <div style="display:flex;gap:8px;max-width:420px;margin:auto"><input id="fc" placeholder="এক্সাম কোড" autocapitalize="none"><button id="fg">চালু করো</button></div>
  <p style="text-align:center;margin-top:16px"><a href="../?s=${sk}">← ফিরে যান</a> • <a href="?s=${sk}">🔒 রিয়েল এক্সাম (পেইড)</a></p></div>`;
  fg.onclick=async()=>{const c=fc.value.trim().toLowerCase();if(!c)return;fg.disabled=true;
-  try{const d=await api({action:"omrinfo",code:c});if(!d.ok)throw new Error(d.error);const pre=d.subject||c.split("-")[0];if(SUBJ[pre]){sk=pre;S=SUBJ[sk]}
+  try{const d=await api({action:"omrinfo",code:c});if(!d.ok)throw new Error(d.error);const pre=d.subject||c.split("-")[0];if(foreign(d.subject,c))throw new Error("এই কোডটি ১১শ-১২শ শ্রেণির নয় — ওই শ্রেণির নিজস্ব OMR পেজে দাও।");if(SUBJ[pre]){sk=pre;S=SUBJ[sk]}
    ex={code:c,n:d.n,qs:null};ans=Array(d.n).fill(null);t0=Date.now();omr()}catch(e){fg.disabled=false;freeStart("সমস্যা: "+e.message)}};
 }
 function omr(){
