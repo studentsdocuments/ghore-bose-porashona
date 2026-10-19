@@ -242,7 +242,7 @@ function home(m){
  $("bk").onclick=e=>{e.preventDefault();landing()};$("fo").onclick=e=>{e.preventDefault();omrStart()};
  $("lo").onclick=e=>{e.preventDefault();logout();gate()};
 }
-async function exists(code){const d=await api({action:"omrinfo",code});if(!d.ok)throw new Error(d.error||"এই কোডের প্রশ্নপত্র পাওয়া যায়নি।");if(d.subject&&d.subject!==SUBJ_ID)throw new Error("এই কোডটি ইসলাম শিক্ষা (৪র্থ শ্রেণি)-র নয়।")}
+async function exists(code){const d=await api({action:"omrinfo",code});if(!d.ok)throw new Error(d.error||"এই কোডের প্রশ্নপত্র পাওয়া যায়নি।");if(d.subject!==SUBJ_ID)throw new Error("এই কোডটি ইসলাম শিক্ষা (৪র্থ শ্রেণি)-র নয়।")}
 async function create(){
  busy("প্রশ্ন সাজানো হচ্ছে…");
  try{
