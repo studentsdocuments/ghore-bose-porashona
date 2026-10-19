@@ -26,7 +26,7 @@
 @media(max-width:560px){.opts{grid-template-columns:1fr}}
 .opt{border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:#fff;text-align:left;font:inherit;cursor:pointer}
 .opt.right{background:var(--gb);border-color:var(--g);font-weight:600}.opt.wrong{background:var(--badb);border-color:var(--bad)}
-.ans{margin-top:6px;padding:8px 10px;background:var(--gb);border-left:4px solid var(--g);border-radius:6px;white-space:pre-wrap;display:none}
+.ans{tab-size:4;margin-top:6px;padding:8px 10px;background:var(--gb);border-left:4px solid var(--g);border-radius:6px;white-space:pre-wrap;display:none}
 .ans.show{display:block}.ans b{color:#166534}
 .sh{display:block;background:none;border:0;color:#2563eb;font:inherit;font-size:14px;cursor:pointer;padding:2px 0}
 .exm{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
@@ -39,8 +39,8 @@
 const $=id=>document.getElementById(id),app=$("app");
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const bn=n=>String(n).replace(/\d/g,d=>"০১২৩৪৫৬৭৮৯"[d]);
-const SUBJ={math:"গণিত",islam:"ইসলাম শিক্ষা",science:"বিজ্ঞান",bgs:"বাংলাদেশ ও বিশ্বপরিচয়"};
-const TYPES=[["mcq","বহুনির্বাচনি"],["blank","শূন্যস্থান পূরণ"],["truefalse","সত্য/মিথ্যা"],["match","বাক্যাংশ মিলাও"],["short","সংক্ষিপ্ত / অংক"],["essay","রচনামূলক"],["other","অন্যান্য অংক"]];
+const SUBJ={bangla:"বাংলা",math:"গণিত",islam:"ইসলাম শিক্ষা",science:"বিজ্ঞান",bgs:"বাংলাদেশ ও বিশ্বপরিচয়"};
+const TYPES=[["mcq","বহুনির্বাচনি"],["blank","শূন্যস্থান পূরণ"],["truefalse","সত্য/মিথ্যা"],["match","বাক্যাংশ মিলাও"],["short","সংক্ষিপ্ত / অংক"],["essay","রচনামূলক"],["other","অন্যান্য অংক"],["bshort","সংক্ষিপ্ত প্রশ্ন"],["bessay","রচনামূলক প্রশ্ন"],["bblank","শূন্যস্থান পূরণ"],["bmcq","সঠিক উত্তর বাছাই"],["bmeaning","শব্দার্থ"],["bsentence","বাক্য গঠন"],["bchalito","চলিত রূপ"],["bmakeq","প্রশ্ন তৈরি"],["byukto","যুক্তবর্ণ"],["boppsyn","বিপরীত শব্দ"],["bpunct","বিরামচিহ্ন"],["bletter","পত্র ও লেখার নমুনা"],["bcomp","অনুচ্ছেদ রচনা"],["bother","অন্যান্য কাজ"]];
 const L=["ক","খ","গ","ঘ"],qs=new URLSearchParams(location.search),sk=SUBJ[qs.get("s")]?qs.get("s"):null;
 let D=null,cur=null,ty=null;
 function load(k){return new Promise((ok,no)=>{if(window.C5&&C5[k])return ok(C5[k]);const s=document.createElement("script");s.src="data/"+k+".js";s.onload=()=>ok(C5[k]);s.onerror=()=>no();document.head.appendChild(s)})}
@@ -69,7 +69,7 @@ function chapter(n){cur=D.ch.find(x=>x.no===n);history.replaceState(null,"","?s=
   qa.querySelectorAll(".ans").forEach(a=>{a.classList.toggle("show",hid);a.previousElementSibling.textContent=hid?"উত্তর লুকাও":"উত্তর দেখো"});$("all").textContent=hid?"সব উত্তর লুকাও":"সব উত্তর দেখাও"};
  app.insertAdjacentHTML("beforeend",exams());scrollTo(0,0)}
 function item(q,t){const num=`<span class="qn">${esc(q.n)}</span>`;
- const ans=txt=>`<button class="sh">উত্তর দেখো</button><div class="ans"><b>উত্তর:</b> ${esc(txt)}${q.e?`<br><i>${esc(q.e)}</i>`:""}</div>`;
+ const ans=txt=>!txt?"":`<button class="sh">উত্তর দেখো</button><div class="ans"><b>উত্তর:</b> ${esc(txt)}${q.e?`<br><i>${esc(q.e)}</i>`:""}</div>`;
  if(t==="mcq"){const ci=L.findIndex(l=>q.a.startsWith(l+")"));
   return`<div class="q">${num} ${esc(q.q)}<div class="opts">${q.o.map((o,i)=>`<button class="opt" data-r="${i===ci?1:0}">${L[i]}) ${esc(o)}</button>`).join("")}</div></div>`}
  if(t==="match")return`<div class="q">${num} ${esc(q.q)} <b>…………</b>${ans(q.q+" "+q.a)}</div>`;
