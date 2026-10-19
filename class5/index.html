@@ -39,8 +39,8 @@
 const $=id=>document.getElementById(id),app=$("app");
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const bn=n=>String(n).replace(/\d/g,d=>"০১২৩৪৫৬৭৮৯"[d]);
-const SUBJ={islam:"ইসলাম শিক্ষা",science:"বিজ্ঞান",bgs:"বাংলাদেশ ও বিশ্বপরিচয়"};
-const TYPES=[["mcq","বহুনির্বাচনি"],["blank","শূন্যস্থান পূরণ"],["truefalse","সত্য/মিথ্যা"],["match","বাক্যাংশ মিলাও"],["short","সংক্ষিপ্ত প্রশ্ন"],["essay","রচনামূলক"]];
+const SUBJ={math:"গণিত",islam:"ইসলাম শিক্ষা",science:"বিজ্ঞান",bgs:"বাংলাদেশ ও বিশ্বপরিচয়"};
+const TYPES=[["mcq","বহুনির্বাচনি"],["blank","শূন্যস্থান পূরণ"],["truefalse","সত্য/মিথ্যা"],["match","বাক্যাংশ মিলাও"],["short","সংক্ষিপ্ত / অংক"],["essay","রচনামূলক"],["other","অন্যান্য অংক"]];
 const L=["ক","খ","গ","ঘ"],qs=new URLSearchParams(location.search),sk=SUBJ[qs.get("s")]?qs.get("s"):null;
 let D=null,cur=null,ty=null;
 function load(k){return new Promise((ok,no)=>{if(window.C5&&C5[k])return ok(C5[k]);const s=document.createElement("script");s.src="data/"+k+".js";s.onload=()=>ok(C5[k]);s.onerror=()=>no();document.head.appendChild(s)})}
