@@ -151,9 +151,7 @@ body{margin:0;padding:0 0 70px;font-family:'Hind Siliguri',sans-serif;background
         <a href="#" class="card-item" onclick="openClass('class6','৬ষ্ঠ শ্রেণি','https://drive.google.com/drive/folders/1zN5-VecOVUXTU_s4EQLyPOtrBCu1BkVy');return false;">৬ষ্ঠ শ্রেণি</a>
         <a href="#" class="card-item" onclick="openClass('class7','৭ম শ্রেণি','https://drive.google.com/drive/folders/1h2Egpog5WqwQV7VZrmVlUG6Ty5ajZWho');return false;">৭ম শ্রেণি</a>
         <a href="#" class="card-item" onclick="openClass('class8','৮ম শ্রেণি','https://drive.google.com/drive/folders/1YrGuq94n2fHmfphJA4HmV6FDL2qvg4uI');return false;">৮ম শ্রেণি</a>
-        <a href="#" class="card-item" onclick="openClass('class9-10','৯ম-১০ম বিজ্ঞান','https://drive.google.com/drive/folders/1IdPV-9u09wgLkAYjXznpRACxSgaHRbSf');return false;">৯ম-১০ম বিজ্ঞান</a>
-        <a href="#" class="card-item" onclick="openClass('class9-10','৯ম-১০ম মানবিক','https://drive.google.com/drive/folders/1IdPV-9u09wgLkAYjXznpRACxSgaHRbSf');return false;">৯ম-১০ম মানবিক</a>
-        <a href="#" class="card-item" onclick="openClass('class9-10','৯ম-১০ম ব্যবসায়','https://drive.google.com/drive/folders/1IdPV-9u09wgLkAYjXznpRACxSgaHRbSf');return false;">৯ম-১০ম ব্যবসায়</a>
+        <a href="#" class="card-item" onclick="openStudy910();return false;">৯ম-১০ম শ্রেণি</a>
         <a href="#" class="card-item" onclick="openClass('class11-12','১১শ-১২শ শ্রেণি','https://drive.google.com/drive/folders/1486xy3RDXp5lqKgMSMu077x1ugUgnPOZ');return false;">১১শ-১২শ শ্রেণি</a>
       </div>
     </div>
@@ -162,12 +160,11 @@ body{margin:0;padding:0 0 70px;font-family:'Hind Siliguri',sans-serif;background
       <div class="section-header" style="color:var(--red)"><i class="fas fa-bolt"></i> চলমান লাইভ এক্সামসমূহ</div>
       <div class="exam-grid">
         <a href="#" onclick="openClass4();return false;" class="exam-btn">৪র্থ শ্রেণি <span class="live-blink">LIVE</span></a>
-        <a href="#" class="exam-btn">৫ম শ্রেণি <span class="live-static">OFF</span></a>
+        <a href="#" onclick="openClass5();return false;" class="exam-btn">৫ম শ্রেণি <span class="live-blink">LIVE</span></a>
         <a href="#" class="exam-btn">৬ষ্ঠ শ্রেণি <span class="live-static">OFF</span></a>
         <a href="#" class="exam-btn">৭ম শ্রেণি <span class="live-static">OFF</span></a>
         <a href="#" class="exam-btn">৮ম শ্রেণি <span class="live-static">OFF</span></a>
-        <a href="#" class="exam-btn">৯ম শ্রেণি <span class="live-static">OFF</span></a>
-        <a href="#" class="exam-btn">১০ম শ্রেণি <span class="live-static">OFF</span></a>
+        <a href="#" onclick="openExam910();return false;" class="exam-btn">৯ম-১০ম শ্রেণি <span class="live-blink">LIVE</span></a>
         <a href="#" onclick="openHsc();return false;" class="exam-btn">১১শ-১২শ শ্রেণি <span class="live-blink">LIVE</span></a>
         <a href="tense-game/index.html" class="exam-btn"><span style="color:transparent;text-shadow:0 0 0 #000">🥇 🎮</span> Tense-এর খেলা</a>
         <a href="#" onclick="openJob();return false;" class="exam-btn" style="border-color:var(--job);background:#e6fffa;">জব স্পেশাল <span class="live-blink">LIVE</span></a>
@@ -297,6 +294,47 @@ function openClass4(){
     sbtn('🕌 ইসলাম শিক্ষা', 'class4/islam/', '#16a34a', false),
     sbtn('💻 কম্পিউটার', ''),
     sbtn('🎨 Drawing', '')]);
+}
+function openClass5(){
+  showSheet('৫ম শ্রেণি — চলমান পরীক্ষা', [
+    sbtn('📖 বাংলা (Bangla)', ''),
+    sbtn('🔤 English (ইংরেজি)', ''),
+    sbtn('➗ গণিত (Mathematics)', ''),
+    sbtn('🔬 প্রাথমিক বিজ্ঞান', 'class5/?s=science', '#0ea5e9', false),
+    sbtn('🌏 বাংলাদেশ ও বিশ্বপরিচয়', 'class5/?s=bgs', '#f59e0b', false),
+    sbtn('🕌 ইসলাম শিক্ষা', 'class5/?s=islam', '#16a34a', false),
+    sbtn('💻 কম্পিউটার', ''),
+    sbtn('🎨 Drawing', '')]);
+}
+const FREE910 = "https://drive.google.com/drive/folders/1IdPV-9u09wgLkAYjXznpRACxSgaHRbSf";
+function abtn(t, js, bg){ return `<a class="sbtn" href="#" onclick="${js};return false;" style="background:${bg}">${t}</a>`; }
+function common910(){
+  showSheet('৯ম-১০ম — সাধারণ (কমন) বিষয়', [
+    sbtn('📖 বাংলা (Bangla)', ''),
+    sbtn('🔤 English (ইংরেজি)', ''),
+    sbtn('💻 ICT (তথ্য ও যোগাযোগ প্রযুক্তি)', 'ssc/', '#0ea5e9', false),
+    abtn('← ফিরে যাও', 'openStudy910()', '#64748b')]);
+}
+function openStudy910(){
+  showSheet('৯ম-১০ম শ্রেণি', [
+    abtn('🔬 বিজ্ঞান বিভাগ', "openClass('class9-10','৯ম-১০ম বিজ্ঞান',FREE910)", '#0ea5e9'),
+    abtn('🎨 মানবিক বিভাগ', "openClass('class9-10','৯ম-১০ম মানবিক',FREE910)", '#f59e0b'),
+    abtn('💼 ব্যবসায় শিক্ষা বিভাগ', "openClass('class9-10','৯ম-১০ম ব্যবসায়',FREE910)", '#16a34a'),
+    abtn('📚 সাধারণ (কমন) বিষয়', 'common910()', '#4834d4')]);
+}
+function commonExam910(){
+  showSheet('৯ম-১০ম — সাধারণ বিষয় (পরীক্ষা)', [
+    sbtn('📖 বাংলা (Bangla)', ''),
+    sbtn('🔤 English (ইংরেজি)', ''),
+    sbtn('💻 ICT (তথ্য ও যোগাযোগ প্রযুক্তি)', 'ssc/', '#0ea5e9', false),
+    abtn('← ফিরে যাও', 'openExam910()', '#64748b')]);
+}
+function openExam910(){
+  showSheet('৯ম-১০ম শ্রেণি — চলমান পরীক্ষা', [
+    sbtn('🔬 বিজ্ঞান বিভাগ', ''),
+    sbtn('🎨 মানবিক বিভাগ', ''),
+    sbtn('💼 ব্যবসায় শিক্ষা বিভাগ', ''),
+    abtn('📚 সাধারণ (কমন) বিষয়', 'commonExam910()', '#4834d4')]);
 }
 function openJob(){
   showSheet('Job Preparation Special', [sbtn('📂 ফ্রি PDF', JOB_FREE_URL, '#16a34a', true), sbtn('🔒 পেইড PDF (ফুল কোর্স)', 'courses/?cat=job&n=' + encodeURIComponent('জব প্রস্তুতি'), '#4834d4', false), sbtn('🔴 লাইভ এক্সাম', 'mcq/', '#ff4757', false)]);
