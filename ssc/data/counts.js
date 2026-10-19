@@ -1,0 +1,1 @@
+const QDATA={};const COUNTS={"ict1": 25, "ict2": 25, "ict3": 25, "ict4": 25, "ict5": 25, "ict6": 25};
