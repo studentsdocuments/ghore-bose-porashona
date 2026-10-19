@@ -297,14 +297,15 @@ function openClass4(){
 }
 function openClass5(){
   showSheet('৫ম শ্রেণি — চলমান পরীক্ষা', [
-    sbtn('📖 বাংলা (Bangla)', ''),
+    sbtn('📖 বাংলা (Bangla)', 'class5/?s=bangla', '#dc2626', false),
     sbtn('🔤 English (ইংরেজি)', ''),
     sbtn('➗ গণিত (Mathematics)', 'class5/?s=math', '#7c3aed', false),
     sbtn('🔬 প্রাথমিক বিজ্ঞান', 'class5/?s=science', '#0ea5e9', false),
     sbtn('🌏 বাংলাদেশ ও বিশ্বপরিচয়', 'class5/?s=bgs', '#f59e0b', false),
     sbtn('🕌 ইসলাম শিক্ষা', 'class5/?s=islam', '#16a34a', false),
     sbtn('💻 কম্পিউটার', ''),
-    sbtn('🎨 Drawing', '')]);
+    sbtn('🎨 Drawing', ''),
+    sbtn('🏆 বৃত্তির সেরা প্রস্তুতি', '')]);
 }
 const FREE910 = "https://drive.google.com/drive/folders/1IdPV-9u09wgLkAYjXznpRACxSgaHRbSf";
 function abtn(t, js, bg){ return `<a class="sbtn" href="#" onclick="${js};return false;" style="background:${bg}">${t}</a>`; }
