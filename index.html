@@ -161,9 +161,9 @@ body{margin:0;padding:0 0 70px;font-family:'Hind Siliguri',sans-serif;background
       <div class="exam-grid">
         <a href="#" onclick="openClass4();return false;" class="exam-btn">৪র্থ শ্রেণি <span class="live-blink">LIVE</span></a>
         <a href="#" onclick="openClass5();return false;" class="exam-btn">৫ম শ্রেণি <span class="live-blink">LIVE</span></a>
-        <a href="#" class="exam-btn">৬ষ্ঠ শ্রেণি <span class="live-static">OFF</span></a>
-        <a href="#" class="exam-btn">৭ম শ্রেণি <span class="live-static">OFF</span></a>
-        <a href="#" class="exam-btn">৮ম শ্রেণি <span class="live-static">OFF</span></a>
+        <a href="#" onclick="openClass6();return false;" class="exam-btn">৬ষ্ঠ শ্রেণি <span class="live-static">OFF</span></a>
+        <a href="#" onclick="openClass7();return false;" class="exam-btn">৭ম শ্রেণি <span class="live-static">OFF</span></a>
+        <a href="#" onclick="openClass8();return false;" class="exam-btn">৮ম শ্রেণি <span class="live-static">OFF</span></a>
         <a href="#" onclick="openExam910();return false;" class="exam-btn">৯ম-১০ম শ্রেণি <span class="live-blink">LIVE</span></a>
         <a href="#" onclick="openHsc();return false;" class="exam-btn">১১শ-১২শ শ্রেণি <span class="live-blink">LIVE</span></a>
         <a href="tense-game/index.html" class="exam-btn"><span style="color:transparent;text-shadow:0 0 0 #000">🥇 🎮</span> Tense-এর খেলা</a>
@@ -306,6 +306,36 @@ function openClass5(){
     sbtn('💻 কম্পিউটার', ''),
     sbtn('🎨 Drawing', ''),
     sbtn('🏆 বৃত্তির সেরা প্রস্তুতি', 'class5/brittir/', '#d97706', false)]);
+}
+function openClass6(){
+  showSheet('৬ষ্ঠ শ্রেণি — চলমান পরীক্ষা', [
+    sbtn('📖 বাংলা (Bangla)', 'class6/?s=bangla', '#dc2626', false),
+    sbtn('🔤 English (ইংরেজি)', 'class6/?s=english', '#2563eb', false),
+    sbtn('➗ গণিত (Mathematics)', 'class6/?s=math', '#7c3aed', false),
+    sbtn('🔬 বিজ্ঞান', 'class6/?s=science', '#0ea5e9', false),
+    sbtn('🌏 বাংলাদেশ ও বিশ্বপরিচয়', 'class6/?s=bgs', '#f59e0b', false),
+    sbtn('🕌 ইসলাম শিক্ষা', 'class6/?s=islam', '#16a34a', false),
+    sbtn('💻 তথ্য ও যোগাযোগ প্রযুক্তি', 'class6/?s=ict', '#0891b2', false)]);
+}
+function openClass7(){
+  showSheet('৭ম শ্রেণি — চলমান পরীক্ষা', [
+    sbtn('📖 বাংলা (Bangla)', 'class7/?s=bangla', '#dc2626', false),
+    sbtn('🔤 English (ইংরেজি)', 'class7/?s=english', '#2563eb', false),
+    sbtn('➗ গণিত (Mathematics)', 'class7/?s=math', '#7c3aed', false),
+    sbtn('🔬 বিজ্ঞান', 'class7/?s=science', '#0ea5e9', false),
+    sbtn('🌏 বাংলাদেশ ও বিশ্বপরিচয়', 'class7/?s=bgs', '#f59e0b', false),
+    sbtn('🕌 ইসলাম শিক্ষা', 'class7/?s=islam', '#16a34a', false),
+    sbtn('💻 তথ্য ও যোগাযোগ প্রযুক্তি', 'class7/?s=ict', '#0891b2', false)]);
+}
+function openClass8(){
+  showSheet('৮ম শ্রেণি — চলমান পরীক্ষা', [
+    sbtn('📖 বাংলা (Bangla)', 'class8/?s=bangla', '#dc2626', false),
+    sbtn('🔤 English (ইংরেজি)', 'class8/?s=english', '#2563eb', false),
+    sbtn('➗ গণিত (Mathematics)', 'class8/?s=math', '#7c3aed', false),
+    sbtn('🔬 বিজ্ঞান', 'class8/?s=science', '#0ea5e9', false),
+    sbtn('🌏 বাংলাদেশ ও বিশ্বপরিচয়', 'class8/?s=bgs', '#f59e0b', false),
+    sbtn('🕌 ইসলাম শিক্ষা', 'class8/?s=islam', '#16a34a', false),
+    sbtn('💻 তথ্য ও যোগাযোগ প্রযুক্তি', 'class8/?s=ict', '#0891b2', false)]);
 }
 const FREE910 = "https://drive.google.com/drive/folders/1IdPV-9u09wgLkAYjXznpRACxSgaHRbSf";
 function abtn(t, js, bg){ return `<a class="sbtn" href="#" onclick="${js};return false;" style="background:${bg}">${t}</a>`; }
