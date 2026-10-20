@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>বৃত্তির সেরা প্রস্তুতি — ৫ম শ্রেণি | ঘরে বসে পড়াশোনা</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1F3864;--g:#16a34a;--line:#d5dcec;--bg:#f4f6fb;--mut:#64748b;--acc:#f59e0b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#1e293b;font:16px/1.7 "Hind Siliguri","Nirmala UI","Noto Sans Bengali",sans-serif}
+.wrap{max-width:820px;margin:0 auto;padding:12px 14px 40px}
+.top{background:var(--ink);color:#fff;padding:14px;text-align:center;position:sticky;top:0;z-index:5}
+.top h1{margin:0;font-size:18px}.top small{opacity:.85}
+.top a.back{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#fff;text-decoration:none;font-size:14px;background:#ffffff22;padding:4px 10px;border-radius:8px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+a.nt{display:flex;gap:12px;align-items:center;text-decoration:none;color:inherit;cursor:pointer}
+a.nt .ic{flex:0 0 44px;height:44px;border-radius:12px;background:var(--acc);display:flex;align-items:center;justify-content:center;font-size:22px}
+a.nt .t{font-weight:700}a.nt .c{font-size:13px;color:var(--mut)}
+h2{font-size:17px;margin:20px 0 6px;color:#fff;background:var(--ink);padding:6px 12px;border-radius:8px}
+.intro{color:var(--mut);margin:0 0 8px;font-size:14px}
+.it{border:1px solid var(--line);border-radius:12px;background:#fff;margin:10px 0;overflow:hidden}
+.it h3{margin:0;padding:8px 14px;background:#eef2ff;font-size:17px;color:var(--ink)}
+.bd{padding:10px 14px}
+.df{margin:0 0 8px}.src{font-size:12.5px;color:var(--mut);margin:0 0 8px}
+.fg{text-align:center;margin:8px 0}.fg img{max-width:100%;width:340px;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff}
+.fg figcaption{font-size:14px;color:#334155;margin-top:4px}
+.ft{background:#f0fdf4;border-left:4px solid var(--g);border-radius:6px;padding:8px 12px 8px 28px;margin:8px 0 0}.ft li{margin:2px 0}
+.ft b{display:block;margin-left:-16px;color:#166534}
+.btn{display:inline-block;border:0;border-radius:8px;padding:8px 14px;font:inherit;font-weight:600;cursor:pointer;background:var(--ink);color:#fff;text-decoration:none}
+.btn.g{background:#e2e8f0;color:#1e293b}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+</style></head><body>
+<div class="top"><a class="back" id="bk" href="../../">← হোম</a><h1>🏆 বৃত্তির সেরা প্রস্তুতি</h1><small id="h2">৫ম শ্রেণি</small></div>
+<div class="wrap" id="app"></div>
+<script src="notes.js"></script>
+<script>
+const app=document.getElementById("app"),bn=n=>String(n).replace(/\d/g,d=>"০১২৩৪৫৬৭৮৯"[d]);
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function head(sub,back){document.getElementById("h2").textContent=sub;const b=document.getElementById("bk");b.href=back?"#":"../../";b.onclick=back?e=>{e.preventDefault();back()}:null}
+function list(){head("৫ম শ্রেণি • নোট বেছে নাও");history.replaceState(null,"","./");
+ app.innerHTML=NOTES.map(n=>`<a class="card nt" data-id="${n.id}"><div class="ic">📒</div><div><div class="t">${esc(n.title)}</div><div class="c">${esc(n.sub)} • ${bn(n.secs.reduce((t,s)=>t+s.items.length,0))}টি বিষয়</div></div></a>`).join("");
+ app.querySelectorAll("[data-id]").forEach(a=>a.onclick=()=>note(a.dataset.id))}
+function note(id){const n=NOTES.find(x=>x.id===id);head(n.title+" — "+n.sub,list);history.replaceState(null,"","?n="+id);
+ app.innerHTML=`<div class="bar"><a class="btn g" href="${id}-note.docx" download>⬇️ Word নোট ডাউনলোড</a></div>`+n.secs.map(s=>`<h2>${esc(s.title)}</h2>${s.intro?`<p class="intro">${esc(s.intro)}</p>`:""}`+s.items.map(it=>`<div class="it"><h3>${esc(it.name)}</h3><div class="bd">${it.def.map(d=>`<p class="df">${esc(d)}</p>`).join("")}${it.src.map(d=>`<p class="src">${esc(d)}</p>`).join("")}
+  ${it.img?`<figure class="fg"><img loading="lazy" src="img/${it.img}" alt="${esc(it.name)}">${it.cap?`<figcaption>${esc(it.cap)}</figcaption>`:""}</figure>`:""}
+  ${it.feat.length?`<ul class="ft"><b>বৈশিষ্ট্য</b>${it.feat.map(f=>`<li>${esc(f)}</li>`).join("")}</ul>`:""}</div></div>`).join("")).join("");scrollTo(0,0)}
+const q=new URLSearchParams(location.search).get("n");q&&NOTES.some(x=>x.id===q)?note(q):list();
+</script></body></html>
