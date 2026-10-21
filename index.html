@@ -143,7 +143,7 @@ body{margin:0;padding:0 0 70px;font-family:'Hind Siliguri',sans-serif;background
     <div class="section-card">
       <div class="section-header"><i class="fas fa-book-open"></i> তোমার ক্লাস বেছে নাও:</div>
       <div class="grid-main">
-        <a href="#" class="card-item" onclick="openClass('class1','১ম শ্রেণি','https://drive.google.com/drive/folders/1F856hYtpoUCfozoeYbZk1dN08qzn4n-W');return false;">১ম শ্রেণি</a>
+        <a href="#" class="card-item" onclick="openClass1();return false;">শিশু শ্রেণি থেকে প্রথম শ্রেণি</a>
         <a href="#" class="card-item" onclick="openClass('class2','২য় শ্রেণি','https://drive.google.com/drive/folders/1NpXuMkkn1tgmN7azU4qYWjJKwgaqe16f');return false;">২য় শ্রেণি</a>
         <a href="#" class="card-item" onclick="openClass('class3','৩য় শ্রেণি','https://drive.google.com/drive/folders/1dp768KBX9QAKs_wGbD6Qnof1t3RNylWL');return false;">৩য় শ্রেণি</a>
         <a href="#" class="card-item" onclick="openClass('class4','৪র্থ শ্রেণি','https://drive.google.com/drive/folders/14A5Jga2-VIdoqQNezdK36GzqZtyyPKyK');return false;">৪র্থ শ্রেণি</a>
@@ -280,6 +280,15 @@ function showSheet(title, btns){
 function closeSheet(){ document.getElementById('sheet').style.display = 'none'; }
 function openClass(id, name, free){
   showSheet(name, [sbtn('📂 ফ্রি PDF', free, '#16a34a', true), sbtn('🔒 পেইড PDF (ফুল কোর্স)', 'courses/?cat=' + id + '&n=' + encodeURIComponent(name), '#4834d4', false)]);
+}
+const CLASS1_NAME='শিশু শ্রেণি থেকে প্রথম শ্রেণি';
+const CLASS1_FREE='https://drive.google.com/drive/folders/1F856hYtpoUCfozoeYbZk1dN08qzn4n-W';
+function openClass1(){
+  showSheet(CLASS1_NAME, [
+    sbtn('🎈 আনন্দময় শিক্ষা', 'anondo/', 'linear-gradient(90deg,#ff6fa5,#9b6bff,#4aa8ff)', false),
+    sbtn('📂 ফ্রি PDF', CLASS1_FREE, '#16a34a', true),
+    sbtn('🔒 পেইড PDF (ফুল কোর্স)', 'courses/?cat=class1&n=' + encodeURIComponent(CLASS1_NAME), '#4834d4', false)
+  ]);
 }
 function openHsc(){
   showSheet('১১শ-১২শ শ্রেণি', [sbtn('💻 ICT MCQ Practice', 'hsc/?s=ict', '#0ea5e9', false), sbtn('📝 বাংলা প্রথম পত্র', 'hsc/?s=bn1', '#f59e0b', false)]);
