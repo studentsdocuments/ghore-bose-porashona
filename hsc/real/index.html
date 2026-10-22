@@ -13,7 +13,7 @@ button,.btn{font:inherit;background:var(--ink);color:#fff;border:0;border-radius
 .paper{background:#fff;padding:14px;border:1px solid var(--line)}.ph{text-align:center;border-bottom:2px solid #000;padding-bottom:6px;margin-bottom:8px}.ph h2{margin:0;font-size:1.15rem}
 .meta{display:flex;justify-content:space-between;gap:10px;font-size:.9rem;flex-wrap:wrap}
 .qs{column-count:2;column-gap:22px;column-rule:1px solid #bbb;font-size:.92rem}.q{break-inside:avoid;margin:0 0 9px}.q b{margin-right:3px}
-.st{background:#f2f2f2;border-left:3px solid #888;padding:3px 7px;margin:2px 0;font-size:.85rem}.o{display:flex;flex-wrap:wrap;gap:2px 14px}
+.st{white-space:pre-line;background:#f2f2f2;border-left:3px solid #888;padding:3px 7px;margin:2px 0;font-size:.85rem}.o{display:flex;flex-wrap:wrap;gap:2px 14px}
 .omr{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 20px}.row{display:flex;align-items:center;gap:8px;padding:3px 5px;border-radius:5px}.row .n{width:26px;text-align:right;color:var(--red);font-weight:600}
 .b{width:30px;height:30px;border-radius:50%;border:2px solid var(--red);background:#fff;color:var(--red);padding:0;font-weight:600}.b[aria-pressed=true]{background:#111;border-color:#111;color:#fff}
 .b.ok{background:var(--ok);border-color:var(--ok);color:#fff}.b.ring{border-color:var(--ok);color:var(--ok);box-shadow:0 0 0 3px #bfe2ca}.b.no{background:var(--bad);border-color:var(--bad);color:#fff}
@@ -25,7 +25,7 @@ table{border-collapse:collapse;width:100%}td,th{border:1px solid var(--line);pad
 .sheet .ph{text-align:center;border-bottom:1.5px solid #000;padding:0 0 2px;margin:0 0 3px}.sheet .ph h2{margin:0;font-size:1.25em;line-height:1.2}
 .sheet .meta{display:flex;justify-content:space-between;gap:6px;font-size:.95em}
 .sheet .cols{display:flex;gap:2.2mm;flex:none;overflow:hidden}.sheet .col{flex:1;overflow:hidden;min-width:0}.sheet .col+.col{border-left:1px solid #999;padding-left:2.2mm}
-.sheet .q{margin:0 0 .45em}.sheet .st{background:#f2f2f2;border-left:2px solid #777;padding:1px 4px;margin:1px 0;font-size:.92em}.sheet .o{display:flex;flex-wrap:wrap;gap:0 .9em}
+.sheet .q{margin:0 0 .45em}.sheet .st{white-space:pre-line;background:#f2f2f2;border-left:2px solid #777;padding:1px 4px;margin:1px 0;font-size:.92em}.sheet .o{display:flex;flex-wrap:wrap;gap:0 .9em}
 .sheet .ft{font-size:.8em;text-align:center;border-top:1px solid #999;margin-top:auto;padding-top:1px}
 .sheet .top{display:flex;justify-content:flex-end;font-weight:700;font-size:1.1em;line-height:1.1}
 .sheet .ttl{text-align:center;line-height:1.2}.sheet .ttl h2{margin:0;font-size:1.35em}.sheet .ttl h3{margin:0;font-size:1.15em}.sheet .ttl .sy{font-size:.9em}
@@ -63,6 +63,7 @@ function build(seed,sel){            // প্রশ্ন বাছাই (ব�
  const order=shuf(pools.slice(),r),pick=[];
  while(pick.length<N&&order.some(p=>p.l.length)) for(const p of order){if(pick.length>=N)break;if(p.l.length)pick.push([p,p.l.shift()])}
  shuf(pick,r);
+ {const g=[],f={};pick.forEach(x=>{const q=QDATA[x[0].id].Q[x[1]],k=q[1]>=0?x[0].id+":"+q[1]:null;if(k&&f[k]!==undefined)g[f[k]].push(x);else{if(k)f[k]=g.length;g.push([x])}});pick.length=0;g.forEach(a=>a.forEach(x=>pick.push(x)))}   // একই উদ্দীপকের প্রশ্ন পাশাপাশি
  return pick.map(([p,i])=>{const q=QDATA[p.id].Q[i];return{c:p.c,t:q[0],o:q[2],a:q[3],p:q[1]>=0?QDATA[p.id].P[q[1]]:""}});
 }
 let auth=null;try{auth=JSON.parse(localStorage.getItem("rx:auth"))}catch(e){}
@@ -127,7 +128,9 @@ const $$=id=>document.getElementById(id),NQ=()=>ex.qs?ex.qs.length:ex.n;
 const H2C="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",JSPDF="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
 const chapLine=()=>{const u=[...new Set(ex.qs.map(x=>x.c))].sort((a,b)=>a-b);return u.length<=6?u.map(c=>S.names[c]).join(", "):bn(u.length)+"টি অধ্যায় থেকে"};
 function paper(){
- const seen={},h=ex.qs.map((x,i)=>{let st="";if(x.p){if(seen[x.p]!==undefined)st=`<div class="st">উদ্দীপক: ${bn(seen[x.p]+1)} নং প্রশ্নের মতো</div>`;else{seen[x.p]=i;st=`<div class="st">${esc(x.p)}</div>`}}
+ const seen={},mem={};ex.qs.forEach((x,i)=>{if(x.p)(mem[x.p]=mem[x.p]||[]).push(i+1)});
+ const lab=m=>m.length<2?bn(m[0])+" নং প্রশ্নের":m.slice(0,-1).map(bn).join(", ")+" ও "+bn(m[m.length-1])+" নং প্রশ্নের";
+ const h=ex.qs.map((x,i)=>{let st="";if(x.p){if(seen[x.p]!==undefined)st=`<div class="st">উদ্দীপক: ${bn(seen[x.p]+1)} নং প্রশ্নের মতো</div>`;else{seen[x.p]=i;st=`<div class="st"><i>নিচের উদ্দীপকটি পড়ো এবং ${lab(mem[x.p])} উত্তর দাও:</i>\n${esc(x.p)}</div>`}}
   return`<div class="q">${st}<b>${bn(i+1)}।</b> ${esc(x.t)}<div class="o">${x.o.map((o,k)=>`<span>${L[k]}) ${esc(o)}</span>`).join("")}</div></div>`});
  const w=h.map(x=>x.replace(/<[^>]*>/g,"").length+25),tot=w.reduce((a,b)=>a+b,0);let k=1,best=1e9,acc=0;
  for(let i=1;i<h.length;i++){acc+=w[i-1];const m=Math.max(acc,tot-acc);if(m<best){best=m;k=i}}
