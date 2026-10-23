@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>৪র্থ শ্রেণি — সাধারণ জ্ঞান, কম্পিউটার ও ড্রইং</title>
+<meta name="theme-color" content="#001a38">
+<link rel="icon" href="../../icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+<style id="pgstyle">@page{size:A4;margin:12mm}</style>
+<style>
+:root{--ink:#1F3864;--ok:#1B6B3A;--okb:#e6f3ea;--bad:#b3261e;--line:#c9d3e6;--red:#c0392b;--blue:#1F3A93}
+*{box-sizing:border-box}
+body{margin:0;background:#e9eef7;font:16px/1.55 "Hind Siliguri","Nirmala UI","Noto Sans Bengali",sans-serif;color:#1b2433}
+.w{max-width:860px;margin:0 auto;padding:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:18px}
+.hd{background:var(--ink);color:#fff;text-align:center;padding:12px;border-radius:6px;margin-bottom:12px}
+.hd h1{margin:0;font-size:1.3rem}.hd p{margin:2px 0 0;opacity:.85}
+button,.btn{font:inherit;background:var(--ink);color:#fff;border:0;border-radius:6px;padding:11px 20px;cursor:pointer;text-decoration:none;display:inline-block;font-weight:600}
+.btn.g{background:#fff;color:var(--ink);border:1.5px solid var(--ink)}
+.btn.red{background:var(--red)}.btn.grn{background:var(--ok)}
+.btn small{display:block;font-weight:400;opacity:.9;font-size:.82rem}
+button[disabled]{opacity:.6;cursor:wait}
+input{font:inherit;padding:10px;border:1.5px solid var(--line);border-radius:6px;width:100%}
+.act{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:14px 0}
+.act.col{flex-direction:column;align-items:stretch}.act.col .btn{text-align:center;padding:14px 20px;font-size:1.05rem}
+.msg{padding:10px 14px;border-radius:6px;background:#fff4cc;border-left:4px solid #e0a800;margin:10px 0}
+.msg.ok{background:var(--okb);border-left-color:var(--ok)}
+.c{text-align:center}.lead{margin-top:0}
+table.mk{border-collapse:collapse;width:100%;font-size:.93rem;margin:8px 0}
+table.mk td,table.mk th{border:1px solid var(--line);padding:5px 8px;text-align:left}table.mk th{background:#f3f6fc}
+.row2{display:flex;gap:8px;max-width:420px;margin:auto}
+/* ---- প্রশ্নপত্র / সমাধান ---- */
+.paper{background:#fff;border:1px solid #bbb;padding:22px 26px;color:#000;font-size:15px;line-height:1.6}
+.paper .ph{text-align:center;border-bottom:2px solid #000;padding-bottom:6px;margin-bottom:10px}
+.paper .ph h2{margin:0;font-size:1.3em}.paper .ph h3{margin:2px 0;font-size:1.1em}
+.paper .top{text-align:right;font-weight:700;font-size:.95em}
+.paper .info{display:flex;justify-content:space-between;font-weight:700;margin-top:4px}
+.sec{font-weight:700;margin:16px 0 6px;border-bottom:1px solid #999;padding-bottom:2px;break-after:avoid;page-break-after:avoid}
+.sec .mk{float:right;font-weight:600}
+.sec small{font-weight:400}
+.q{margin:0 0 8px;break-inside:avoid;page-break-inside:avoid}
+table.o{width:100%;border-collapse:collapse}table.o td{width:50%;padding:0 8px 0 18px;vertical-align:top}
+.bl{white-space:nowrap}
+table.m{width:100%;border-collapse:collapse;margin:4px 0}table.m td,table.m th{border:1px solid #444;padding:4px 8px;vertical-align:top;width:50%;text-align:left}table.m th{background:#eee}
+.ft{font-size:.82em;text-align:center;border-top:1px solid #999;margin-top:14px;padding-top:3px}
+.ans{color:var(--blue);font-weight:700;text-decoration:underline}
+.key{color:var(--blue);font-weight:700}
+.ab{margin:3px 0 0 18px;color:var(--blue)}.ab p{margin:2px 0}.ab p.li{margin-left:14px}
+.opt.right{color:var(--ok);font-weight:700}
+.omrk{display:grid;grid-template-columns:repeat(2,1fr);gap:4px 24px;margin:6px 0 10px}
+.omrk .r{display:flex;align-items:center;gap:6px}.omrk .n{width:26px;text-align:right;font-weight:700}
+.bub{display:inline-grid;place-items:center;width:26px;height:26px;border:1.5px solid #333;border-radius:50%;font-size:.8em}
+.bub.on{background:#111;color:#fff}
+.fbox{border:1px solid #444;padding:2px 6px;margin:2px 0}.fbox .fh{text-align:center;font-weight:700}.fbox .fr{display:block}.fbox .fs{text-align:right}.fbox .fv{color:var(--blue);font-weight:700}
+.tfb{display:inline-block;padding:0 8px;border-radius:4px;font-weight:700;color:#fff;background:var(--ok)}.tfb.x{background:var(--bad)}
+
+/* ---- বুকলেট প্রশ্নপত্র: A4 landscape • ২ কলাম • ২ পাতা = ৪টি A5 পৃষ্ঠা ---- */
+.bk{font-family:"Hind Siliguri","Nirmala UI","Noto Sans Bengali",sans-serif;font-size:var(--fs,12pt);line-height:1.3;color:#000}
+.bk .blk{padding-bottom:var(--gap,0)}.bk .at{padding:0}
+.bk .q{margin:0;break-inside:auto;page-break-inside:auto}
+.bk .bsec{font-weight:700}
+.bk .ol{padding-left:5mm}
+.bk .ml{text-align:right;font-weight:700}
+.bk table.o{width:100%;border-collapse:collapse;table-layout:fixed}.bk table.o td{width:50%;padding:0 3px 0 0;vertical-align:top}
+.bk table.m{width:100%;border-collapse:collapse;table-layout:fixed;margin:0}.bk table.m td,.bk table.m th{border:1px solid #444;padding:0 4px;vertical-align:top;width:50%;text-align:left}.bk table.m th{background:#eee}
+.bk .top{text-align:right}.bk .hc{text-align:center}.bk .hc b{font-weight:700}
+.bk .info{display:flex;justify-content:space-between;font-weight:700;border-bottom:1px solid #000}
+.bk.hs .bhd,.bk.hs .bft{font-size:10pt}
+.bk .bft{text-align:center;border-top:1px solid #999}
+.bsheet{width:297mm;height:210mm;padding:12.7mm;display:grid;grid-template-columns:130.8mm 130.8mm;column-gap:10mm;background:#fff;box-sizing:border-box;overflow:hidden;border:1px solid #aaa;margin-bottom:8mm}
+.bcol{height:184.6mm;position:relative}.bc{height:calc(184.6mm - 24px);overflow:hidden}.pn{position:absolute;left:0;right:0;bottom:0;height:17px;line-height:17px;text-align:center;font-size:10pt}
+#bko{margin:0 auto;overflow:hidden}#bkw{transform-origin:top left;width:297mm}
+.cap{font-size:13px;color:#445;margin:0 0 4px}
+@media(max-width:640px){.paper{padding:14px 12px;font-size:14px}table.o td{padding-left:6px}.omrk{grid-template-columns:1fr}}
+@media print{body{background:#fff;font-size:11.5pt}#bko{width:auto!important;height:auto!important;overflow:visible!important}#bkw{transform:none!important}.bsheet{border:0!important;margin:0!important;page-break-after:always;break-after:page}.bsheet:last-child{page-break-after:auto;break-after:auto}.cap{display:none}.no-p{display:none!important}.w{padding:0;max-width:none}.paper{border:0;padding:0;font-size:11.5pt}}
+</style></head><body><div class="w" id="app"></div>
+<script>
+/* ===== সেটিংস ===== */
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycbwmlMMbFpyvxdC5dsvwENxrM5hkLR5lL3xg_s6MpXaLPQ4rWkC7P_Rf9o00f3Zzk04/exec";   // hsc/real-এর মতোই একই Apps Script
+const PAY={bKash:"01757803397"},FEE="";   // FEE: যেমন "৫০ টাকা" লিখলে দেখাবে
+const CUR=1;                               // এখন যে প্রশ্নব্যাংক দিয়ে নতুন পরীক্ষা বানানো হবে (bank-v1.js)
+const PFX="g4",SUBJ_ID="c4gk";         // কোডের শুরু: g4-1xxxxx
+const YEAR=2026,EXAM_TIME="২ ঘণ্টা";
+const SETS=["পদ্মা","মেঘনা","সুরমা","কর্ণফুলী","তিস্তা","পশুর","মধুমতী","কপোতাক্ষ","বুড়িগঙ্গা","শীতলক্ষ্যা","বিজয়","কেওক্রাডং","তাজিংডং","সাজেক","চিম্বুক"];
+/* মানবণ্টন: c = উত্তর দিতে হবে কয়টি, show = প্রশ্নপত্রে কয়টি থাকবে, m = প্রতিটির নম্বর */
+const SECS=[
+ {n:1,t:"সাধারণ জ্ঞান — প্রশ্নগুলোর উত্তর লেখো।",show:12,c:10,m:2},
+ {n:2,t:"কম্পিউটার — ছোট প্রশ্নের উত্তর দাও।",show:5,c:5,m:2},
+ {n:3,t:"কম্পিউটার — বড় প্রশ্নের উত্তর দাও।",show:2,c:2,m:5},
+ {n:4,t:"ড্রইং — অঙ্কন করো ও রং করো।",show:3,c:2,m:5}];
+/* ================== */
+const L=["ক","খ","গ","ঘ","ঙ"],bn=n=>String(n).replace(/\d/g,d=>"০১২৩৪৫৬৭৮৯"[d]);
+const un=s=>String(s).replace(/[০-৯]/g,d=>"০১২৩৪৫৬৭৮৯".indexOf(d));
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const $=id=>document.getElementById(id),app=$("app");
+const qp=new URLSearchParams(location.search);
+const TOTAL=SECS.reduce((a,s)=>a+s.c*s.m,0);   // ৫০ হওয়ার কথা
+let auth=null;try{auth=JSON.parse(localStorage.getItem("rx:auth"))}catch(e){}   // hsc/real-এর সাথে একই লগইন
+const authQ=()=>auth?{email:auth.email,key:auth.key}:{};
+const api=async(params,body)=>{const r=await fetch(SCRIPT_URL+(body?"":"?"+new URLSearchParams({...params,...authQ()})),body?{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify({...body,...authQ()})}:{});return r.json()};
+const logout=()=>{auth=null;try{localStorage.removeItem("rx:auth")}catch(e){}};
+const hd=(t,p)=>`<div class="hd no-p"><h1>${t}</h1><p>${p||""}</p></div>`;
+const busy=t=>app.innerHTML=`<div class="card c">${t}</div>`;
+
+/* ===== প্রশ্ন বাছাই (কোড থেকেই একই প্রশ্নপত্র আবার তৈরি হয়) =====
+   ⚠ build() বদলালে পুরোনো কোডের প্রশ্নপত্র বদলে যাবে — তাই বদলাতে হলে নতুন bank-vN.js + CUR বাড়ান। */
+const mul=a=>()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const shuf=(arr,r)=>{arr=arr.slice();for(let i=arr.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr};
+function build(B,seed){
+ const r=mul(seed),ex=B.excl||{},ids=[];
+ const pick=(key,k,ok,n0)=>{const n=n0||B[key].length;let ix;
+  for(let t=0;t<300;t++){ix=shuf([...Array(n).keys()],r).slice(0,k);
+   if((ex[key]||[]).some(g=>g.filter(i=>ix.includes(i)).length>1))continue;if(ok&&!ok(ix))continue;return ix}
+  return ix};
+ const P={};
+ /* সাধারণ জ্ঞান: ১২টি = বাংলাদেশের সম্পদ ৪ + পৃথিবীর বৃহত্তম ও ক্ষুদ্রতম ৪ + মানবদেহ ৪ */
+ P.gk=[];[["res","a"],["world","w"],["body","h"]].forEach(([key,c])=>pick(key,4).forEach(i=>{ids.push(c+i);P.gk.push(B[key][i])}));
+ /* কম্পিউটার: বড় ২টি আগে, তারপর ছোট ৫টি (বড়-র সাথে একই বিষয়ের ছোট প্রশ্ন বাদ) */
+ const li=pick("long",2),bad=new Set();li.forEach(i=>(B.xl[i]||[]).forEach(j=>bad.add(j)));
+ const si=pick("short",5,ix=>!ix.some(j=>bad.has(j)));
+ P.cs=si.map(i=>{ids.push("s"+i);return B.short[i]});
+ P.cl=li.map(i=>{ids.push("l"+i);return B.long[i]});
+ P.dr=pick("drawing",3).map(i=>{ids.push("d"+i);return B.drawing[i]});
+ P.ids=["v"+(B.v||1),...ids];
+ return P;
+}
+const loadBank=v=>new Promise((ok,no)=>{if(window.BANKS&&BANKS[v]){BANKS[v].v=v;return ok(BANKS[v])}
+ const s=document.createElement("script");s.src="bank-v"+v+".js";s.onload=()=>{if(BANKS[v]){BANKS[v].v=v;ok(BANKS[v])}else no(new Error("প্রশ্নব্যাংক পাওয়া যায়নি"))};
+ s.onerror=()=>no(new Error("প্রশ্ন লোড হয়নি — ইন্টারনেট দেখে আবার চেষ্টা করো"));document.head.appendChild(s)});
+/* কোড: g4-১৫২৩৪৫ (প্রথম অঙ্ক = প্রশ্নব্যাংকের সংস্করণ)। শুধু ৬ অঙ্ক বা বাংলা অঙ্ক দিলেও চলে */
+function normCode(raw){const s=un(String(raw||"").trim().toLowerCase()).replace(/\s+/g,"");const m=s.match(/^(?:g4-?)?(\d{6})$/);
+ if(!m)throw new Error("কোড ঠিক নয় — প্রশ্নপত্রে লেখা কোডটি (যেমন "+PFX+"-123456) আবার দেখো।");return{code:PFX+"-"+m[1],num:m[1]}}
+const setName=num=>SETS[(parseInt(num)||0)%SETS.length];
+
+/* ===== প্রশ্নপত্র ও সমাধানের HTML ===== */
+const secHead=(s,note)=>`<div class="sec"><span class="mk">${bn(s.m)} × ${bn(s.c)} = ${bn(s.m*s.c)}</span>${bn(s.n)}নং — ${s.t}${note?` <small>${note}</small>`:""}</div>`;
+const blank=`<span class="bl">……………………</span>`;
+const stop=t=>/[।?!.]$/.test(t)?t:t+"।";
+function head(code,num,title){return `<div class="top">কোড: ${esc(code)} &nbsp;•&nbsp; সেট: ${esc(setName(num))}</div>
+ <div class="ph"><h2>ঘরে বসে পড়াশোনা</h2><h3>বার্ষিক পরীক্ষা — ${bn(YEAR)}</h3><div>৪র্থ শ্রেণি • বিষয়: সাধারণ জ্ঞান, কম্পিউটার ও ড্রইং${title?" • "+title:""}</div>
+ ${title?"":`<div class="info"><span>সময়— ${EXAM_TIME}</span><span>পূর্ণমান— ${bn(TOTAL)}</span></div>`}</div>`}
+/* ===== বুকলেট প্রশ্নপত্র (A4 landscape • ২ কলাম • মার্জিন ০.৫″ • ২ পাতা = ৪টি A5 পৃষ্ঠা) =====
+   শিটের ক্রম: পাতা ১ = [৪র্থ পৃষ্ঠা | ১ম পৃষ্ঠা], পাতা ২ = [২য় পৃষ্ঠা | ৩য় পৃষ্ঠা] (Duplex করে ভাঁজ করলে ১-২-৩-৪)
+   জায়গা না কুলালে ক্রমে: ফাঁকা লাইন কমে → হেডার/ফুটার ছোট → লেখা ১২ → ১১ → ১০ পয়েন্ট (১০-এর নিচে নয়) */
+const BK={pw:297,ph:210,m:12.7,gap:10},LH=1.3;BK.cw=(BK.pw-2*BK.m-BK.gap)/2;BK.ch=BK.ph-2*BK.m;
+const BCFG=[{fs:12,gap:1,hs:0},{fs:12,gap:.5,hs:0},{fs:12,gap:0,hs:0},{fs:12,gap:0,hs:1},{fs:11,gap:0,hs:1},{fs:10,gap:0,hs:1}];
+const mline=s=>`<div class="ml">${bn(s.m)} × ${bn(s.c)} = ${bn(s.m*s.c)}</div>`;
+const bsec=(s,note)=>`<div class="bsec">${bn(s.n)}নং — ${s.t}${note?" "+note:""}</div>`;
+/* MCQ-র অপশন এক অনুচ্ছেদে পাশাপাশি (ক) … খ) … গ) … ঘ) …) — ছোট অপশন ভাঙে না, লাইন বাঁচে */
+const optLine=q=>[0,1,2,3].map(k=>`${L[k]})\u00A0${q.o[k].length<=22?q.o[k].replace(/ /g,"\u00A0"):q.o[k]}`).join("\u00A0\u00A0 ");
+const items=(arr,f)=>arr.map((x,i)=>`<div class="q"><b>${bn(i+1)}।</b> ${f(x)}</div>`).join("");
+const NOTE=n=>{const s=SECS[n-1];return s.show>s.c?"— যেকোনো "+bn(s.c)+"টির উত্তর দাও।":""};
+const formBox=(f,filled)=>`<div class="fbox">${(f.h||[]).map(x=>`<div class="fh">${esc(x)}</div>`).join("")}${f.f.map((r,i)=>`<span class="fr">${bn(i+1)}। ${esc(r[0])} : ${filled?`<span class="fv">${esc(r[1])}</span>`:"…………………………"}</span>`).join("")}${f.sg?`<div class="fs">${filled&&f.sv?`<span class="fv">${esc(f.sv)}</span><br>`:""}${esc(f.sg)}</div>`:""}</div>`;
+function secBlocks(P){
+ const S=n=>SECS[n-1],A=[],add=(n,arr,f)=>arr.forEach((x,i)=>{const ti=i===0,ml=i===arr.length-1;
+  A.push({k:"it",n,i,ti,ml,h:`<div class="${ml?"blk":"at"}">${ti?bsec(S(n),NOTE(n)):""}<div class="q"><b>${bn(i+1)}।</b> ${f(x)}</div>${ml?mline(S(n)):""}</div>`})});
+ add(1,P.gk,q=>esc(q.q));
+ add(2,P.cs,q=>esc(q.q));
+ add(3,P.cl,q=>esc(q.q));
+ add(4,P.dr,w=>"অঙ্কন করো ও রং করো: "+esc(w));
+ return A}
+const headBlock=(code,num)=>({k:"head",h:`<div class="blk bhd"><div class="top">কোড: ${esc(code)} • সেট: ${esc(setName(num))}</div><div class="hc"><b>বার্ষিক পরীক্ষার পূর্ব প্রস্তুতি-${bn(YEAR)}</b><br>শ্রেণি: ৪র্থ • বিষয়: সাধারণ জ্ঞান, কম্পিউটার ও ড্রইং</div><div class="info"><span>সময়— ${EXAM_TIME}</span><span>পূর্ণমান— ${bn(TOTAL)}</span></div><div>নির্দেশনা: সবগুলো প্রশ্নের উত্তর খাতায় লেখো।</div></div>`});
+const footBlock=code=>({k:"foot",h:`<div class="blk bft">কোড: ${esc(code)} • OMR ফ্রি: ওয়েবসাইটে এই কোড দিয়ে উত্তর মেলাও</div>`});
+const range=(a,b)=>Array.from({length:Math.max(0,b-a)},(_,i)=>a+i);
+/* all = [হেডার, ১নং…৬নং, ফুটার]; ৬টি প্রশ্ন ৪টি কলামে ক্রমানুসারে ভাগ (কোনো প্রশ্ন ভাঙে না) */
+function bkPart(h,cap){   // ক্রমানুসারে ভরাট: একটি কলাম ভরলে তবেই পরেরটি; ৪টি কলামে না কুলালে null
+ const g=[[],[],[],[]],ld=[0,0,0,0];let c=0,ok=true;
+ h.forEach((x,i)=>{if(ld[c]+x>cap&&g[c].length&&c<3)c++;if(ld[c]+x>cap)ok=false;g[c].push(i);ld[c]+=x});
+ return{g,ld,mx:Math.max(...ld),over:!ok}}
+function bkCands(code,num,P){
+ const all=[headBlock(code,num),...secBlocks(P),footBlock(code)];const AH=all.map(x=>x.h);
+ const mm=document.createElement("div");mm.className="bk";mm.style.cssText=`position:absolute;left:-9999px;top:0;width:${BK.cw}mm;visibility:hidden`;document.body.appendChild(mm);
+ const cap=(BK.ch/25.4*96-24)*0.97,ok=[];let last=null;
+ for(const cfg of BCFG){
+  mm.style.setProperty("--fs",cfg.fs+"pt");mm.style.setProperty("--gap",cfg.gap*LH+"em");mm.classList.toggle("hs",!!cfg.hs);
+  const h=AH.map(b=>{mm.innerHTML=b;return mm.firstElementChild.getBoundingClientRect().height});
+  const p=bkPart(h,cap);if(!p)continue;last={cfg,groups:p.g,loads:p.ld.map(x=>x/(BK.ch/25.4*96)),over:true};
+  if(!p.over)ok.push({cfg,groups:p.g,loads:p.ld.map(x=>x/(BK.ch/25.4*96)),over:false})}
+ mm.remove();return{all,ok,last}}
+const bkStyle=c=>`--fs:${c.cfg.fs}pt;--gap:${c.cfg.gap*LH}em`;
+function bkHTML(all,c){const col=(g,n)=>`<div class="bcol"><div class="bc">${g.map(i=>all[i].h).join("")}</div><div class="pn">পৃষ্ঠা ${bn(n)}</div></div>`,G=c.groups;
+ return`<div id="bkw" class="bk ${c.cfg.hs?"hs":""}" style="${bkStyle(c)}"><div class="cap no-p">📄 পাতা ১ (সামনে): [৪র্থ পৃষ্ঠা | ১ম পৃষ্ঠা]</div><div class="bsheet">${col(G[3],4)}${col(G[0],1)}</div><div class="cap no-p">📄 পাতা ২ (পেছনে): [২য় পৃষ্ঠা | ৩য় পৃষ্ঠা]</div><div class="bsheet">${col(G[1],2)}${col(G[2],3)}</div></div>`}
+function bkZoom(){const o=$("bko"),w=$("bkw");if(!o||!w)return;const W=BK.pw/25.4*96,s=Math.min(1,(o.parentElement.clientWidth-4)/W);w.style.transform=`scale(${s})`;o.style.width=W*s+"px";o.style.height=w.offsetHeight*s+"px"}
+addEventListener("resize",bkZoom);
+const ansBlock=a=>`<div class="ab">${a.map(([k,t])=>`<p class="${k}">${k==="li"?"• ":""}${esc(t)}</p>`).join("")}</div>`;
+function solHTML(code,num,P){
+ const S=n=>SECS[n-1],qa=(i,q,a)=>`<div class="q"><b>${bn(i+1)}।</b> ${esc(q)}<div class="ab"><p><span class="ans">${esc(a)}</span></p></div></div>`;
+ return head(code,num,"সমাধান ও উত্তরমালা")+secHead(S(1),NOTE(1))+P.gk.map((x,i)=>qa(i,x.q,x.a)).join("")
+  +secHead(S(2),NOTE(2))+P.cs.map((x,i)=>qa(i,x.q,x.a)).join("")
+  +secHead(S(3),NOTE(3))+P.cl.map((x,i)=>`<div class="q"><b>${bn(i+1)}।</b> ${esc(x.q)}${ansBlock(x.a)}</div>`).join("")
+  +secHead(S(4),NOTE(4))+P.dr.map((w,i)=>`<div class="q"><b>${bn(i+1)}।</b> অঙ্কন করো ও রং করো: ${esc(w)}</div>`).join("")+`<div class="msg no-p">ছবির উত্তর এখানে দেওয়া হয়নি — নিজে এঁকে ও রং করে অনুশীলন করো।</div>`
+  +`<div class="ft">কোড: ${esc(code)} • ঘরে বসে পড়াশোনা</div>`}
+
+/* ===== পর্দা ===== */
+function landing(){
+ app.innerHTML=hd("🧠 সাধারণ জ্ঞান, কম্পিউটার ও ড্রইং","৪র্থ শ্রেণি • বার্ষিক পরীক্ষা • পূর্ণমান "+bn(TOTAL))+`<div class="card">
+ <p class="lead">প্রতিবার মানবণ্টন অনুযায়ী নতুন করে র‍্যান্ডম প্রশ্ন বেছে <b>${bn(TOTAL)} নম্বরের</b> আলাদা প্রশ্নপত্র তৈরি হয়। প্রতিটির সাথে থাকে একটি <b>ইউনিক কোড</b> — সেই কোড দিয়ে OMR-এ ঢুকলে পুরো উত্তর ও সমাধান দেখা যায়।</p>
+ <table class="mk"><tr><th>ক্রম</th><th>প্রশ্নের ধরন</th><th>নম্বর</th></tr>${SECS.map(s=>`<tr><td>${bn(s.n)}।</td><td>${s.t}</td><td>${bn(s.c)} × ${bn(s.m)} = ${bn(s.c*s.m)}</td></tr>`).join("")}<tr><th></th><th>মোট</th><th>${bn(TOTAL)}</th></tr></table>
+ <div class="act col"><button class="btn red" id="b1">🔒 রিয়েল এক্সাম (পেইড)<small>নতুন প্রশ্নপত্র তৈরি • প্রিন্ট • Word</small></button>
+ <button class="btn grn" id="b2">✅ OMR (ফ্রি)<small>প্রশ্নপত্রের কোড দিয়ে উত্তর ও সমাধান দেখো</small></button></div>
+ <p class="c"><a href="../../">← হোমে ফিরে যাও</a></p></div>`;
+ $("b1").onclick=real;$("b2").onclick=()=>omrStart();
+}
+/* ---- পেইড ---- */
+async function real(){
+ if(!auth)return gate();
+ busy("অ্যাক্সেস যাচাই হচ্ছে…");
+ try{const d=await api({action:"rxcheck"});if(!d.ok)throw new Error(d.error);home()}
+ catch(e){logout();gate(e.message||"যাচাই হয়নি")}
+}
+function gate(m){
+ app.innerHTML=hd("🔒 রিয়েল এক্সাম (পেইড)","৪র্থ শ্রেণি • সাধারণ জ্ঞান, কম্পিউটার ও ড্রইং")+`<div class="card">${m?`<div class="msg">${esc(m)}</div>`:""}
+ <h3 style="margin-top:0">অ্যাক্সেস আছে?</h3><p>অ্যাপ্রুভ হওয়ার পর Gmail-এ পাঠানো অ্যাক্সেস কী দিয়ে ঢোকো (একবার দিলেই এই ফোনে মনে থাকবে)।</p>
+ <input id="gm" type="email" placeholder="তোমার Gmail"><input id="ky" placeholder="অ্যাক্সেস কী" style="margin-top:8px" autocapitalize="characters">
+ <div class="act"><button id="vf">ঢোকো</button></div><hr>
+ <h3>অ্যাক্সেস চাই</h3><p>বিকাশ (Send Money): <b>${esc(PAY.bKash)}</b>${FEE?" • ফি: <b>"+esc(FEE)+"</b>":""}<br>পেমেন্টের পর নিচের ফর্ম পূরণ করো। যাচাই হলে তোমার Gmail-এ অ্যাক্সেস কী যাবে।</p>
+ <input id="rn" placeholder="নাম"><input id="re" type="email" placeholder="Gmail (এই Gmail-এ কী যাবে)" style="margin-top:8px"><input id="rp" type="tel" placeholder="মোবাইল নম্বর" style="margin-top:8px"><input id="rt" placeholder="বিকাশ TrxID" style="margin-top:8px">
+ <div class="act"><button id="rq" class="btn g">অ্যাক্সেসের অনুরোধ পাঠাও</button></div>
+ <p class="c"><a href="#" id="bk">← ফিরে যাও</a> • <a href="#" id="fo">✅ শুধু OMR (ফ্রি)</a></p></div>`;
+ $("bk").onclick=e=>{e.preventDefault();landing()};$("fo").onclick=e=>{e.preventDefault();omrStart()};
+ $("vf").onclick=async()=>{const e=$("gm").value.trim().toLowerCase(),k=$("ky").value.trim().toUpperCase();if(!e||!k)return alert("Gmail ও কী দাও।");
+  $("vf").disabled=true;try{auth={email:e,key:k};const d=await api({action:"rxcheck"});if(!d.ok)throw new Error(d.error);
+   auth={email:e,key:k,name:d.name};try{localStorage.setItem("rx:auth",JSON.stringify(auth))}catch(x){}home()}
+  catch(x){auth=null;gate(x.message||"যাচাই হয়নি")}};
+ $("rq").onclick=async()=>{$("rq").disabled=true;try{const d=await api(null,{action:"rxrequest",name:$("rn").value,email:$("re").value,phone:$("rp").value,trx:$("rt").value});
+   if(!d.ok)throw new Error(d.error);gate("✔ অনুরোধ পাঠানো হয়েছে। অ্যাপ্রুভ হলে Gmail-এ অ্যাক্সেস কী পাবে (স্প্যাম ফোল্ডারও দেখো)।")}
+  catch(x){$("rq").disabled=false;alert(x.message||"পাঠানো যায়নি")}};
+}
+function home(m){
+ app.innerHTML=hd("🔴 রিয়েল এক্সাম","৪র্থ শ্রেণি • সাধারণ জ্ঞান, কম্পিউটার ও ড্রইং • "+bn(TOTAL)+" নম্বর")+`<div class="card">${m?`<div class="msg">${esc(m)}</div>`:""}
+ <p class="lead">${auth&&auth.name&&auth.name!=="ok"?"স্বাগতম, <b>"+esc(auth.name)+"</b>। ":""}নিচের বাটন চাপলেই মানবণ্টন অনুযায়ী র‍্যান্ডম প্রশ্নে নতুন ${bn(TOTAL)} নম্বরের প্রশ্নপত্র ও একটি নতুন কোড তৈরি হবে।</p>
+ <div class="act"><button id="go" class="btn red">নতুন রিয়েল এক্সাম তৈরি করো</button></div>
+ <hr><p class="c">আগে তৈরি করা প্রশ্নপত্রের কোড আছে? আবার খুলতে কোডটি দাও।</p>
+ <div class="row2"><input id="cd" placeholder="যেমন ${PFX}-123456"><button id="rs" class="btn g">খোলো</button></div>
+ <p class="c" style="margin-top:16px"><a href="#" id="bk">← ফিরে যাও</a> • <a href="#" id="fo">✅ OMR (ফ্রি)</a> • <a href="#" id="lo">এই ফোন থেকে লগআউট</a></p></div>`;
+ $("go").onclick=create;
+ $("rs").onclick=async()=>{try{const c=normCode($("cd").value);busy("খোলা হচ্ছে…");await exists(c.code);const P=build(await loadBank(+c.num[0]),+c.num);await paper(c.code,c.num,P)}catch(e){home(e.message)}};
+ $("bk").onclick=e=>{e.preventDefault();landing()};$("fo").onclick=e=>{e.preventDefault();omrStart()};
+ $("lo").onclick=e=>{e.preventDefault();logout();gate()};
+}
+async function exists(code){const d=await api({action:"omrinfo",code});if(!d.ok)throw new Error(d.error||"এই কোডের প্রশ্নপত্র পাওয়া যায়নি।");if(d.subject!==SUBJ_ID)throw new Error("এই কোডটি সাধারণ জ্ঞান, কম্পিউটার ও ড্রইং (৪র্থ শ্রেণি)-র নয়।")}
+async function create(){
+ busy("প্রশ্ন সাজানো হচ্ছে…");
+ try{
+  const B=await loadBank(CUR);let made=null;
+  for(let t=0;t<12&&!made;t++){
+   const num=String(CUR)+String(Math.floor(Math.random()*1e5)).padStart(5,"0"),code=PFX+"-"+num,P=build(B,+num);
+   if(!(await bkFits(code,num,P)))continue;   // ২ পাতার বুকলেটে না ধরলে এই কোড বাদ, পরেরটি
+   const r=await api(null,{action:"saveset",code,subject:SUBJ_ID,qs:JSON.stringify(P.ids)});   // কোডটি Sheet-এ সেভ হয় (ইউনিক রাখতে + OMR-এ যাচাইয়ে)
+   if(r.ok)made={code,num,P};else if(!r.dup)throw new Error(r.error||"সেভ হয়নি");
+  }
+  if(!made)throw new Error("কোড বানানো যায়নি, আবার চেষ্টা করো।");
+  paper(made.code,made.num,made.P);
+ }catch(e){if(/অ্যাক্সেস/.test(e.message)){logout();return gate(e.message)}home("সমস্যা: "+e.message+" (ইন্টারনেট দেখে আবার চেষ্টা করো)")}
+}
+const setPage=k=>{$("pgstyle").textContent=k==="bk"?"@page{size:A4 landscape;margin:0}":"@page{size:A4;margin:12mm}"};
+/* বুকলেটে বসে কি না যাচাই (ডিভাইসের ফন্ট অনুযায়ী) — নতুন সেট বানানোর সময় এটি দিয়ে বেছে নেওয়া হয় */
+const ensureFonts=async()=>{if(!document.fonts)return;try{await Promise.race([Promise.all([document.fonts.load('12pt "Hind Siliguri"'),document.fonts.load('bold 12pt "Hind Siliguri"')]),new Promise(r=>setTimeout(r,3000))]);await document.fonts.ready}catch(e){}};
+async function bkFits(code,num,P){await ensureFonts();const c=bkCands(code,num,P);return c.ok.length>0}
+async function paper(code,num,P){
+ setPage("bk");
+ app.innerHTML=`<div class="no-p">${hd("প্রশ্নপত্র তৈরি হয়েছে","এক্সাম কোড: "+code)}<div class="msg ok">কোডটি লিখে রাখো। <b>PDF ডাউনলোড</b> করে প্রিন্ট দিন: <b>A4 • Landscape • Duplex (Flip on short edge) • Scale 100% (Actual size)</b> — ভাঁজ করলে ১-২-৩-৪ ক্রমে ছোট বুকলেট। পরীক্ষার পর <b>OMR (ফ্রি)</b>-তে এই কোড দিয়ে উত্তর মিলিয়ে নাও।</div><div id="wn"></div>
+ <div class="act"><button id="dp">⬇️ PDF ডাউনলোড</button><button id="dw" class="btn g">⬇️ Word (.docx)</button><button id="om" class="btn grn">✅ উত্তর ও সমাধান</button><button id="nw" class="btn g">🔁 নতুন সেট</button></div></div><div id="bko"></div>`;
+ await ensureFonts();
+ const C=bkCands(code,num,P),host=$("bko");let used=null;
+ for(const c of C.ok){host.innerHTML=bkHTML(C.all,c);if([...host.querySelectorAll(".bc")].every(x=>x.scrollHeight<=x.clientHeight+1)){used=c;break}}
+ if(!used){used=C.last||{cfg:BCFG[BCFG.length-1],groups:[[0,1],[2,3],[4,5],[6,7]],over:true};host.innerHTML=bkHTML(C.all,used);used.over=true;
+  $("wn").innerHTML=`<div class="msg">⚠️ এই সেটের প্রশ্ন ফন্ট ১০-এও ২টি পাতায় ধরছে না। অনুগ্রহ করে <b>🔁 নতুন সেট</b> বানাও।</div>`}
+ else if(used.cfg.fs<12||used.cfg.hs||used.cfg.gap<1){const t=[used.cfg.gap<1?"ফাঁকা লাইন কমানো":"",used.cfg.hs?"হেডার/ফুটার ছোট":"",used.cfg.fs<12?"লেখা "+bn(used.cfg.fs)+" পয়েন্ট":""].filter(Boolean).join(" • ");$("wn").innerHTML=`<div class="msg ok">ℹ️ ২ পাতায় ধরাতে সাজানো হয়েছে: ${t}।</div>`}
+ bkZoom();scrollTo(0,0);
+ $("dp").onclick=()=>dlPDF(code,used);$("dw").onclick=()=>dlDocx(code,num,P,used,C.all);
+ $("om").onclick=()=>{setPage("sol");solution(code,num,P,()=>paper(code,num,P))};$("nw").onclick=()=>{setPage("sol");auth?home():gate()};
+}
+/* ছবি → PDF (নিজস্ব ছোট লেখক; কোনো বাড়তি লাইব্রেরি লাগে না)। প্রতিটি JPEG একটি পূর্ণ A4 landscape পাতা */
+function jpegsToPdf(pages,W,H){
+ const enc=new TextEncoder(),parts=[],offs=[];let len=0;const push=x=>{const b=typeof x==="string"?enc.encode(x):x;parts.push(b);len+=b.length};
+ const obj=(n,body)=>{offs[n]=len;push(n+" 0 obj\n");push(body);push("\nendobj\n")};
+ const n=pages.length;push("%PDF-1.4\n");
+ obj(1,"<</Type/Catalog/Pages 2 0 R>>");obj(2,"<</Type/Pages/Kids["+pages.map((_,i)=>(3+3*i)+" 0 R").join(" ")+"]/Count "+n+">>");
+ pages.forEach((p,i)=>{const pg=3+3*i,ct=pg+1,im=pg+2,cs=`q ${W} 0 0 ${H} 0 0 cm /Im0 Do Q`;
+  obj(pg,`<</Type/Page/Parent 2 0 R/MediaBox[0 0 ${W} ${H}]/Resources<</XObject<</Im0 ${im} 0 R>>>>/Contents ${ct} 0 R>>`);
+  obj(ct,`<</Length ${cs.length}>>\nstream\n${cs}\nendstream`);
+  offs[im]=len;push(`${im} 0 obj\n<</Type/XObject/Subtype/Image/Width ${p.w}/Height ${p.h}/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length ${p.data.length}>>\nstream\n`);push(p.data);push("\nendstream\nendobj\n")});
+ const xr=len,tot=3*n+3;push("xref\n0 "+tot+"\n0000000000 65535 f \n");
+ for(let i=1;i<tot;i++)push(String(offs[i]).padStart(10,"0")+" 00000 n \n");
+ push(`trailer\n<</Size ${tot}/Root 1 0 R>>\nstartxref\n${xr}\n%%EOF`);
+ return new Blob(parts,{type:"application/pdf"})}
+/* PDF: প্রতিটি শিট ব্রাউজারে (সঠিক বাংলা ফন্টসহ) ছবি করে A4 landscape PDF-এর ২ পাতায় বসানো — ফন্ট ভাঙে না */
+async function dlPDF(code,lay){
+ const btn=$("dp"),old=btn.textContent;btn.disabled=true;btn.textContent="PDF বানানো হচ্ছে…";let box=null;
+ try{
+  await lib(H2C,()=>window.html2canvas);await ensureFonts();
+  const src=$("bkw");box=document.createElement("div");box.className=src.className;box.setAttribute("style",src.getAttribute("style")+";position:fixed;left:-10000px;top:0;width:297mm;transform:none");
+  src.querySelectorAll(".bsheet").forEach(x=>{const c=x.cloneNode(true);c.style.border="0";c.style.margin="0";box.appendChild(c)});document.body.appendChild(box);
+  const pages=[];
+  for(const sh of box.querySelectorAll(".bsheet")){const cv=await window.html2canvas(sh,{scale:3,backgroundColor:"#ffffff",useCORS:true});
+   const bl=await new Promise(r=>cv.toBlob(r,"image/jpeg",.96));pages.push({data:new Uint8Array(await bl.arrayBuffer()),w:cv.width,h:cv.height})}
+  const blob=jpegsToPdf(pages,842,595),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=code+".pdf";document.body.appendChild(a);a.click();a.remove();
+ }catch(e){alert("PDF হয়নি: "+(e.message||e))}
+ if(box)box.remove();btn.disabled=false;btn.textContent=old}
+const DOCX_URL="https://cdn.jsdelivr.net/npm/docx@9.7.1/dist/index.iife.js";
+const lib=(src,chk)=>new Promise((ok,no)=>{if(chk&&chk())return ok();const s=document.createElement("script");s.src=src;s.onload=ok;s.onerror=()=>no(new Error("লাইব্রেরি লোড হয়নি (ইন্টারনেট দেখো)"));document.head.appendChild(s)});
+const H2C="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+/* Word (.docx): একই বিন্যাস — A4 landscape, মার্জিন ০.৫″, ২ কলাম (ফাঁক ১ সেমি), প্রতি কলামের শেষে Column Break।
+   কলামের ক্রম: [৪|১] [২|৩]। লাইন-স্পেসিং ফন্ট-আকারের ১.৩ গুণ (নির্দিষ্ট) — যাতে ২ পাতার হিসাব ফন্টভেদে না নড়ে। */
+async function dlDocx(code,num,P,lay,all){
+ const btn=$("dw"),old=btn.textContent;btn.disabled=true;btn.textContent="Word বানানো হচ্ছে…";
+ try{
+  await lib(DOCX_URL,()=>window.docx);const d=window.docx,cfg=lay.cfg,F="SutonnyOMJ",fnt={ascii:F,hAnsi:F,cs:F,eastAsia:F};
+  const fs=cfg.fs,small=cfg.hs?10:fs,line=Math.round(fs*LH*20),W=Math.round(BK.cw/25.4*1440)-14,HW=Math.floor(W/2);
+  const R=(t,o={})=>{const sz=(o.sz||fs)*2;return new d.TextRun({text:t,font:fnt,size:sz,sizeComplexScript:sz,bold:!!o.b,boldComplexScript:!!o.b})};
+  const Pa=(runs,o={})=>new d.Paragraph({children:runs,alignment:o.al,spacing:{before:0,after:0,line:o.line||line,lineRule:d.LineRuleType.EXACT},border:o.bt?{top:{style:d.BorderStyle.SINGLE,size:4,color:"999999",space:1}}:o.bb?{bottom:{style:d.BorderStyle.SINGLE,size:6,color:"000000",space:1}}:undefined,indent:o.ind?{left:o.ind}:undefined,tabStops:o.tab?[{type:d.TabStopType.RIGHT,position:W}]:undefined});
+  const gapP=()=>cfg.gap>0?[Pa([R("")],{line:Math.round(line*cfg.gap)})]:[];
+  const none={style:d.BorderStyle.NONE,size:0,color:"FFFFFF"},nb={top:none,bottom:none,left:none,right:none},bd={style:d.BorderStyle.SINGLE,size:4,color:"444444"},bb={top:bd,bottom:bd,left:bd,right:bd};
+  const cell=(runs,w,b,m)=>new d.TableCell({width:{size:w,type:d.WidthType.DXA},borders:b,margins:m,children:[Pa(runs)]});
+  const item=(i,runs)=>Pa([R(bn(i+1)+"। ",{b:1}),...runs]);
+  const sec=(s,note)=>Pa([R(`${bn(s.n)}নং — ${s.t}${note?" "+note:""}`,{b:1})]);
+  const ml=s=>Pa([R(`${bn(s.m)} × ${bn(s.c)} = ${bn(s.m*s.c)}`,{b:1})],{al:d.AlignmentType.RIGHT});
+  const S=n=>SECS[n-1];
+  const ARR={1:P.gk,2:P.cs,3:P.cl,4:P.dr};
+  const body=(n,x,i)=>n===4?[item(i,[R("অঙ্কন করো ও রং করো: "+x)])]:[item(i,[R(x.q)])];
+  const atomP=a=>a.k==="head"?[Pa([R(`কোড: ${code} • সেট: ${setName(num)}`,{sz:small})],{al:d.AlignmentType.RIGHT}),
+     Pa([R(`বার্ষিক পরীক্ষার পূর্ব প্রস্তুতি-${bn(YEAR)}`,{b:1,sz:small})],{al:d.AlignmentType.CENTER}),
+     Pa([R("শ্রেণি: ৪র্থ • বিষয়: সাধারণ জ্ঞান, কম্পিউটার ও ড্রইং",{sz:small})],{al:d.AlignmentType.CENTER}),
+     Pa([new d.TextRun({children:[`সময়— ${EXAM_TIME}`,new d.Tab(),`পূর্ণমান— ${bn(TOTAL)}`],font:fnt,size:small*2,sizeComplexScript:small*2,bold:true,boldComplexScript:true})],{tab:1,bb:1}),
+     Pa([R("নির্দেশনা: সবগুলো প্রশ্নের উত্তর খাতায় লেখো।",{sz:small})])]
+    :a.k==="foot"?[Pa([R(`কোড: ${code} • OMR ফ্রি: ওয়েবসাইটে এই কোড দিয়ে উত্তর মেলাও`,{sz:small})],{al:d.AlignmentType.CENTER,bt:1})]
+    :[...(a.ti?[sec(S(a.n),NOTE(a.n))]:[]),...body(a.n,ARR[a.n][a.i],a.i),...(a.ml?[ml(S(a.n))]:[])];
+  const blocks=all.map(a=>()=>atomP(a));
+  const G=lay.groups,order=[G[3],G[0],G[1],G[2]],pnum=[4,1,2,3],outKids=[],CW=Math.round(BK.cw/25.4*1440),PX=[720,720+CW+567,720,720+CW+567],PY=11906-720-260;
+  const pageNo=ci=>new d.Paragraph({children:[R(`পৃষ্ঠা ${bn(pnum[ci])}`,{sz:10})],alignment:d.AlignmentType.CENTER,spacing:{before:0,after:0,line:260,lineRule:d.LineRuleType.EXACT},frame:{type:"absolute",position:{x:PX[ci],y:PY},width:CW,height:260,anchor:{horizontal:d.FrameAnchorType.PAGE,vertical:d.FrameAnchorType.PAGE},rule:d.HeightRule.EXACT,wrap:d.FrameWrap.AROUND}});   /* প্রতি কলামের নিচে পৃষ্ঠা নম্বর */
+  order.forEach((g,ci)=>{outKids.push(pageNo(ci));g.forEach((bi,j)=>{if(j&&(all[g[j-1]].ml||all[g[j-1]].k==='head'))outKids.push(...gapP());outKids.push(...blocks[bi]())});
+   if(ci<3)outKids.push(new d.Paragraph({children:[new d.ColumnBreak()],spacing:{before:0,after:0,line:20,lineRule:d.LineRuleType.EXACT}}))});   /* প্রতি কলামের শেষে Column Break */
+  const doc=new d.Document({creator:"ঘরে বসে পড়াশোনা",title:code,styles:{default:{document:{run:{font:fnt,size:fs*2,sizeComplexScript:fs*2},paragraph:{spacing:{before:0,after:0,line:line,lineRule:d.LineRuleType.EXACT}}}}},
+   sections:[{properties:{page:{size:{width:11906,height:16838,orientation:d.PageOrientation.LANDSCAPE},margin:{top:720,bottom:720,left:720,right:720,header:0,footer:0,gutter:0}},column:{count:2,space:567,equalWidth:true}},children:outKids}]});
+  const blob=await d.Packer.toBlob(doc),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=code+".docx";document.body.appendChild(a);a.click();a.remove();
+ }catch(e){alert("Word হয়নি: "+(e.message||e))}
+ btn.disabled=false;btn.textContent=old}
+/* ---- ফ্রি OMR: কোড দিলে পূর্ণ উত্তর ---- */
+function omrStart(m,pre){
+ app.innerHTML=hd("✅ OMR (ফ্রি)","প্রশ্নপত্রের কোড দিয়ে উত্তর ও সমাধান দেখো")+`<div class="card">${m?`<div class="msg">${esc(m)}</div>`:""}
+ <p class="lead">প্রশ্নপত্রে লেখা এক্সাম কোড দাও (যেমন <b>${PFX}-123456</b>)। কোড না মিললে খুলবে না।</p>
+ <div class="row2"><input id="fc" placeholder="এক্সাম কোড" value="${esc(pre||"")}" autocapitalize="none" autocomplete="off"><button id="fg">দেখো</button></div>
+ <p class="c" style="margin-top:16px"><a href="#" id="bk">← ফিরে যাও</a> • <a href="#" id="rl">🔒 রিয়েল এক্সাম (পেইড)</a></p></div>`;
+ $("bk").onclick=e=>{e.preventDefault();landing()};$("rl").onclick=e=>{e.preventDefault();real()};
+ const go=async()=>{const fg=$("fg");fg.disabled=true;
+  try{const c=normCode($("fc").value);await exists(c.code);const P=build(await loadBank(+c.num[0]),+c.num);solution(c.code,c.num,P,()=>omrStart())}
+  catch(e){omrStart(e.message,$("fc").value)}};
+ $("fg").onclick=go;$("fc").onkeydown=e=>{if(e.key==="Enter")go()};
+}
+function solution(code,num,P,back){
+ setPage("sol");
+ app.innerHTML=`<div class="no-p">${hd("✅ উত্তর ও সমাধান","কোড: "+code)}<div class="act"><button id="pr">🖨️ প্রিন্ট / PDF</button><button id="bk" class="btn g">← ফিরে যাও</button></div></div>
+ <div class="paper" id="sheet">${solHTML(code,num,P)}</div>`;
+ $("pr").onclick=()=>print();$("bk").onclick=back;scrollTo(0,0);
+}
+/* শুরু */
+if(Math.abs(TOTAL-50)>0)console.warn("মানবণ্টনের যোগফল ৫০ নয়:",TOTAL);
+if(qp.get("m")==="omr")omrStart(null,qp.get("c")||"");else if(qp.get("m")==="real")real();else landing();
+</script></body></html>
